@@ -1,0 +1,115 @@
+.navbar-right {
+  position: fixed;
+  top: 56px; /* Adjust this value as needed */
+  right: 1px;
+  background-color: rgb(240, 242, 245);
+  padding: 10px;
+  max-height: calc(100% - 56px); /* 100% viewport height minus the top margin */
+  /* Enable vertical scrolling */
+  overflow-y: auto;
+  height: 100%;
+  display: flex; /* Add this line to make the navbar flex container */
+  flex-direction: column; /* Align elements vertically */
+  /* Add more styles as needed */
+  width: 350px;
+  /* Add more styles as needed */
+}
+.sponsored-sub {
+  display: flex; /* Add this line to make the sponsored-sub flex container */
+  flex-direction: row; /* Align children horizontally */
+  align-items: center; /* Align children vertically */
+  margin-bottom: 10px; /* Add margin to separate elements */
+}
+.text-sponsored {
+  font-weight: bold;
+  font-size: 24px;
+}
+.biu-icon {
+  margin-top: 10px;
+  height: 100px;
+  width: 140px;
+}
+
+.icon-info {
+  margin-left: 0px; /* Adjust spacing between icon and text */
+}
+
+.sug-contacts {
+  display: flex; /* Add this line to make the sug-pages flex container */
+  flex-direction: column; /* Align children vertically */
+}
+.sug-contacts-text {
+  left: 0px;
+  font-weight: bold;
+  font-size: 24px;
+}
+.contacts-title-row {
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: space-between;
+}
+.search-btn {
+  margin-left: 60px;
+  padding: 4px;
+}
+.contacts-title-row button {
+  background-color: transparent;
+  border-radius: 50%;
+  border: none;
+}
+.contacts-title-row img {
+  margin: 0px;
+  height: 24px;
+}
+
+
+.friend-card {
+  margin-left: 4px;
+  /* padding: 4px; */
+  padding-bottom: 10px;
+  margin-top: 6px;
+  /* background-color: white; */
+  display: flex;
+  /* justify-content: left; */
+  flex-direction: row;
+  /* align-items: start; */
+  height: 50px;
+  font-size: 10px;
+  font-weight: 500;
+  cursor: not-allowed;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.friend-card:hover {
+  background-color: rgb(221, 221, 21);
+}
+.contacts-title-row button:hover {
+  background-color: rgb(204, 204, 204);
+
+}
+.friend-pic {
+  width: 34px;
+  border-radius: 50%;
+  margin-top: 0px;
+
+}
+.pic-wrapper {
+  border-radius: 50%;
+  border: none;
+  background-color: transparent;
+  height: 50px;
+  margin-top: 4px;
+}
+.icon-info {
+  margin-top: 10px;
+}
+/* .sug-pages {
+  justify-content: left;
+} */
+
+@media (max-width: 1270px) {
+  /* Hide notifications and messages numbers */
+  .navbar-right {
+    display: none;
+  }
+}

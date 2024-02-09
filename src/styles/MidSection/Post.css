@@ -1,0 +1,101 @@
+/* Post.css */
+
+.post-container {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #fff;
+}
+.post {
+  margin: 10px 2px;
+  background-color: rgb(255, 255, 255);
+  padding: 6px;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.post-header-left {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.post-time {
+  font-size: 0.8em;
+  color: #777;
+}
+
+.post-content {
+  margin-bottom: 10px;
+}
+
+.post-image {
+  max-width: 100%;
+  /* height: auto; */
+  margin-bottom: 10px;
+  height: 600px;
+  width: auto;
+
+}
+
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+}
+.post-actions button {
+  border-radius: 50%;
+  height: 50px;
+  padding: 8px;
+  margin-right: 8px;
+  background: linear-gradient(to right, lightblue, cyan);
+  border: none;
+  cursor: pointer;
+}
+.post-actions button:hover {
+  opacity: 0.6;
+}
+
+/* .action-button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  border: none;
+  cursor: pointer;
+} */
+
+.post-footer {
+  display: flex;
+  justify-content: space-evenly;
+}
+.like-btn,
+.comment-btn,
+.share-btn {
+  border-radius: 50%;
+  height: 50px;
+  width: 100px;
+  padding: 8px 4px;
+  margin-right: 8px;
+  background: linear-gradient(to right, lightblue, yellow);
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.post-footer button:hover {
+  opacity: 0.6;
+}

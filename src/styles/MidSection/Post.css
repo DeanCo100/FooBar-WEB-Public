@@ -58,15 +58,44 @@
   display: flex;
   justify-content: space-between;
 }
+.post-actions button {
+  border-radius: 50%;
+  height: 50px;
+  padding: 8px;
+  margin-right: 8px;
+  background: linear-gradient(to right, lightblue, cyan);
+  border: none;
+  cursor: pointer;
+}
+.post-actions button:hover {
+  opacity: 0.6;
+}
 
-.action-button {
+/* .action-button {
   padding: 5px 10px;
   border-radius: 5px;
   background-color: #f0f0f0;
   border: none;
   cursor: pointer;
-}
+} */
 
-.action-button:hover {
-  background-color: #e0e0e0;
+.post-footer {
+  display: flex;
+  justify-content: space-evenly;
+}
+.like-btn,
+.comment-btn,
+.share-btn {
+  border-radius: 50%;
+  height: 50px;
+  width: 100px;
+  padding: 8px 4px;
+  margin-right: 8px;
+  background: linear-gradient(to right, lightblue, yellow);
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.post-footer button:hover {
+  opacity: 0.6;
 }

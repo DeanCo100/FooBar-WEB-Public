@@ -38,19 +38,3 @@ Post.propTypes = {
 };
 
 export default Post;
-
-
-
-// import '../../styles/MidSection/Post.css';
-
-
-// // function Post({ id, pic, friendName, postText, postPic}) {
-//   function Post() {
-//   return (
-//       <div className='post-div'>
-//         Hello world zzzzzzzzzzz
-//       </div>
-//   );
-// }
-
-// export default Post;

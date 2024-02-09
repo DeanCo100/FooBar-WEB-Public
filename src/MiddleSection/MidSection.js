@@ -110,14 +110,10 @@ function MidSection() {
         <div className="actual-posts">
           {/* Your existing content here */}
           <br></br>
-          <br></br>
            {posts.map(post => (
             <Post {...post}/>
           ))}
-          <br></br>
-          <br></br>
           <div>blop</div>
-          <br></br>
           <div>BLOOOOOOOOOOOOOOOP</div>
           <div>blop</div>
           <br></br>

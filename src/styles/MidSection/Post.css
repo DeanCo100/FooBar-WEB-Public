@@ -7,6 +7,10 @@
   padding: 10px;
   background-color: #fff;
 }
+.post {
+  margin: 10px 2px;
+  background-color: rgb(255, 255, 255);
+}
 
 .post-header {
   display: flex;
@@ -42,10 +46,11 @@
 
 .post-image {
   max-width: 100%;
-  height: auto;
+  /* height: auto; */
   margin-bottom: 10px;
-  height: 400px;
+  height: 600px;
   width: auto;
+
 }
 
 .post-actions {

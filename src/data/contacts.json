@@ -46,17 +46,17 @@
   } ,
   {
     "id": 10,
-    "pic": "https://source.unsplash.com/150x150/?profile",
+    "pic": "https://source.unsplash.com/150x150/?people",
     "friendName": "Simha Reef"
   },
   {
     "id": 11,
-    "pic": "https://source.unsplash.com/150x150/?portrait",
+    "pic": "https://source.unsplash.com/150x150/?woman",
     "friendName": "Avi Ron"
   },
   {
     "id": 12,
-    "pic": "https://source.unsplash.com/150x150/?face",
+    "pic": "https://source.unsplash.com/150x150/?girl",
     "friendName": "Kalev Ben Yefoune"
   }
 ]

@@ -1,0 +1,43 @@
+.loginMain{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(230, 226, 226);
+}
+
+.inner_login{
+    width: 40%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.logo{
+    width: 320px;
+    margin: auto;
+    h2{
+        /* color: rgba(11, 11, 236, 0.951);
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        letter-spacing: 1.5px;
+        font-weight: bolder;
+        font-size:300%; */
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* The exact font used by Facebook may not be available, so these are common fallbacks */
+        color: #1877F2; /* Facebook's blue color */
+        font-size: 26px; /* Adjust as needed */
+        font-weight: bold; /* The logo appears to be bold */
+        text-transform: lowercase; 
+        font-size:300%;
+    }
+    p{
+        font-family: Arial, sans-serif; /* A common sans-serif font */
+        color: #000000; /* Black color for the text */
+        font-size: 18px; /* Adjust as needed */
+        font-weight: normal; /* The tagline appears to have a normal font weight */
+        line-height: 1.5;
+    }
+}

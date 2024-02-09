@@ -22,7 +22,7 @@ function MidSection() {
 
   useEffect(() => {
     setPosts(postData); // Initialize posts state with data from JSON file
-  }, []);
+}, []);
 
   const addPost = (newPost) => {
     setPosts([...posts, newPost]);
@@ -110,8 +110,8 @@ function MidSection() {
         <div className="actual-posts">
           {/* Your existing content here */}
           <br></br>
-           {posts.map(post => (
-            <Post {...post}/>
+           {posts.map((post, index) => (
+            <Post key={index} {...post}/>
           ))}
           <div>blop</div>
           <div>BLOOOOOOOOOOOOOOOP</div>

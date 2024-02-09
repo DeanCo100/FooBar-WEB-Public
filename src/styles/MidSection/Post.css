@@ -10,6 +10,7 @@
 .post {
   margin: 10px 2px;
   background-color: rgb(255, 255, 255);
+  padding: 6px;
 }
 
 .post-header {

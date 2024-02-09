@@ -3,6 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import Post from './MidComponents/Post'; // Import the Post component
 import postData from '../data/posts.json'; // Import the JSON data
 import '../styles/MidSection/MidSection.css';
+import '../styles/MidSection/Story.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import FaceIcon from '../icons/header-icons/male-icon.png';
 import LiveVideoIcon from '../icons/mid-section/video-camera.png';
@@ -45,10 +46,34 @@ function MidSection() {
   return (
     <div className="mid-section">
       <div className="stories-section">
-        <div>Story 1</div>
-        <div>Story 2</div>
-        <div>Story 3</div>
-        <div>Story 4</div>
+        <div class="story">
+          <div className="story-image" style={{backgroundImage: 'url("https://source.unsplash.com/400x400/?architecture")'}}></div>
+          <div class="user-profile">
+            <img src="user1.jpg" alt="User Profile"></img>
+          </div>
+          <div class="user-name">User 1</div>
+        </div>
+        <div class="story">
+          <div className="story-image" style={{backgroundImage: 'url("https://source.unsplash.com/400x400/?city")'}}></div>
+          <div class="user-profile">
+            <img src="user2.jpg" alt="User Profile"></img>
+          </div>
+          <div class="user-name">User 2</div>
+        </div>
+        <div class="story">
+          <div className="story-image" style={{backgroundImage: 'url("https://source.unsplash.com/400x400/?nature")'}}></div>
+          <div class="user-profile">
+            <img src="user3.jpg" alt="User Profile"></img>
+          </div>
+          <div class="user-name">User 3</div>
+        </div>
+        <div class="story">
+          <div className="story-image" style={{backgroundImage: 'url("https://source.unsplash.com/400x400/?travel")'}}></div>
+          <div class="user-profile">
+            <img src="user4.jpg" alt="User Profile"></img>
+          </div>
+          <div class="user-name">User 4</div>
+        </div>
       </div>
       <br></br>
       <div className='posts-section'>

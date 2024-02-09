@@ -1,17 +1,18 @@
 .stories-section {
   display: flex;
   flex-wrap: wrap;
+  height: 400px;
 }
 
 .story {
-  position: relative;
-  width: 100px; /* Adjust width as needed */
-  height: 100px; /* Adjust height as needed */
+  position: relative; /* Set position to relative */
+  width: 22%; /* Adjust width as needed */
+  height: 100%; /* Adjust height as needed */
   margin: 4px;
   overflow: hidden;
   border-radius: 8px;
 }
-.story:hover{
+.story:hover {
   opacity: 0.6;
 }
 
@@ -26,8 +27,8 @@
   position: absolute;
   top: 4px;
   left: 4px;
-  width: 24px; /* Adjust size as needed */
-  height: 24px; /* Adjust size as needed */
+  width: 40px; 
+  height: 40px; 
   border-radius: 50%;
   overflow: hidden;
 }

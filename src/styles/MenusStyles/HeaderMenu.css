@@ -1,0 +1,220 @@
+body {
+  overscroll-behavior: none;
+
+}
+.top-menu {
+  /* background-image: linear-gradient(to bottom, lightblue, cyan); */
+  background-color: white;
+  border: none;
+  display: flex;
+  height: 56px;
+  flex-direction: row;
+  justify-content: space-between;
+  position: fixed;
+  /* Adding the border just to the bottom */
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(228, 228, 228);
+  /* The margins from this sides of the page */
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 100;
+}
+.top-menu img {
+  margin-top: 0px;
+}
+
+/* CSS for the left section */
+.left-sec {
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  max-width: 260px;
+  min-width: 240px;
+}
+.facebook-logo {
+  width: 100%;
+  height: 100%;
+  margin-top: 0px;
+}
+.left-sec .search-box {
+  height: 40px;
+  margin: 8px 10px;
+  border-radius: 20px;
+  /* min-width: 150px; */
+  padding-left: 10px;
+  border: none;
+  background-color: rgb(240, 242, 245);
+}
+
+.search-icon-img {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-left: -40px;
+  margin-bottom: 4px;
+}
+
+
+/* CSS for the mid section */
+.mid-menu {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  max-width: 600px;
+  justify-content: space-between;
+
+}
+.mid-menu button {
+ /* display: flex; */
+ justify-content: center;
+ align-items: center;
+ height: 48px;
+ margin-left: 16px;
+ min-width: none;
+ background-color: white;
+ border: none;
+ border-radius: 6px;
+ 
+}
+.mid-menu img {
+  width: 32px;
+  height: 32px;
+  margin: 8px;
+
+}
+.gaming-button .tool-tip,
+.groups-button .tool-tip,
+.marketplace-button .tool-tip,
+.videos-button .tool-tip,
+.home-button .tool-tip {
+  position: absolute;
+  background-color: gray;
+  color: white;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+  bottom: -24px;
+  border-radius: 2px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.16s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.mid-menu button:hover{
+  background-color: rgb(239, 237, 237);
+}
+.mid-menu button:hover .tool-tip {
+  opacity: 1;
+}
+
+/* CSS for the right section */
+
+.right-section {
+  display: flex;
+  padding-right: 10px;
+  justify-content: space-between;
+  max-width: 250px;
+}
+.right-section img {
+  width: 22px;
+  height: 22px;
+  margin-top: 0px;
+}
+.right-section button{
+  border-radius: 50%;
+  padding: 10px 12px;
+  border: none;
+  margin: 5px 5px;
+  
+
+}
+
+.right-section .tool-tip {
+  position: absolute;
+  background-color: gray;
+  color: white;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+  bottom: -24px;
+  border-radius: 2px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.16s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.right-section button:hover{
+  background-color: rgb(183, 179, 179);
+}
+.right-section button:hover .tool-tip {
+  opacity: 1;
+} 
+
+/* .notifications-btn,
+.messenger-btn {
+  position: relative;
+
+} */
+/* Define a media query for viewport widths under 500px */
+@media (max-width: 800px) {
+  /* Hide notifications and messages numbers */
+  .notifications-num,
+  .messages-num,
+  .right-section {
+    display: none;
+  }
+}
+/* @media (max-width: 750px) {
+  .top-menu {
+    justify-content: space-between;
+  }
+} */
+.notifications-num {
+  position: absolute;
+  font-size: 12px;
+  /* line-height: 15px; */
+  background-color: rgb(204, 0, 0);
+  color: white;
+  /* width: 20px;
+  height: 18px; */
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  border: none;
+  border-radius: 10px;
+  justify-content: center;
+  margin-right: 70px;
+  right: 2px;
+  top: 4px;
+  /* Priority */
+  z-index: 200;
+}
+.messages-num {
+  position: absolute;
+  font-size: 12px;
+  /* line-height: 15px; */
+  background-color: rgb(204, 0, 0);
+  color: white;
+  /* width: 20px;
+  height: 18px; */
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  border: none;
+  border-radius: 10px;
+  justify-content: center;
+  margin-right: 124px;
+  right: 2px;
+  top: 4px;
+  /* Priority */
+  z-index: 200;
+}

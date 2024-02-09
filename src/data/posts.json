@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "userPic": "https://source.unsplash.com/150x150/?face",
+    "username": "John Doe",
+    "postText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "postImage": "post1.jpg", 
+    "postTime": "2024-02-08T12:30:00Z"
+
+  },
+  {
+    "id": 2,
+    "userPic": "https://source.unsplash.com/150x150/?portrait",
+    "username": "Jane Smith",
+    "postText": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "postImage": null,
+    "postTime": "2024-02-08T13:45:00Z" 
+
+  },
+  {
+    "id": 3,
+    "userPic": "https://source.unsplash.com/150x150/?man",
+    "username": "Alice Johnson",
+    "postText": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "postImage": "https://source.unsplash.com/150x150/?portrait",
+    "postTime": "2024-02-08T14:20:00Z"
+  },
+  {
+    "id": 4,
+    "userPic": "https://source.unsplash.com/150x150/?guy",
+    "username": "Bob Williams",
+    "postText": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    "postImage": "post4.jpg",
+    "postTime": "2024-02-08T15:00:00Z"
+  }
+]

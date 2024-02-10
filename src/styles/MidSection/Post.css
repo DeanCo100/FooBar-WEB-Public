@@ -37,6 +37,8 @@
 }
 
 .post-time {
+  margin-left: 6px;
+  padding-top: 2px;
   font-size: 0.8em;
   color: #777;
 }

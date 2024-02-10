@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Form } from 'react-bootstrap';
+import LikeIcon from '../../icons/comment-icons/like.png';
+import CommentIcon from '../../icons/comment-icons/comment-icon.png';
+import ShareIcon from '../../icons/comment-icons/share.png';
+import EditIcon from '../../icons/post-icons/pen.png';
+import DeleteIcon from '../../icons/post-icons/trash.png';
 
 import '../../styles/MidSection/Post.css'; // Import the Post component CSS file
 
@@ -42,8 +47,14 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
           <div className="post-time">{postTime}</div>
         </div>
         <div className="post-actions">
-          <button className="delete-post-btn" onClick={handleDelete}>Delete Post</button>
-          <button className="edit-post-btn" onClick={handleEdit}>Edit Post</button>
+        <button className="delete-post-btn" onClick={handleDelete}>
+            <img src={DeleteIcon} alt="Delete" className="icon" />
+            Delete
+          </button>
+          <button className="edit-post-btn" onClick={handleEdit}>
+            <img src={EditIcon} alt="Edit" className="icon" />
+            Edit
+          </button>
         </div>
       </div>
       <div className="post-content">
@@ -51,9 +62,18 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
         {editingPostImage && <img src={editingPostImage} alt="Post" className="post-image" />}
       </div>
       <div className="post-footer">
-        <button className="like-btn">Like</button>
-        <button className="comment-btn">Comment</button>
-        <button className="share-btn">Share</button>
+        <button className="like-btn">
+            <img src={LikeIcon} alt="Like" className="icon" />
+            Like
+          </button>
+          <button className="comment-btn">
+            <img src={CommentIcon} alt="Comment" className="icon" />
+            Comment
+          </button>
+          <button className="share-btn">
+            <img src={ShareIcon} alt="Share" className="icon" />
+            Share
+          </button>
       </div>
       <Modal show={editModalOpen} onHide={handleEditCloseModal}>
         <Modal.Header closeButton>

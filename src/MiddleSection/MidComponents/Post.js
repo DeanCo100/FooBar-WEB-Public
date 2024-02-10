@@ -6,13 +6,13 @@ import CommentIcon from '../../icons/comment-icons/comment-icon.png';
 import ShareIcon from '../../icons/comment-icons/share.png';
 import EditIcon from '../../icons/post-icons/pen.png';
 import DeleteIcon from '../../icons/post-icons/trash.png';
-
-import '../../styles/MidSection/Post.css'; // Import the Post component CSS file
+import '../../styles/MidSection/Post.css'; 
 
 function Post({ id, username, userPic, postText, postImage, postTime, onDelete, onEdit }) {
   const [editingPostText, setEditingPostText] = useState(postText);
   const [editingPostImage, setEditingPostImage] = useState(postImage);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  // Remove the removeImage state from the Post component
   const [removeImage, setRemoveImage] = useState(false);
 
   const handleDelete = () => {
@@ -20,12 +20,19 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   };
 
   const handleEdit = () => {
-    setEditingPostImage(postImage);
+    // Only set the editingPostImage if it exists and removeImage is false
+    if (postImage && !removeImage) {
+      setEditingPostImage(postImage);
+    } else {
+      setEditingPostImage(null); // If the image was removed, ensure it's not set
+    }
     setEditModalOpen(true);
   };
 
   const handleSaveEdit = () => {
-    onEdit(id, editingPostText, removeImage ? '' : editingPostImage); // Pass empty string if removeImage is true
+    // Set removeImage state based on whether the user clicked "Remove Pic"
+    const shouldRemoveImage = editingPostImage === null;
+    onEdit(id, editingPostText, shouldRemoveImage ? '' : editingPostImage); // Pass empty string if removeImage is true
     setEditModalOpen(false);
   };
 
@@ -34,8 +41,9 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   };
 
   const handleRemoveImage = () => {
-    setEditingPostImage(null); // Remove the image
-    setRemoveImage(true); // Set removeImage to true
+    setEditingPostImage(null); // Remove the image from the editing state immediately
+    setRemoveImage(true); // Set removeImage to true within the edit modal
+    handleSaveEdit(); // Call handleSaveEdit to apply the changes immediately
   };
 
   return (
@@ -88,12 +96,12 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
             <Form.Group controlId="image-file">
               <Form.Label>Edit Picture:</Form.Label>
               {editingPostImage && <img src={editingPostImage} alt="Current Post" style={{ width: '100px', height: '100px', marginBottom: '10px' }} />}
-              {editingPostImage && <Button variant="danger" onClick={handleRemoveImage}>Remove Pic</Button>} {/* Add remove image button */}
               <Form.Control type="file" onChange={e => setEditingPostImage(URL.createObjectURL(e.target.files[0]))} />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
+          <Button variant="danger" onClick={handleRemoveImage}>Remove Pic</Button>
           <Button variant="secondary" onClick={handleEditCloseModal}>Close</Button>
           <Button variant="primary" onClick={handleSaveEdit}>Save Changes</Button>
         </Modal.Footer>

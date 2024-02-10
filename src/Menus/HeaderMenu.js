@@ -10,7 +10,7 @@ import MediaIcon from '../icons/header-icons/computer-monitor-video-play-icon.pn
 import GroupIcon from '../icons/header-icons/group-icon.png';
 import MarketPlaceIcom from '../icons/header-icons/shop-icon.png';
 import GamingIcon from '../icons/header-icons/psp-portable-playstation-icon.png';
-import HomeIcon from '../icons/header-icons/home-icon.png';
+import HomeIcon from '../icons/header-icons/home.png';
 // Imports for the right section
 import FaceIcon from '../icons/header-icons/male-icon.png';
 import NotificationsIcon from '../icons/header-icons/bell-icon.png';

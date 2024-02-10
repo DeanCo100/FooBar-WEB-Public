@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: row;
   height: 250px;
-  background-color: antiquewhite;
+  background-color: rgb(240, 242, 245);
   justify-content: space-between;
   padding: 1% 2%; /* Use percentage-based padding */
 }

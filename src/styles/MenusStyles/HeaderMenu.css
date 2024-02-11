@@ -163,7 +163,7 @@ body {
 
 } */
 /* Define a media query for viewport widths under 500px */
-@media (max-width: 800px) {
+@media (max-width: 860px) {
   /* Hide notifications and messages numbers */
   .notifications-num,
   .messages-num,

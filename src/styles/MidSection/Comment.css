@@ -1,0 +1,32 @@
+/* Add styles for comments */
+.comment-item {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  padding: 10px;
+  background-color: pink;
+  border-radius: 8px;
+}
+
+.comment-user-pic {
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+  margin-right: 10px;
+  border-radius: 50%;
+}
+.comment-input {
+  border-radius: 10px;
+  width: 60%;
+  padding: 6px;
+  margin-right: 8px;
+  margin-bottom: 6px;
+}
+.submit-comment{
+  border-radius: 30%;
+  margin-bottom: 6px;
+  padding: 4px;
+}
+
+.submit-comment:hover{
+  background-color: rgb(206, 208, 210);
+}

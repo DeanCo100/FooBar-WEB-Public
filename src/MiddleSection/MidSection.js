@@ -85,15 +85,23 @@ function MidSection() {
   const handleDeletePost = (postId) => {
     setPosts(posts.filter(post => post.id !== postId));
   };
-
 // Handler for editing a post
-  const handleEditPost = (postId, newText, newImage) => {
-    // Find the post by ID and update its text and image
-    const updatedPosts = posts.map(post =>
-      post.id === postId ? { ...post, postText: newText, postImage: newImage } : post
-    );
-    setPosts(updatedPosts);
-  };
+const handleEditPost = (postId, newText, newImage) => {
+  // Find the post by ID and update its text and image
+  const updatedPosts = posts.map(post =>
+    post.id === postId ? { ...post, postText: newText, postImage: newImage === '' ? null : newImage } : post
+  );
+  setPosts(updatedPosts);
+};
+
+// // Handler for editing a post
+//   const handleEditPost = (postId, newText, newImage) => {
+//     // Find the post by ID and update its text and image
+//     const updatedPosts = posts.map(post =>
+//       post.id === postId ? { ...post, postText: newText, postImage: newImage } : post
+//     );
+//     setPosts(updatedPosts);
+//   };
   
 
   return (

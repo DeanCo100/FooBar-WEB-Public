@@ -70,7 +70,7 @@
   margin-right: 4px; /* Add space between icon and text */
 }
 .action-button:hover{
-  background-color: rgb(204, 204, 204);
+  background-color: rgb(239, 237, 237);
 }
 @media (max-width: 1270px) {
   /* Hide notifications and messages numbers */

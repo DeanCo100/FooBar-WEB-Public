@@ -1,0 +1,10 @@
+/* dark-mode.css */
+body {
+  background-color: #222;
+}
+body.dark-mode {
+  background-color: #222; /* Dark background color */
+  color: #fff; /* Light text color */
+}
+
+/* Add more styles as needed for other elements */

@@ -1,10 +1,73 @@
-/* dark-mode.css */
-body {
-  background-color: #222;
-}
-body.dark-mode {
+/* HeaderMenu.css */
+.top-menu.dark-mode {
   background-color: #222; /* Dark background color */
-  color: #fff; /* Light text color */
+  color: #dcdcdc; /* Light text color */
+}
+.top-menu.dark-mode button {
+  background-color: #535252; /* Dark background color */
+  color: #dcdcdc; /* Light text color */
 }
 
-/* Add more styles as needed for other elements */
+/* LeftMenu.css */
+.left-side-navbar.dark-mode {
+  background-color: #222; /* Dark background color */
+  color: #dcdcdc; /* Light text color */
+}
+.left-side-navbar.dark-mode button {
+  background-color: #222; /* Dark background color */
+  color: #dcdcdc; /* Light text color */
+}
+.left-side-navbar.dark-mode button:hover {
+  background-color: #484848; /* Dark background color */
+  color: #dcdcdc; /* Light text color */
+}
+/* RightMenu.css */
+.navbar-right.dark-mode {
+  background-color: #222; /* Dark background color */
+  color: #dcdcdc; /* Light text color */
+}
+
+/* Post.css */
+.mid-section.dark-mode {
+  background-color: #333; /* Dark background color for posts */
+  color: #dcdcdc; /* Light text color */
+}
+
+.btns-wrapper.dark-mode button {
+  background-color: #333; /* Dark background color for posts */
+  color: #fff7f7; /* Light text color */
+}
+
+/* Posts */
+
+.post.dark-mode {
+  background-color: #504e4e; /* Dark background color for posts */
+  color: #dcdcdc; /* Light text color */
+}
+.post.dark-mode button:hover{
+  background-color: #949090;
+}
+
+
+
+
+
+/* Whats on mind */
+.whats-on-mind-div.dark-mode {
+  background-color: #504e4e; /* Dark background color for posts */
+  color: #dcdcdc; /* Light text color */
+}
+.whats-on-mind-div.dark-mode input {
+  background-color: #6b6868; /* Dark background color for posts */
+  color: #dcdcdc; /* Light text color */
+}
+.whats-on-mind-div.dark-mode input {
+  background-color: #6b6868; /* Dark background color for posts */
+  color: #dcdcdc; /* Light text color */
+}
+.whats-on-mind-div.dark-mode button {
+  background-color: transparent
+}
+.whats-on-mind-div.dark-mode button:hover {
+background-color: #949090;
+}

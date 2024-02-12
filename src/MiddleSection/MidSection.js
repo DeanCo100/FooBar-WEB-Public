@@ -13,7 +13,7 @@ import PhotoVideoIcon from '../icons/mid-section/photo-gallery.png';
 import FeelingActivityIcon from '../icons/mid-section/smiling.png';
 
 
-function MidSection() {
+function MidSection({ darkMode }) {
   const [posts, setPosts] = useState([]);
   const [showModal, setShowModal] = useState(false); // State for controlling modal visibility
   const [recipient, setRecipient] = useState(''); // State for storing recipient value
@@ -105,7 +105,7 @@ const handleEditPost = (postId, newText, newImage) => {
   
 
   return (
-    <div className="mid-section">
+    <div className={`mid-section ${darkMode ? 'dark-mode' : ''}`}>
       <div className="stories-section">
         {storiesData.map((story, index) => (
           <Story
@@ -119,7 +119,7 @@ const handleEditPost = (postId, newText, newImage) => {
       <br></br>
       <div className='posts-section'>
         {/* Button to open the modal */}
-        <div className='whats-on-mind-div'>
+        <div className={`whats-on-mind-div ${darkMode ? 'dark-mode' : ''}`}>
           {/* Input for user to add a post */}
           <img className="profile-pic-img" src={FaceIcon} alt="Profile Pic" />
           <input type="button" className="enter-posts" value="Whats On Your Mind?" onClick={handleShowModal} />
@@ -170,7 +170,7 @@ const handleEditPost = (postId, newText, newImage) => {
           {/* Your existing content here */}
           <br></br>
            {posts.map(post => (
-            <Post key={post.id} {...post} onDelete={handleDeletePost} onEdit={handleEditPost}/>
+            <Post key={post.id} darkMode={darkMode} {...post} onDelete={handleDeletePost} onEdit={handleEditPost}/>
           ))}
         </div>
       </div>

@@ -7,6 +7,8 @@
   margin-right: 350px;
   height: calc(100vh - 56px); /* Full height of viewport minus the top margin */
   overflow-y: auto; /* Add scrollbar if content exceeds height */
+  color: #65676B;
+
 }
 
 .stories-section {
@@ -24,6 +26,8 @@
   background-color: white;
   padding: 1% 1%; /* Use percentage-based padding */
   border-radius: 8px;
+  color: #65676B;
+
 }
 
 .profile-pic-img {

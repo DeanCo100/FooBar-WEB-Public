@@ -10,8 +10,10 @@ import EditIcon from '../../icons/post-icons/pen.png';
 import DeleteIcon from '../../icons/post-icons/trash.png';
 import MichaelPic from '../../icons/spam/Michael.png';
 import '../../styles/MidSection/Post.css'; 
+import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 
-function Post({ id, username, userPic, postText, postImage, postTime, onDelete, onEdit }) {
+
+function Post({ id, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode }) {
   const [editingPostText, setEditingPostText] = useState(postText);
   const [editingPostImage, setEditingPostImage] = useState(postImage);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -69,7 +71,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   };
 
   return (
-    <div className="post">
+    <div className={`post ${darkMode ? 'dark-mode' : ''}`}>
       <div className="post-header">
         <div className="user-info">
           <img src={userPic} alt="Profile Pic" className="profile-pic" />

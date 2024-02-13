@@ -12,7 +12,6 @@ import MichaelPic from '../../icons/spam/Michael.png';
 import '../../styles/MidSection/Post.css'; 
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 
-
 function Post({ id, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode }) {
   const [editingPostText, setEditingPostText] = useState(postText);
   const [editingPostImage, setEditingPostImage] = useState(postImage);
@@ -21,8 +20,10 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [commentSectionOpen, setCommentSectionOpen] = useState(false);
-  const [liked, setLiked] = useState(false); // State to track if the post is liked
-  
+  const [liked, setLiked] = useState(false);
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedCommentText, setEditedCommentText] = useState('');
+
 
   const addComment = (comment) => {
     setComments([...comments, comment]);
@@ -71,28 +72,31 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
     const updatedComments = comments.filter(comment => comment.id !== commentId);
     setComments(updatedComments);
   };
-  
-  const handleEditComment = (commentId, newText) => {
-    // Find the index of the comment in the comments array
-    const index = comments.findIndex(comment => comment.id === commentId);
 
-    // Prompt the user to enter the new text for the comment
-    const editedText = prompt("Enter the edited text for the comment:");
+  const handleEditComment = (commentId) => {
+    setEditingCommentId(commentId);
+    const comment = comments.find(comment => comment.id === commentId);
+    setEditedCommentText(comment.text);
+  };
 
-    // If the user entered a new text and did not cancel
-    if (editedText !== null) {
-      // Create a copy of the comments array
-      const updatedComments = [...comments];
-      // Update the text of the comment at the specified index
-      updatedComments[index] = { ...updatedComments[index], text: editedText };
-      // Set the updated comments array in the state
-      setComments(updatedComments);
-    }
-};
+  const handleCancelEditComment = () => {
+    setEditingCommentId(null);
+    setEditedCommentText('');
+  };
+
+  const handleSaveEditedComment = () => {
+    const index = comments.findIndex(comment => comment.id === editingCommentId);
+    const updatedComments = [...comments];
+    updatedComments[index] = { ...updatedComments[index], text: editedCommentText };
+    setComments(updatedComments);
+    setEditingCommentId(null);
+    setEditedCommentText('');
+  };
 
   const handleLike = () => {
-    setLiked(!liked); // Toggle the liked state
+    setLiked(!liked);
   };
+
 
   return (
     <div className={`post ${darkMode ? 'dark-mode' : ''}`}>
@@ -119,15 +123,15 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
       </div>
       <div className="post-footer">
         <button className="like-btn" onClick={handleLike}>
-          <img src={liked ? LikedIcon : LikeIcon} alt="Like" className="icon" />
+        <img src={liked ? LikedIcon : LikeIcon} alt="Like" className="icon" />
           {liked ? 'Liked' : 'Like'}
         </button>
-        <button className="comment-btn" onClick={() => setCommentSectionOpen(true)}>
+        <button className="comment-btn" onClick={() => setCommentSectionOpen(!commentSectionOpen)}>
           <img src={CommentIcon} alt="Comment" className="icon" />
           Comment
         </button>
         <button className="share-btn">
-          <img src={ShareIcon} alt="Share" className="icon" />
+          <img src={ShareIcon} alt="Share" className="icon"/>
           Share
         </button>
       </div>
@@ -160,11 +164,37 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
             <div key={comment.id} className="comment-item">
               <img src={comment.userPic} alt="User Pic" className="comment-user-pic" />
               <div>
-                <strong>{comment.username}:</strong> {comment.text}
+                <strong className='usrnm-comment'>{comment.username}:</strong>
+                {editingCommentId === comment.id ? (
+                  <input
+                    type="text"
+                    value={editedCommentText}
+                    onChange={(e) => setEditedCommentText(e.target.value)}
+                  />
+                ) : (
+                  <span>{comment.text}</span>
+                )}
               </div>
-              <div className='comment-btns-wrapper'>
-                <button className='edit-comment-btn' onClick={() => handleEditComment(comment.id)}>Edit</button>
-                <button className='delete-comment-btn' onClick={() => handleDeleteComment(comment.id)}>Delete</button>
+              <div className="comment-btns-wrapper">
+                {editingCommentId === comment.id ? (
+                  <>
+                    <button className="save-edited-comment-btn" onClick={handleSaveEditedComment}>
+                      Save
+                    </button>
+                    <button className="cancel-edit-comment-btn" onClick={handleCancelEditComment}>
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button className="edit-comment-btn" onClick={() => handleEditComment(comment.id)}>
+                      Edit
+                    </button>
+                    <button className="delete-comment-btn" onClick={() => handleDeleteComment(comment.id)}>
+                      Delete
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))}
@@ -187,9 +217,6 @@ Post.propTypes = {
 };
 
 export default Post;
-
-
-
 
 
 

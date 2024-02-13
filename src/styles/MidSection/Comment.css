@@ -32,6 +32,9 @@
   margin-bottom: 6px;
   padding: 4px;
 }
+.usrnm-comment {
+  margin-right: 4px;
+}
 
 .submit-comment:hover{
   background-color: rgb(206, 208, 210);

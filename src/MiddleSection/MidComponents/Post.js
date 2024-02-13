@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Form } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -15,6 +15,7 @@ import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 
 function Post({ id, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode }) {
   const [editingPostText, setEditingPostText] = useState(postText);
+  const [originalPostText, setOriginalPostText] = useState(postText); // Store the original post text
   const [editingPostImage, setEditingPostImage] = useState(postImage);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [removeImage, setRemoveImage] = useState(false);
@@ -24,6 +25,11 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   const [liked, setLiked] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentText, setEditedCommentText] = useState('');
+
+  useEffect(() => {
+    // Update the originalPostText state when the postText prop changes
+    setOriginalPostText(postText);
+  }, [postText]);
 
 
   const addComment = (comment) => {
@@ -46,6 +52,8 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
       }
       setEditModalOpen(true);
     }
+        // Reset editingPostText to originalPostText
+        setEditingPostText(originalPostText);
   };
   
 

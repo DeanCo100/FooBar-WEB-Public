@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Form } from 'react-bootstrap';
+import Dropdown from 'react-bootstrap/Dropdown';
 import LikeIcon from '../../icons/comment-icons/like.png';
 import LikedIcon from '../../icons/comment-icons/liked.png'; // Import the liked icon
 import CommentIcon from '../../icons/comment-icons/comment-icon.png';
@@ -136,10 +137,33 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
           <img src={CommentIcon} alt="Comment" className="icon" />
           Comment
         </button>
+        <Dropdown>
+        <Dropdown.Toggle variant="transparent" id="dropdown-basic" className='share-btn'>
+          <img src={ShareIcon} alt="Share" className="icon" />
+          Share
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu style={{ backgroundColor: darkMode ? '#65676B' : '' }}>
+          <Dropdown.Item href="#/action-1">Share now (Only me)</Dropdown.Item>
+          <Dropdown.Item href="#/action-2">Share to Feed</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Send in Messenger</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Send in WhatsApp</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Share to a page</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Send Share to a group</Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item href="#/action-4">Share on a friend's profile</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+
+
+
+
+
+{/* 
         <button className="share-btn">
           <img src={ShareIcon} alt="Share" className="icon"/>
           Share
-        </button>
+        </button> */}
       </div>
       <Modal show={editModalOpen} onHide={handleEditCloseModal}>
         <Modal.Header closeButton>
@@ -159,9 +183,9 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleRemoveImage}>Remove Pic</Button>
+          <Button variant="warning" onClick={handleRemoveImage}>Remove Pic</Button>
           <Button variant="secondary" onClick={handleEditCloseModal}>Close</Button>
-          <Button variant="primary" onClick={handleSaveEdit}>Save Changes</Button>
+          <Button variant="primary" onClick={handleSaveEdit}>Save Text Changes</Button>
         </Modal.Footer>
       </Modal>
       {commentSectionOpen && (

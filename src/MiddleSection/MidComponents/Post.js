@@ -34,13 +34,19 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   };
 
   const handleEdit = () => {
-    if (postImage && !removeImage) {
-      setEditingPostImage(postImage);
+    // Check if editingPostImage is already set before opening the modal
+    if (editingPostImage) {
+      setEditModalOpen(true);
     } else {
-      setEditingPostImage(null);
+      if (postImage && !removeImage) {
+        setEditingPostImage(postImage);
+      } else {
+        setEditingPostImage(null);
+      }
+      setEditModalOpen(true);
     }
-    setEditModalOpen(true);
   };
+  
 
   const handleSaveEdit = () => {
     const shouldRemoveImage = editingPostImage === null;

@@ -40,7 +40,8 @@
   margin-left: 6px;
   padding-top: 2px;
   font-size: 0.8em;
-  color: #777;
+  color: #65676B;
+  
 }
 
 .post-content {
@@ -78,11 +79,12 @@
   width: 150px;
   padding: 8px 20px;
   margin-right: 8px;
-  background-color: #fff;
+  background-color: transparent;
   border: none;
   cursor: pointer;
   margin-bottom: 10px;
   font-weight: bold;
+  color: #65676B;
 }
 .post-actions button {
   width: 100px;

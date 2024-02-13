@@ -1,17 +1,17 @@
+import React, { useState } from 'react';
 import './App.css';
-import HeaderMenu from './Menus/HeaderMenu';
-import LeftMenu from './Menus/LeftMenu';
-import RightMenu from './Menus/RightMenu';
-import MidSection from './MiddleSection/MidSection';
+import Feed from '../src/Feed/Feed';
 // import RightMenu from './Menus/RightMenu';
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(prevMode => !prevMode);
+  };
   return (
-    <div className="App">
-     < HeaderMenu />
-     < LeftMenu/>
-     < RightMenu/>
-     < MidSection />
+    <div className={`App ${darkMode ? 'dark-mode' : ''}`}>
+      <Feed darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
     </div>
   );
 }

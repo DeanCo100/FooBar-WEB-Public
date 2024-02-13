@@ -20,9 +20,9 @@ import AppsMenu from '../icons/header-icons/apps-grid-icon.png';
 
 
 
-function HeaderMenu() {
+function HeaderMenu({ darkMode }) {
   return (
-  <div className="top-menu">
+  <div className={`top-menu ${darkMode ? 'dark-mode' : ''}`}>
     <div className='left-sec'>
       <img className='facebook-logo' src={FaceBookIcon} alt = "icon"></img>
       <label className='search-wrapper'>

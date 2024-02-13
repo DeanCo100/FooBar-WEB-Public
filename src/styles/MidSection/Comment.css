@@ -4,8 +4,14 @@
   align-items: center;
   margin: 5px;
   padding: 10px;
-  background-color: pink;
+  /* background-color: pink; */
   border-radius: 8px;
+  /* background-color: rgb(161, 158, 158); */
+
+}
+
+.comment-item:hover {
+  background-color: rgb(161, 158, 158);
 }
 
 .comment-user-pic {
@@ -29,4 +35,21 @@
 
 .submit-comment:hover{
   background-color: rgb(206, 208, 210);
+}
+
+/* Comments btns */
+.comment-btns-wrapper {
+  margin-left: auto;
+  flex-direction: row;
+  background-color: transparent;
+}
+.comment-btns-wrapper button {
+  border-radius: 50%;
+  border: none;
+  margin-right: 10px;
+  padding: 4px;
+  background-color: transparent;
+}
+.comment-btns-wrapper button:hover {
+  background-color: rgb(239, 237, 237);
 }

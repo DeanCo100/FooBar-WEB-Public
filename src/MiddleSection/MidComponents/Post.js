@@ -22,6 +22,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   const [newComment, setNewComment] = useState('');
   const [commentSectionOpen, setCommentSectionOpen] = useState(false);
   const [liked, setLiked] = useState(false); // State to track if the post is liked
+  
 
   const addComment = (comment) => {
     setComments([...comments, comment]);
@@ -65,6 +66,29 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
     };
     setComments([...comments, newComment]);
   };
+
+  const handleDeleteComment = (commentId) => {
+    const updatedComments = comments.filter(comment => comment.id !== commentId);
+    setComments(updatedComments);
+  };
+  
+  const handleEditComment = (commentId, newText) => {
+    // Find the index of the comment in the comments array
+    const index = comments.findIndex(comment => comment.id === commentId);
+
+    // Prompt the user to enter the new text for the comment
+    const editedText = prompt("Enter the edited text for the comment:");
+
+    // If the user entered a new text and did not cancel
+    if (editedText !== null) {
+      // Create a copy of the comments array
+      const updatedComments = [...comments];
+      // Update the text of the comment at the specified index
+      updatedComments[index] = { ...updatedComments[index], text: editedText };
+      // Set the updated comments array in the state
+      setComments(updatedComments);
+    }
+};
 
   const handleLike = () => {
     setLiked(!liked); // Toggle the liked state
@@ -137,6 +161,10 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
               <img src={comment.userPic} alt="User Pic" className="comment-user-pic" />
               <div>
                 <strong>{comment.username}:</strong> {comment.text}
+              </div>
+              <div className='comment-btns-wrapper'>
+                <button className='edit-comment-btn' onClick={() => handleEditComment(comment.id)}>Edit</button>
+                <button className='delete-comment-btn' onClick={() => handleDeleteComment(comment.id)}>Delete</button>
               </div>
             </div>
           ))}

@@ -21,7 +21,7 @@ function LeftMenu({ darkMode, toggleDarkMode }) {
     // For example, clearing local storage, resetting state, etc.
     
     // Navigate to the login page
-    navigate('/login');
+    navigate('/');
   };
 
   return (

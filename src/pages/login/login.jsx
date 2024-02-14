@@ -1,24 +1,27 @@
 import React from "react";
 import "./login.css"
 import LoginForm from "./LoginForm/loginForm";
+import { useNavigate } from 'react-router-dom';
 
-const LoginPage = ()=>{
+const LoginPage = ({ onLogin }) => {
+  const navigate = useNavigate();
 
-    return(
-      <div className="loginMain">
-        <div className="inner_login">
-          <div className="logo">
-              <h2>
-                  facebook
-              </h2>
-              <p>
-                  Connect with friends and the world around you on Facebook.
-              </p>
-          </div>
-          <LoginForm/>
-          </div>
+  const handleLogin = (username, password) => {
+    onLogin(username, password); // Call the parent onLogin function
+    navigate('/feed'); // Redirect to the Feed page
+  };
+
+  return (
+    <div className="loginMain">
+      <div className="inner_login">
+        <div className="logo">
+          <h2>facebook</h2>
+          <p>Connect with friends and the world around you on Facebook.</p>
+        </div>
+        <LoginForm onLogin={handleLogin} />
       </div>
-    )
-} 
+    </div>
+  );
+};
 
-export default LoginPage
+export default LoginPage;

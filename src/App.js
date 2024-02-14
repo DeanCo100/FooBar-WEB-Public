@@ -5,33 +5,24 @@ import LoginPage from './pages/login/login';
 import Feed from '../src/Feed/Feed';
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const toggleDarkMode = () => {
-    setDarkMode(prevMode => !prevMode);
-  };
-
-  const handleLogin = (username, password) => {
-    // Hardcoded username and password for demonstration purposes
-    const hardcodedUsername = 'TzionMea';
-    const hardcodedPassword = 'Mea100100';
-
-    if (username === hardcodedUsername && password === hardcodedPassword) {
-      setIsAuthenticated(true);
-    } else {
-      // Show error message or handle invalid login
-      console.log("Invalid username or password");
-    }
+  const handleLogin = () => {
+    // Logic to handle successful login
+    setIsAuthenticated(true);
   };
 
   return (
     <Router>
-      <div className={`App ${darkMode ? 'dark-mode' : ''}`}>
+      <div className="App">
         <Routes>
-          {/* Instead of Feed in the first route it should be loginPage */}
-          <Route path="/login" element={<Feed onLogin={handleLogin} />} />
-          <Route path="/" element={isAuthenticated ? <Feed darkMode={darkMode} toggleDarkMode={toggleDarkMode} /> : <Navigate to="/login" />} />
+          <Route path="/" element={<LoginPage onLogin={handleLogin} />} />
+          {isAuthenticated ? (
+            <Route path="/feed" element={<Feed />} />
+          ) : (
+            // Redirect to login page if not authenticated
+            <Route path="/feed" element={<Navigate to="/" />} />
+          )}
         </Routes>
       </div>
     </Router>

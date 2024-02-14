@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Form } from 'react-bootstrap';
+import Dropdown from 'react-bootstrap/Dropdown';
 import LikeIcon from '../../icons/comment-icons/like.png';
 import LikedIcon from '../../icons/comment-icons/liked.png'; // Import the liked icon
 import CommentIcon from '../../icons/comment-icons/comment-icon.png';
@@ -12,16 +13,24 @@ import MichaelPic from '../../icons/spam/Michael.png';
 import '../../styles/MidSection/Post.css'; 
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 
-
 function Post({ id, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode }) {
   const [editingPostText, setEditingPostText] = useState(postText);
+  const [originalPostText, setOriginalPostText] = useState(postText); // Store the original post text
   const [editingPostImage, setEditingPostImage] = useState(postImage);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [removeImage, setRemoveImage] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [commentSectionOpen, setCommentSectionOpen] = useState(false);
-  const [liked, setLiked] = useState(false); // State to track if the post is liked
+  const [liked, setLiked] = useState(false);
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedCommentText, setEditedCommentText] = useState('');
+
+  useEffect(() => {
+    // Update the originalPostText state when the postText prop changes
+    setOriginalPostText(postText);
+  }, [postText]);
+
 
   const addComment = (comment) => {
     setComments([...comments, comment]);
@@ -32,13 +41,21 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   };
 
   const handleEdit = () => {
-    if (postImage && !removeImage) {
-      setEditingPostImage(postImage);
+    // Check if editingPostImage is already set before opening the modal
+    if (editingPostImage) {
+      setEditModalOpen(true);
     } else {
-      setEditingPostImage(null);
+      if (postImage && !removeImage) {
+        setEditingPostImage(postImage);
+      } else {
+        setEditingPostImage(null);
+      }
+      setEditModalOpen(true);
     }
-    setEditModalOpen(true);
+        // Reset editingPostText to originalPostText
+        setEditingPostText(originalPostText);
   };
+  
 
   const handleSaveEdit = () => {
     const shouldRemoveImage = editingPostImage === null;
@@ -66,9 +83,35 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
     setComments([...comments, newComment]);
   };
 
-  const handleLike = () => {
-    setLiked(!liked); // Toggle the liked state
+  const handleDeleteComment = (commentId) => {
+    const updatedComments = comments.filter(comment => comment.id !== commentId);
+    setComments(updatedComments);
   };
+
+  const handleEditComment = (commentId) => {
+    setEditingCommentId(commentId);
+    const comment = comments.find(comment => comment.id === commentId);
+    setEditedCommentText(comment.text);
+  };
+
+  const handleCancelEditComment = () => {
+    setEditingCommentId(null);
+    setEditedCommentText('');
+  };
+
+  const handleSaveEditedComment = () => {
+    const index = comments.findIndex(comment => comment.id === editingCommentId);
+    const updatedComments = [...comments];
+    updatedComments[index] = { ...updatedComments[index], text: editedCommentText };
+    setComments(updatedComments);
+    setEditingCommentId(null);
+    setEditedCommentText('');
+  };
+
+  const handleLike = () => {
+    setLiked(!liked);
+  };
+
 
   return (
     <div className={`post ${darkMode ? 'dark-mode' : ''}`}>
@@ -95,17 +138,40 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
       </div>
       <div className="post-footer">
         <button className="like-btn" onClick={handleLike}>
-          <img src={liked ? LikedIcon : LikeIcon} alt="Like" className="icon" />
+        <img src={liked ? LikedIcon : LikeIcon} alt="Like" className="icon" />
           {liked ? 'Liked' : 'Like'}
         </button>
-        <button className="comment-btn" onClick={() => setCommentSectionOpen(true)}>
+        <button className="comment-btn" onClick={() => setCommentSectionOpen(!commentSectionOpen)}>
           <img src={CommentIcon} alt="Comment" className="icon" />
           Comment
         </button>
-        <button className="share-btn">
+        <Dropdown>
+        <Dropdown.Toggle variant="transparent" id="dropdown-basic" className='share-btn'>
           <img src={ShareIcon} alt="Share" className="icon" />
           Share
-        </button>
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu style={{ backgroundColor: darkMode ? '#65676B' : '' }}>
+          <Dropdown.Item href="#/action-1">Share now (Only me)</Dropdown.Item>
+          <Dropdown.Item href="#/action-2">Share to Feed</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Send in Messenger</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Send in WhatsApp</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Share to a page</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Send Share to a group</Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item href="#/action-4">Share on a friend's profile</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+
+
+
+
+
+{/* 
+        <button className="share-btn">
+          <img src={ShareIcon} alt="Share" className="icon"/>
+          Share
+        </button> */}
       </div>
       <Modal show={editModalOpen} onHide={handleEditCloseModal}>
         <Modal.Header closeButton>
@@ -125,9 +191,9 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleRemoveImage}>Remove Pic</Button>
+          <Button variant="warning" onClick={handleRemoveImage}>Remove Pic</Button>
           <Button variant="secondary" onClick={handleEditCloseModal}>Close</Button>
-          <Button variant="primary" onClick={handleSaveEdit}>Save Changes</Button>
+          <Button variant="primary" onClick={handleSaveEdit}>Save Text Changes</Button>
         </Modal.Footer>
       </Modal>
       {commentSectionOpen && (
@@ -136,7 +202,37 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
             <div key={comment.id} className="comment-item">
               <img src={comment.userPic} alt="User Pic" className="comment-user-pic" />
               <div>
-                <strong>{comment.username}:</strong> {comment.text}
+                <strong className='usrnm-comment'>{comment.username}:</strong>
+                {editingCommentId === comment.id ? (
+                  <input
+                    type="text"
+                    value={editedCommentText}
+                    onChange={(e) => setEditedCommentText(e.target.value)}
+                  />
+                ) : (
+                  <span>{comment.text}</span>
+                )}
+              </div>
+              <div className="comment-btns-wrapper">
+                {editingCommentId === comment.id ? (
+                  <>
+                    <button className="save-edited-comment-btn" onClick={handleSaveEditedComment}>
+                      Save
+                    </button>
+                    <button className="cancel-edit-comment-btn" onClick={handleCancelEditComment}>
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button className="edit-comment-btn" onClick={() => handleEditComment(comment.id)}>
+                      Edit
+                    </button>
+                    <button className="delete-comment-btn" onClick={() => handleDeleteComment(comment.id)}>
+                      Delete
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))}
@@ -159,9 +255,6 @@ Post.propTypes = {
 };
 
 export default Post;
-
-
-
 
 
 

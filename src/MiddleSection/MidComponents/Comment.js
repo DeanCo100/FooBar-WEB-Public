@@ -5,7 +5,7 @@ import '../../styles/MidSection/Comment.css';
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 
 
-function Comment({ onAddComment }) {
+function Comment({ onAddComment, onDeleteComment, onEditComment }) {
   const [commentText, setCommentText] = useState('');
 
   const handleCommentChange = (event) => {
@@ -21,15 +21,20 @@ function Comment({ onAddComment }) {
   };
 
   return (
-    <div>
-      <input className='comment-input'
-        type="text"
-        placeholder="Write a comment..."
-        value={commentText}
-        onChange={handleCommentChange}
-      />
-      <button className='submit-comment' onClick={handleSubmit}>Submit</button>
-    </div>
+    <div className="comment-container">
+      <div className="comment-input-container">
+        <input
+          className="comment-input"
+          type="text"
+          placeholder="Write a comment..."
+          value={commentText}
+          onChange={handleCommentChange}
+        />
+        <button className="submit-comment" onClick={handleSubmit}>
+          Submit
+        </button>
+      </div>
+  </div>
   );
 }
 

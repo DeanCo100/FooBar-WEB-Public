@@ -24,13 +24,13 @@ function LeftMenu({ darkMode, toggleDarkMode }) {
   return (
     <div className='left-menu'>
       <nav className={`left-side-navbar ${darkMode ? 'dark-mode' : ''}`}>
-        <SideBarLink icon={ProfileIcon} text="Profile" />
-        <SideBarLink icon={FriendsIcon} text="Friends" />
-        <SideBarLink icon={MemoriesIcon} text="Memories" />
-        <SideBarLink icon={SaveIcon} text="Saved" />
-        <SideBarLink icon={GroupIcon} text="Groups" />
-        <SideBarLink icon={VideoIcon} text="Video" />
-        <SideBarLink icon={MarketPlaceIcom} text="Marketplace" />
+        <SideBarLink icon={ProfileIcon} text="Profile" darkMode={darkMode} />
+        <SideBarLink icon={FriendsIcon} text="Friends" darkMode={darkMode}/>
+        <SideBarLink icon={MemoriesIcon} text="Memories" darkMode={darkMode}/>
+        <SideBarLink icon={SaveIcon} text="Saved" darkMode={darkMode}/>
+        <SideBarLink icon={GroupIcon} text="Groups" darkMode={darkMode}/>
+        <SideBarLink icon={VideoIcon} text="Video" darkMode={darkMode}/>
+        <SideBarLink icon={MarketPlaceIcom} text="Marketplace" darkMode={darkMode}/>
         <div className={`btns-wrapper ${darkMode ? 'dark-mode' : ''}`}>
           <button className='logout-btn'>
             <img src={LogOutIcon} alt='LogOut' className='icon'></img>

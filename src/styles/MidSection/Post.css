@@ -103,3 +103,14 @@
 .post-footer button:hover {
   background-color: rgb(239, 237, 237);
 }
+
+#dropdown-basic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #65676B;
+  padding: 8px 20px;
+  border-radius: 10%;
+
+}

@@ -15,7 +15,7 @@ const LoginPage = ({ onLogin }) => {
     <div className="loginMain">
       <div className="inner_login">
         <div className="logo">
-          <h2>facebook</h2>
+          <h2>FooBar</h2>
           <p>Connect with friends and the world around you on Facebook.</p>
         </div>
         <LoginForm onLogin={handleLogin} />

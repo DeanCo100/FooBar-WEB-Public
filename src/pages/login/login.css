@@ -33,7 +33,7 @@ body {
         color: #1877F2; /* Facebook's blue color */
         font-size: 26px; /* Adjust as needed */
         font-weight: bold; /* The logo appears to be bold */
-        text-transform: lowercase; 
+        /* text-transform: lowercase;  */
         font-size:300%;
     }
     p{

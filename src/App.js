@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import './App.css';
 import LoginPage from './pages/login/login';
 import Feed from '../src/Feed/Feed';
+import SignUp from '../src/pages/SignUp';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -23,6 +24,7 @@ function App() {
             // Redirect to login page if not authenticated
             <Route path="/feed" element={<Navigate to="/" />} />
           )}
+          <Route path="/signup" element={<SignUp/>} />
         </Routes>
       </div>
     </Router>

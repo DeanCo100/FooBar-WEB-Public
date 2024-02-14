@@ -26,7 +26,7 @@ function MidSection({ darkMode }) {
 
   useEffect(() => {
     setPosts(postData); // Initialize posts state with data from JSON file
-  }, []);
+}, []);
 
   const addPost = (newPost) => {
     setPosts([...posts, newPost]);

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom'; // Import BrowserRouter
 import './App.css';
+import LoginPage from './pages/login/login';
+import { Route,Routes } from 'react-router-dom';
 import Feed from '../src/Feed/Feed';
 // import RightMenu from './Menus/RightMenu';
 

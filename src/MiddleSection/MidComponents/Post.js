@@ -162,16 +162,6 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
           <Dropdown.Item href="#/action-4">Share on a friend's profile</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-
-
-
-
-
-{/* 
-        <button className="share-btn">
-          <img src={ShareIcon} alt="Share" className="icon"/>
-          Share
-        </button> */}
       </div>
       <Modal show={editModalOpen} onHide={handleEditCloseModal}>
         <Modal.Header closeButton>

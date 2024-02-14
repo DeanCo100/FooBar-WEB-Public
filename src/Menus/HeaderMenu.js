@@ -12,7 +12,7 @@ import MarketPlaceIcom from '../icons/header-icons/shop-icon.png';
 import GamingIcon from '../icons/header-icons/psp-portable-playstation-icon.png';
 import HomeIcon from '../icons/header-icons/home.png';
 // Imports for the right section
-import FaceIcon from '../icons/header-icons/male-icon.png';
+import UserPicIcon from '../icons/spam/Michael.png';
 import NotificationsIcon from '../icons/header-icons/bell-icon.png';
 import MessengerIcon from '../icons/header-icons/messenger.png';
 import AppsMenu from '../icons/header-icons/apps-grid-icon.png';
@@ -74,10 +74,11 @@ function HeaderMenu({ darkMode }) {
         <div className="tool-tip">Notifications</div>
         <div class="notifications-num">2</div>
       </button>
-      <button className='btn-right'>
+      <span>
         {/* This img needs to be switched with the user registeration img */}
-        <img src={FaceIcon} alt='Icon'></img>
-      </button>
+        <img src={UserPicIcon} className='usr-pic-header' alt='Icon'></img>
+        <div className="tool-tip">Profile</div>
+      </span>
     </div>
 
   </div>

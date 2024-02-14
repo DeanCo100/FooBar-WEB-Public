@@ -1,6 +1,13 @@
 body {
 align-items: start;
 }
+
+.user-pic-side img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
 .left-side-navbar {
   position: fixed;
   top: 56px;
@@ -61,6 +68,10 @@ img {
   font-weight: 700;
   
 }
+.side-bar-link .user-pic-side img {
+  border-radius: 50%; /* Make the image circular */
+}
+
 
 
 

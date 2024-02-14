@@ -130,8 +130,22 @@ body {
   padding: 10px 12px;
   border: none;
   margin: 5px 5px;
-  
+}
+.right-section span{
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 2px 4px 6px 4px;
+  border: none;
+  margin: 5px 5px;
+  margin-bottom: 10px;
+}
 
+.right-section span img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  margin-bottom: 0px;
 }
 
 .right-section .tool-tip {
@@ -154,6 +168,9 @@ body {
   background-color: rgb(183, 179, 179);
 }
 .right-section button:hover .tool-tip {
+  opacity: 1;
+} 
+.right-section span:hover .tool-tip {
   opacity: 1;
 } 
 

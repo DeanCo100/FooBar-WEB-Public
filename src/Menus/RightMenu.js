@@ -12,14 +12,14 @@ import { useState } from 'react';
 
 
 
-function RightMenu() {
+function RightMenu({ darkMode }) {
 
   const [contactsList, setContactsList] = useState(contacts)
   
   return (
-    <div className="right-menu">
+    <div className={`right-menu ${darkMode ? 'dark-mode' : ''}`}>
       
-      <nav class="navbar-right">
+      <nav class={`navbar-right ${darkMode ? 'dark-mode' : ''}`}>
         <div className="sponsored">
           <span className='text-sponsored'>Sponsored By:</span>
         <div className="sponsored-sub">

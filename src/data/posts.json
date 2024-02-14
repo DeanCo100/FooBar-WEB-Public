@@ -5,7 +5,7 @@
     "username": "John Doe",
     "postText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "postImage": "https://source.unsplash.com/400x400/?landscape",
-    "postTime": "2024-02-08T12:30:00Z"
+    "postTime": "2024-02-08T12:30"
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "username": "Jane Smith",
     "postText": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     "postImage": null,
-    "postTime": "2024-02-08T13:45:00Z"
+    "postTime": "2024-02-08T13:45"
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "username": "Alice Johnson",
     "postText": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     "postImage": "https://source.unsplash.com/400x400/?cityscape",
-    "postTime": "2024-02-08T14:20:00Z"
+    "postTime": "2024-02-08T14:20"
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "username": "Bob Williams",
     "postText": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
     "postImage": "https://source.unsplash.com/400x400/?architecture",
-    "postTime": "2024-02-08T15:00:00Z"
+    "postTime": "2024-02-08T15:00"
   },
   {
     "id": 5,
@@ -37,7 +37,7 @@
     "username": "Emily Davis",
     "postText": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     "postImage": "https://source.unsplash.com/400x400/?mountains",
-    "postTime": "2024-02-09T09:30:00Z"
+    "postTime": "2024-02-09T09:30"
   },
   {
     "id": 6,
@@ -45,7 +45,7 @@
     "username": "Sarah Brown",
     "postText": "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "postImage": "https://source.unsplash.com/400x400/?sky",
-    "postTime": "2024-02-09T10:15:00Z"
+    "postTime": "2024-02-09T10:15"
   },
   {
     "id": 7,
@@ -53,7 +53,7 @@
     "username": "Michael Johnson",
     "postText": "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
     "postImage": "https://source.unsplash.com/400x400/?forest",
-    "postTime": "2024-02-09T11:00:00Z"
+    "postTime": "2024-02-09T11:00"
   },
   {
     "id": 8,
@@ -61,7 +61,7 @@
     "username": "David Martinez",
     "postText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     "postImage": null,
-    "postTime": "2024-02-09T12:00:00Z"
+    "postTime": "2024-02-09T12:00"
   },
   {
     "id": 9,
@@ -69,7 +69,7 @@
     "username": "James Taylor",
     "postText": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
     "postImage": "https://source.unsplash.com/400x400/?waterfall",
-    "postTime": "2024-02-09T13:30:00Z"
+    "postTime": "2024-02-09T13:30"
   },
   {
     "id": 10,
@@ -77,6 +77,6 @@
     "username": "Jennifer Wilson",
     "postText": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
     "postImage": "https://source.unsplash.com/400x400/?sunset",
-    "postTime": "2024-02-09T14:45:00Z"
+    "postTime": "2024-02-09T14:45"
   }
 ]

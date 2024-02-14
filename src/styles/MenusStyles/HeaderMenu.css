@@ -74,7 +74,7 @@ body {
  height: 48px;
  margin-left: 16px;
  min-width: none;
- background-color: white;
+ background-color: transparent;
  border: none;
  border-radius: 6px;
  
@@ -130,8 +130,22 @@ body {
   padding: 10px 12px;
   border: none;
   margin: 5px 5px;
-  
+}
+.right-section span{
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 2px 4px 6px 4px;
+  border: none;
+  margin: 5px 5px;
+  margin-bottom: 10px;
+}
 
+.right-section span img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  margin-bottom: 0px;
 }
 
 .right-section .tool-tip {
@@ -156,6 +170,9 @@ body {
 .right-section button:hover .tool-tip {
   opacity: 1;
 } 
+.right-section span:hover .tool-tip {
+  opacity: 1;
+} 
 
 /* .notifications-btn,
 .messenger-btn {
@@ -163,7 +180,7 @@ body {
 
 } */
 /* Define a media query for viewport widths under 500px */
-@media (max-width: 800px) {
+@media (max-width: 860px) {
   /* Hide notifications and messages numbers */
   .notifications-num,
   .messages-num,

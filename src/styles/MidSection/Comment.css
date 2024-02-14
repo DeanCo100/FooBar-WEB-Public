@@ -1,0 +1,58 @@
+/* Add styles for comments */
+.comment-item {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  padding: 10px;
+  /* background-color: pink; */
+  border-radius: 8px;
+  /* background-color: rgb(161, 158, 158); */
+
+}
+
+.comment-item:hover {
+  background-color: rgb(161, 158, 158);
+}
+
+.comment-user-pic {
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+  margin-right: 10px;
+  border-radius: 50%;
+}
+.comment-input {
+  border-radius: 10px;
+  width: 60%;
+  padding: 6px;
+  margin-right: 8px;
+  margin-bottom: 6px;
+}
+.submit-comment{
+  border-radius: 30%;
+  margin-bottom: 6px;
+  padding: 4px;
+}
+.usrnm-comment {
+  margin-right: 4px;
+}
+
+.submit-comment:hover{
+  background-color: rgb(206, 208, 210);
+}
+
+/* Comments btns */
+.comment-btns-wrapper {
+  margin-left: auto;
+  flex-direction: row;
+  background-color: transparent;
+}
+.comment-btns-wrapper button {
+  border-radius: 50%;
+  border: none;
+  margin-right: 10px;
+  padding: 4px;
+  background-color: transparent;
+}
+.comment-btns-wrapper button:hover {
+  background-color: rgb(239, 237, 237);
+}

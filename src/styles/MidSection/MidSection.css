@@ -7,13 +7,15 @@
   margin-right: 350px;
   height: calc(100vh - 56px); /* Full height of viewport minus the top margin */
   overflow-y: auto; /* Add scrollbar if content exceeds height */
+  color: #65676B;
+
 }
 
 .stories-section {
   display: flex;
   flex-direction: row;
   height: 250px;
-  background-color: antiquewhite;
+  background-color: rgb(240, 242, 245);
   justify-content: space-between;
   padding: 1% 2%; /* Use percentage-based padding */
 }
@@ -24,6 +26,8 @@
   background-color: white;
   padding: 1% 1%; /* Use percentage-based padding */
   border-radius: 8px;
+  color: #65676B;
+
 }
 
 .profile-pic-img {
@@ -70,7 +74,7 @@
   margin-right: 4px; /* Add space between icon and text */
 }
 .action-button:hover{
-  background-color: rgb(204, 204, 204);
+  background-color: rgb(239, 237, 237);
 }
 @media (max-width: 1270px) {
   /* Hide notifications and messages numbers */

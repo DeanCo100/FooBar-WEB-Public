@@ -1,4 +1,3 @@
-// import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/MenusStyles/LeftMenu.css';
 import GroupIcon from '../icons/left-side-icons/group.png';
@@ -20,7 +19,7 @@ function LeftMenu({ darkMode, toggleDarkMode }) {
     // Navigate to the login page
     navigate('/');
   };
-
+// Thats the leftMenu that use the SideBarLink Component
   return (
     <div className='left-menu'>
       <nav className={`left-side-navbar ${darkMode ? 'dark-mode' : ''}`}>

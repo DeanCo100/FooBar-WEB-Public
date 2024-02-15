@@ -6,12 +6,14 @@
   padding: 10px;
   /* background-color: pink; */
   border-radius: 8px;
+  transition: 0.8s;
   /* background-color: rgb(161, 158, 158); */
 
 }
 
 .comment-item:hover {
-  background-color: rgb(161, 158, 158);
+  background-color: rgb(186, 178, 178);
+  
 }
 
 .comment-user-pic {
@@ -31,6 +33,7 @@
   border-radius: 30%;
   margin-bottom: 6px;
   padding: 4px;
+  transition: 0.1s;
 }
 .usrnm-comment {
   margin-right: 4px;

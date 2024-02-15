@@ -38,7 +38,7 @@
 }
 
 .btns-wrapper.dark-mode button {
-  background-color: #333; /* Dark background color for posts */
+  background-color: transparent; /* Dark background color for posts */
   color: #fff7f7; /* Light text color */
 }
 

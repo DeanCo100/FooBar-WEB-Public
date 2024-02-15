@@ -37,7 +37,7 @@ const LoginForm = ({ onLogin }) => {
         <form className="form" onSubmit={handleSubmit}>
           <h2>Login to FooBar</h2>
           <input
-            placeholder="Email or phone number"
+            placeholder="Username"
             ref={emailRef}
           />
           {usernameError && <span>{usernameError}</span>}

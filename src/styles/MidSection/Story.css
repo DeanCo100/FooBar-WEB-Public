@@ -12,6 +12,7 @@
   margin: 4px;
   overflow: hidden;
   border-radius: 8px;
+  transition: 0.4s;
 }
 .story:hover {
   opacity: 0.6;

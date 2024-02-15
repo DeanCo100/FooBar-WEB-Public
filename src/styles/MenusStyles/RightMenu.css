@@ -79,6 +79,8 @@
   cursor: not-allowed;
   border-radius: 8px;
   cursor: pointer;
+  transition: 0.2s;
+
 }
 .friend-card:hover {
   background-color: rgb(221, 221, 21);

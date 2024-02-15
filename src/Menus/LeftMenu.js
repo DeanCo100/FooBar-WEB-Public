@@ -16,10 +16,7 @@ import '../styles/DarkMode.css'; // Import the dark mode CSS file
 function LeftMenu({ darkMode, toggleDarkMode }) {
   const navigate = useNavigate();
 // Handles the logout button click
-  const handleLogout = () => {
-    // Perform any logout logic here
-    // For example, clearing local storage, resetting state, etc.
-    
+  const handleLogout = () => {    
     // Navigate to the login page
     navigate('/');
   };

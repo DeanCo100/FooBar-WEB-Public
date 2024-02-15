@@ -33,7 +33,10 @@
 .profile-pic-img {
   margin-left: 1%;
   margin-right: 1%;
-  margin-bottom: 1%;
+  margin-bottom: 2.5%;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
 }
 
 .enter-posts {

@@ -1,91 +1,93 @@
-.loginForm{
+.loginForm {
     margin: auto;
-    width: fit-content;
-    height: fit-content;
+    width: 100%;
+    max-width: 400px; /* Added to limit maximum width for larger screens */
     border-radius: 0.4em;
     background-color: white;
-    box-shadow:rgba(100, 100, 111,0.2) 0px 7px 29px 0px; 
-    display: flex;
-    flex-direction: column;
-    gap: 1rem; 
-    padding: 3rem;
-    justify-content: space-between;
-    align-items: center;
-
-}
-
-.form_container{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    margin: 0 auto;
-    width: 100%;
-    justify-content: center;
+    padding: 3rem;
+    justify-content: space-between;
     align-items: center;
-} 
+}
 
+.form_container {
+    width: 100%;
+}
 
-.form{
+.form {
     display: flex;
     flex-direction: column;
-    gap: 22px; 
-
-
-    button{
-        background-color: rgb(65, 33, 194);
-        font-weight: bold;
-        color: white;
-        border-radius: 0.4em;
-        border: none;
-        padding: 12px;
-        transition: 0.4s;
-      }
-      button:hover{
-        opacity: 0.6;
-      }
-      
+    gap: 22px;
+    width: 100%; /* Adjusted width for better responsiveness */
+    margin-bottom: 20px;
 }
+
+.buttonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.login-btn {
+    background-color: rgb(65, 33, 194);
+    font-weight: bold;
+    color: white;
+    border-radius: 0.4em;
+    border: none;
+    padding: 12px;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.6;
+}
+
 .form input {
     border-radius: 10px;
     padding: 4px;
+    width: 100%; /* Adjusted width for better responsiveness */
 }
 
-.resetPassword{
+.resetPassword {
     color: blue;
     text-decoration: underline;
     cursor: pointer;
     transition: 0.4s;
 }
 
-.resetPassword:hover{
+.resetPassword:hover {
     color: rgb(110, 110, 233);
 }
 
-
-.divider_line{
-    width: 80%;
+.divider_line {
+    width: 100%;
     border-top: 1px solid lightgray;
-} 
+    margin: 1rem 0; /* Added margin for better spacing */
+}
 
-.create_account{
-    height: 15px;
+.create_account {
     width: 100%;
     padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
-    button{
-      background-color: green;
-      font-weight: bold;
-      color: white;
+.create_account button {
+    background-color: green;
+    font-weight: bold;
+    color: white;
+    border-radius: 0.4em;
+    border: none;
+    padding: 12px;
+    transition: 0.4s;
+    cursor: pointer;
+}
 
-      border-radius: 0.4em;
-      border: none;
-      padding: 12px;
-      transition: 0.4s;
-    }
-    button:hover{
-        background-color: rgb(61, 193, 61)
-    }
+.create_account button:hover {
+    background-color: rgb(61, 193, 61);
 }

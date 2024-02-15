@@ -79,7 +79,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
     const newComment = {
       id: Date.now(),
       text: commentText,
-      username: 'Current User',
+      username: 'Tzion Mea',
       userPic: MichaelPic,
     };
     setComments([...comments, newComment]);

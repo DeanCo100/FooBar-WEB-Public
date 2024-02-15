@@ -1,46 +1,53 @@
+/* login.css */
+
 body {
     overscroll-behavior: none;
 }
-.loginMain{
+
+.loginMain {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
-    flex-direction: row;
-    gap: 50px;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: rgb(230, 226, 226);
 }
 
-.inner_login{
-    width: 50%;
-    margin: auto;
-    display: flex;
-    flex-direction: row;
+.inner_login {
+    width: 100%;
+    max-width: 800px;
+    display: grid; /* Use CSS Grid for layout */
+    grid-template-columns: 1fr 1fr; /* Two columns, one for logo and one for form */
     gap: 50px;
+    padding: 0 20px;
 }
 
-.logo{
-    width: 320px;
-    margin: auto;
-    h2{
-        /* color: rgba(11, 11, 236, 0.951);
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        letter-spacing: 1.5px;
-        font-weight: bolder;
-        font-size:300%; */
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* The exact font used by Facebook may not be available, so these are common fallbacks */
-        color: #1877F2; /* Facebook's blue color */
-        font-size: 26px; /* Adjust as needed */
-        font-weight: bold; /* The logo appears to be bold */
-        /* text-transform: lowercase;  */
-        font-size:300%;
-    }
-    p{
-        font-family: Arial, sans-serif; /* A common sans-serif font */
-        color: #000000; /* Black color for the text */
-        font-size: 18px; /* Adjust as needed */
-        font-weight: normal; /* The tagline appears to have a normal font weight */
-        line-height: 1.5;
-    }
+.logo {
+    text-align: center;
+    display: flex; /* Add flexbox display */
+    flex-direction: column; /* Align items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    margin-bottom: 50%;
+}
+
+.logo h2 {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #1877F2;
+    font-size: 60px;
+    font-weight: bold;
+}
+
+.logo p {
+    font-family: Arial, sans-serif;
+    color: #000000;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.5;
+}
+
+/* Adjust form styles as needed */
+.loginForm {
+    /* Any specific styles for the form */
 }

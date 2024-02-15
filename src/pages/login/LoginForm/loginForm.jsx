@@ -26,6 +26,11 @@ const LoginForm = ({ onLogin }) => {
     }
   };
 
+  // Function to navigate to the signup page
+  const handleCreateAccount = () => {
+    navigate('/signup');
+  }
+
   return (
     <div className="loginForm">
       <div className="form_container">
@@ -53,7 +58,7 @@ const LoginForm = ({ onLogin }) => {
       </div>
       <div className="divider_line"></div>
       <div className="create_account">
-        <button>
+        <button onClick={handleCreateAccount}>
           Create new account
         </button>
       </div>

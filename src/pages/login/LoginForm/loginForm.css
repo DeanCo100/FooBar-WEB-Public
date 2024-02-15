@@ -40,7 +40,14 @@
         padding: 12px;
         transition: 0.4s;
       }
+      button:hover{
+        opacity: 0.6;
+      }
       
+}
+.form input {
+    border-radius: 10px;
+    padding: 4px;
 }
 
 .resetPassword{
@@ -72,6 +79,7 @@
       background-color: green;
       font-weight: bold;
       color: white;
+
       border-radius: 0.4em;
       border: none;
       padding: 12px;

@@ -15,13 +15,13 @@ import '../styles/DarkMode.css'; // Import the dark mode CSS file
 
 function LeftMenu({ darkMode, toggleDarkMode }) {
   const navigate = useNavigate();
-
+// Handles the logout button click
   const handleLogout = () => {
     // Perform any logout logic here
     // For example, clearing local storage, resetting state, etc.
     
     // Navigate to the login page
-    navigate('/login');
+    navigate('/');
   };
 
   return (
@@ -51,62 +51,3 @@ function LeftMenu({ darkMode, toggleDarkMode }) {
 
 export default LeftMenu;
 
-
-// // import { useHistory } from 'react-router-dom';
-// import React, { useState } from 'react';
-// import '../styles/MenusStyles/LeftMenu.css';
-// import GroupIcon from '../icons/left-side-icons/group.png';
-// import SideBarLink from './MenuComponents/SideBarLink';
-// import FriendsIcon from '../icons/left-side-icons/friends.png';
-// import SaveIcon from '../icons/left-side-icons/save.png'
-// import MemoriesIcon from '../icons/left-side-icons/memories.png';
-// import VideoIcon from '../icons/header-icons/computer-monitor-video-play-icon.png';
-// import ProfileIcon from '../icons/header-icons/male-icon.png'
-// import MarketPlaceIcom from '../icons/header-icons/shop-icon.png';
-// import LogOutIcon from '../icons/left-side-icons/logout.png';
-// import DarkModeIcon from '../icons/left-side-icons/night-mode.png';
-// import '../styles/DarkMode.css'
-
-
-// function LeftMenu() {
-//   // const history = useHistory(); // Initialize useHistory hook
-    
-//   // // Function to handle logout when Login page will be ready
-//   //   const handleLogout = () => {
-//   //     // Redirect to the login page
-//   //     history.push('/login'); // Need to replace '/login' with the actual path of the login page
-//   //   };
-//   const [darkMode, setDarkMode] = useState(false);
-
-//    // Function to handle dark mode toggle
-//   const handleDarkModeToggle = () => {
-//   // Toggle the mode
-//   setDarkMode(prevMode => !prevMode);
-//   };
-
-//   return (
-//     <div className={`left-menu ${darkMode ? 'dark-mode' : ''}`}>
-//       <nav className="left-side-navbar">
-//         <SideBarLink icon={ProfileIcon} text="Profile" />
-//         <SideBarLink icon={FriendsIcon} text="Friends" />
-//         <SideBarLink icon={MemoriesIcon} text="Memories" />
-//         <SideBarLink icon={SaveIcon} text="Saved" />
-//         <SideBarLink icon={GroupIcon} text="Groups" />
-//         <SideBarLink icon={VideoIcon} text="Video" />
-//         <SideBarLink icon={MarketPlaceIcom} text="Marketplace" />
-//         <div className='btns-wrapper'>
-//           <button className='logout-btn'>
-//             <img src={LogOutIcon} alt='LogOut' className='icon'></img>
-//           {/* Thats how it should be with the login page */}
-//             {/* <img src={LogOutIcon} alt='LogOut'  onClick={handleLogout} className='icon'></img> */}
-//           Log-out</button>
-//           <button className='darkmode-btn'>
-//             <img src={DarkModeIcon} alt='DarkMode' onClick={handleDarkModeToggle} className='icon'></img>
-//             {darkMode ? 'Light Mode' : 'Dark Mode'}
-//           </button>
-//         </div>
-//       </nav>
-//     </div>
-//   );
-// }
-// export default LeftMenu;

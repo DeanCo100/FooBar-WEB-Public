@@ -1,5 +1,6 @@
 import React from 'react';
 
+// The Story component
 const Story = ({ imageUrl, userProfileUrl, userName }) => {
   return (
     <div className="story">

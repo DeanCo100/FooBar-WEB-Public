@@ -47,6 +47,13 @@ body {
   border-radius: 10px;
 }
 
+.form-container h2 {
+  margin-bottom: 10px;
+}
+
+.valid-input-msg {
+  margin-bottom: 8px;
+}
 .form-container input {
   margin-top: 6px;
   margin-right: 4px;
@@ -58,22 +65,28 @@ body {
 .form-container input:hover {
   opacity: 0.88;
 }
-
-.form-container button {
+.img-input {
+  border-radius: 4px;
+}
+.submit-btn-form {
   border-radius: 10px;
-  background-color: greenyellow;
+  background-color: rgb(255, 227, 47);
   border: none;
   padding: 2px 50px;
   margin-bottom: 10px;
+  transition: 0.4s;
 }
 
-.form-container button:hover {
+.submit-btn-form:hover {
   opacity: 0.6;
 }
 .signin-btn {
   text-decoration: underline;
   cursor: pointer;
   transition: 0.4s;
+  background-color: transparent;
+  border: none;
+  border-radius: 10px;
 }
 
 @media screen and (max-width: 650px) {
@@ -81,4 +94,7 @@ body {
     width: calc(100% - 20px);
     margin-right: 0;
   }
+}
+input.img-input {
+  width: 60%;
 }

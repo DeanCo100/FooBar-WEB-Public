@@ -17,21 +17,12 @@ import MichaelPic from '../icons/spam/Michael.png';
 function MidSection({ darkMode }) {
   const [posts, setPosts] = useState([]);
   const [showModal, setShowModal] = useState(false); // State for controlling modal visibility
-  // const [recipient, setRecipient] = useState(''); // State for storing recipient value
   const [message, setMessage] = useState(''); // State for storing message value
   const [selectedFile, setSelectedFile] = useState(null);
-  // const [editingPostText, setEditingPostText] = useState(''); // Provide an initial value here
-  // const [editingPostImage, setEditingPostImage] = useState(null); // Provide an initial value here
-  // const [editModalOpen, setEditModalOpen] = useState(false);
-
-
+  
   useEffect(() => {
     setPosts(postData); // Initialize posts state with data from JSON file
 }, []);
-
-  // const addPost = (newPost) => {
-  //   setPosts([...posts, newPost]);
-  // };
 
   // Handler for opening the modal
   const handleShowModal = () => {
@@ -42,11 +33,6 @@ function MidSection({ darkMode }) {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
-  // // Handler for closing the modal
-  // const handleEditCloseModal = () => {
-  //   setEditModalOpen(false);
-  // };
 
   // Handler for Posting the post
   const handleSend = () => {
@@ -171,5 +157,11 @@ const handleEditPost = (postId, newText, newImage) => {
 }
 
 export default MidSection;
+
+
+
+
+
+
 
 

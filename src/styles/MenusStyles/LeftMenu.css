@@ -66,6 +66,7 @@ img {
   border: none;
   cursor: pointer;
   font-weight: 700;
+  transition: 0.3s;
   
 }
 .side-bar-link .user-pic-side img {

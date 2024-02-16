@@ -75,7 +75,7 @@ function HeaderMenu({ darkMode }) {
         <div class="notifications-num">2</div>
       </button>
       <span>
-        {/* This img needs to be switched with the user registeration img */}
+        {/* This img needs to be switched with the user registeration img when we'll have a server*/}
         <img src={UserPicIcon} className='usr-pic-header' alt='Icon'></img>
         <div className="tool-tip">Profile</div>
       </span>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Modal, Button, Form } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import LikeIcon from '../../icons/comment-icons/like.png';
@@ -147,6 +146,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
           <img src={CommentIcon} alt="Comment" className="icon" />
           Comment
         </button>
+        {/* The dropdown to the share button */}
         <Dropdown>
         <Dropdown.Toggle variant="transparent" id="dropdown-basic" className='share-btn'>
           <img src={ShareIcon} alt="Share" className="icon" />
@@ -165,6 +165,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
         </Dropdown.Menu>
       </Dropdown>
       </div>
+      {/* The edit modal to edit the post */}
       <Modal show={editModalOpen} onHide={handleEditCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Post</Modal.Title>
@@ -235,18 +236,10 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   );
 }
 
-Post.propTypes = {
-  id: PropTypes.number.isRequired,
-  username: PropTypes.string.isRequired,
-  userPic: PropTypes.string.isRequired,
-  postText: PropTypes.string.isRequired,
-  postImage: PropTypes.string,
-  postTime: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
-};
+
 
 export default Post;
+
 
 
 

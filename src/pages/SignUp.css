@@ -73,6 +73,7 @@ body {
 .signin-btn {
   text-decoration: underline;
   cursor: pointer;
+  transition: 0.4s;
 }
 
 @media screen and (max-width: 650px) {

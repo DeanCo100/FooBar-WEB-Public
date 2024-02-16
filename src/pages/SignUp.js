@@ -119,7 +119,7 @@ function SignUp() {
         <form className="form-container" onSubmit={handleSignUpClick}>
           <h2>Create an account</h2>
           <div className="form-group">
-            {/* <p className='valid-input-msg'><strong>NOTE:</strong> <u>All the fields accept only English letters and numbers and must have at least one UPPER CASE letter!</u></p> */}
+
             <input required type="text" id="username" placeholder='Enter Username' value={username} onChange={handleUsernameChange} />
             {usernameError && <p className="error-message">{usernameError}</p>}
           </div>

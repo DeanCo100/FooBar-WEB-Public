@@ -95,3 +95,6 @@ body {
     margin-right: 0;
   }
 }
+input.img-input {
+  width: 60%;
+}

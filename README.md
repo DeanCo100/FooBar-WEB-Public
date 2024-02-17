@@ -39,9 +39,11 @@ npm install @babel/preset-react@^7.23.3 @testing-library/dom@^9.3.4 @testing-lib
 #### Thirdly:
 - We modified the styles to handle dynamically resize of the screen.
 - We wrote 6 tests to check Visual changes and functions as well.
+- We created the Router that Navigates between pages.
 
 #### Lastly:
 - We made last modifications in the styles.
+- We conducted few 'User Reviews' to our program.
 - We ENJOYED to use our program as users.
 - And of course, we submitted the completed project.
 

@@ -115,6 +115,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
 
 
   return (
+    // The posts button and content sections
     <div className={`post ${darkMode ? 'dark-mode' : ''}`}>
       <div className="post-header">
         <div className="user-info">
@@ -137,6 +138,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
         <p className="post-text">{postText}</p>
         {editingPostImage && <img src={editingPostImage} alt="Post" className="post-image" />}
       </div>
+      {/* In the post footer the comments are */}
       <div className="post-footer">
         <button className="like-btn" onClick={handleLike}>
         <img src={liked ? LikedIcon : LikeIcon} alt="Like" className="icon" />
@@ -189,6 +191,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
           <Button variant="primary" onClick={handleSaveEdit}>Save Text Changes</Button>
         </Modal.Footer>
       </Modal>
+      {/* The Comments section */}
       {commentSectionOpen && (
         <div className="comments-section">
           {comments.map((comment) => (

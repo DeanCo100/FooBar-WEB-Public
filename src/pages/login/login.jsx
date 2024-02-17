@@ -10,7 +10,7 @@ const LoginPage = ({ onLogin }) => {
     onLogin(username, password); // Call the parent onLogin function
     navigate('/feed'); // Redirect to the Feed page
   };
-
+// The login page the use the Login form
   return (
     <div className="loginMain">
       <div className="inner_login">

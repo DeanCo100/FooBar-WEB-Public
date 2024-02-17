@@ -109,7 +109,7 @@ function SignUp() {
       setConfirmPasswordError('');
     }
   };
-
+// The signup page
   return (
     <div className='wrapper'>
       <div className='signup-container'>

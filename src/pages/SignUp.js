@@ -80,6 +80,8 @@ function SignUp() {
   // Function to validate the password
   const handlePasswordChange = (e) => {
     const inputValue = e.target.value;
+    // Check if password contains only English letters and numbers
+    const containsInvalidCharacters = /[^a-zA-Z\d]/.test(inputValue);
     setPassword(inputValue);
     if (inputValue.length < 8) {
       setPasswordError('Password must be at least 8 characters long.');
@@ -90,11 +92,12 @@ function SignUp() {
     // Check if password contains at least one uppercase letter, one lowercase letter, and one number
     else if (!/(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}/.test(inputValue)) {
       setPasswordError('Password must contain at least one uppercase letter, one lowercase letter, and one number.');
+    } 
+    else if (containsInvalidCharacters) {
+      setPasswordError('Password can only contain English letters and numbers.');
     } else {
       setPasswordError('');
     }
-
-    
   };
 
   // Function to check that the passwords indeed the same

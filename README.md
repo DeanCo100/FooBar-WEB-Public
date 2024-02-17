@@ -26,8 +26,8 @@ npm install @babel/preset-react@^7.23.3 @testing-library/dom@^9.3.4 @testing-lib
 
 
 #### Firstly:
-- We looked at the UI of the relevant Facebook pages that needs to be cloned.
-- We Drawed a clone of the pages.
+- We looked at the UI of the relevant Facebook pages that inspired us.
+- We drawed our version of the pages.
 - We started to create the react files (without components).
 
 #### Secondly:

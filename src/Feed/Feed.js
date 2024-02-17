@@ -5,6 +5,7 @@ import RightMenu from '../Menus/RightMenu';
 import MidSection from '../MiddleSection/MidSection';
 import '../styles/DarkMode.css';
 
+// The feed component
 function Feed() {
   const [darkMode, setDarkMode] = useState(false);
 

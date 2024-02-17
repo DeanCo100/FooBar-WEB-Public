@@ -178,11 +178,6 @@ body {
   opacity: 1;
 } 
 
-/* .notifications-btn,
-.messenger-btn {
-  position: relative;
-
-} */
 /* Define a media query for viewport widths under 500px */
 @media (max-width: 860px) {
   /* Hide notifications and messages numbers */
@@ -192,11 +187,7 @@ body {
     display: none;
   }
 }
-/* @media (max-width: 750px) {
-  .top-menu {
-    justify-content: space-between;
-  }
-} */
+
 .notifications-num {
   position: absolute;
   font-size: 12px;

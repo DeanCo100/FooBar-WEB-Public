@@ -18,7 +18,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Ensure the container fills the entire height of the viewport */
+  min-height: 100vh; 
   width: 100vw; /* Fill the width of the viewport */
   flex-direction: column;
   z-index: 1;

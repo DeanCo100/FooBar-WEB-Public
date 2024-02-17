@@ -30,7 +30,7 @@ const LoginForm = ({ onLogin }) => {
   const handleCreateAccount = () => {
     navigate('/signup');
   }
-
+// The login FORM
   return (
     <div className="loginForm">
       <div className="form_container">

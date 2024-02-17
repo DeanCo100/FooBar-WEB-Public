@@ -1,8 +1,7 @@
 # Welcome to FooBar Social Network (Web version)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## About the project:
 
-## About the project
 #### NOTE: As allowed in the 'Forum' of this exercise, we used hardcoded details to 'login' to the program.
 The hardcoded details are:
 - Username: TzionMea

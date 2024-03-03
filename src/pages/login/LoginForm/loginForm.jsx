@@ -1,27 +1,40 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './loginForm.css';
+import axios from 'axios'; // Import axios for making HTTP requests
+
 
 const LoginForm = ({ onLogin }) => {
-  const emailRef = useRef();
+  const usernameRef = useRef();
   const passwordRef = useRef();
   const [usernameError, setUsernameError] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const usernameValue = emailRef.current.value;
+    const usernameValue = usernameRef.current.value;
     const passwordValue = passwordRef.current.value;
 
-    // Hardcoded username and password for demonstration purposes
-    const hardcodedUsername = 'TzionMea';
-    const hardcodedPassword = 'Mea100100';
+    try {
+      // Send a request to the server to authenticate the user
+      const response = await axios.post('/api/login', {
+        username: usernameValue,
+        password: passwordValue
+      });
 
-    if (usernameValue === hardcodedUsername && passwordValue === hardcodedPassword) {
-      // Redirect to Feed page upon successful login
+      // If authentication is successful: 
+      // Create a JWT token for the user
+      const tokenResponse = await axios.post('/api/tokens', {
+        userId: response.data._id // Assuming the user object returned from login endpoint contains an _id field
+      });
+      // Store the JWT token in localStorage
+      localStorage.setItem('token', tokenResponse.data.token);
+      setUsernameError('');
+      // Redirect to the feed page
       navigate('/feed');
-      onLogin(); // Notify parent component
-    } else {
+    } catch (error) {
+      // If an error occurs (e.g., incorrect username or password), display the error message
       setUsernameError('Incorrect username or password');
     }
   };
@@ -30,6 +43,29 @@ const LoginForm = ({ onLogin }) => {
   const handleCreateAccount = () => {
     navigate('/signup');
   }
+
+  // ORIGIN ****************
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const usernameValue = usernameRef.current.value;
+  //   const passwordValue = passwordRef.current.value;
+
+
+  //   // No more Hardcoded, we have DB
+  //   // // Hardcoded username and password for demonstration purposes
+  //   // const hardcodedUsername = 'TzionMea';
+  //   // const hardcodedPassword = 'Mea100100';
+
+  //   if (usernameValue === hardcodedUsername && passwordValue === hardcodedPassword) {
+  //     // Redirect to Feed page upon successful login
+  //     navigate('/feed');
+  //     onLogin(); // Notify parent component
+  //   } else {
+  //     setUsernameError('Incorrect username or password');
+  //   }
+  // };
+
+
 // The login FORM
   return (
     <div className="loginForm">
@@ -38,7 +74,7 @@ const LoginForm = ({ onLogin }) => {
           <h2>Login to FooBar</h2>
           <input
             placeholder="Username"
-            ref={emailRef}
+            ref={usernameRef}
           />
           {usernameError && <span>{usernameError}</span>}
           <input

@@ -45,7 +45,7 @@ const handleSignUpClick = async (e) => {
       username,
       displayName,
       password,
-      profilePic
+      profilePic // I think that maybe here I need to send the picture incoded by 64bit.
     });
 
     // If successful, navigate to the login page and "clean" the username error

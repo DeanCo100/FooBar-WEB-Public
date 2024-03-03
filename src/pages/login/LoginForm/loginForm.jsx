@@ -33,6 +33,8 @@ const LoginForm = ({ onLogin }) => {
       setUsernameError('');
       // Redirect to the feed page
       navigate('/feed');
+      // Im not sure if it is still necessary, but it was necessary in part 2.
+      onLogin();
     } catch (error) {
       // If an error occurs (e.g., incorrect username or password), display the error message
       setUsernameError('Incorrect username or password');

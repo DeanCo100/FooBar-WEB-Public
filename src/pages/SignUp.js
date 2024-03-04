@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// The GPT said to import it. I dont know if it is allowed to use.
+import axios from 'axios'; // Import axios for making HTTP requests
+
 
 import './SignUp.css';
 
@@ -20,23 +23,57 @@ function SignUp() {
     const selectedFile = e.target.files[0];
     setProfilePic(URL.createObjectURL(selectedFile));
   };
+
   // When click 'signIn' moves to the login page
   const handleSignInClick = () => {
     navigate('/');
   }
-  // When click 'signUp' after make sure that all the fields have valid input, move to login page.
-  const handleSignUpClick = (e) => {
-    e.preventDefault(); // Prevent default form submission
 
-    // Check if all fields are valid
-    if (usernameError || displayNameError || passwordError || confirmPasswordError) {
-      // If any error exists, display error messages
-      return;
-    }
+// Adjusted SignUpClick function to communicate with the server
+const handleSignUpClick = async (e) => {
+  e.preventDefault(); // Prevent default form submission
 
-    // Navigate to the login page
-    navigate('/');
+  // Check if all fields are valid
+  if (usernameError || displayNameError || passwordError || confirmPasswordError) {
+    // If any error exists, display error messages
+    return;
   }
+
+  try {
+    // Send a request to the server to create a new user
+    await axios.post('/api/users', {
+      username,
+      displayName,
+      password,
+      profilePic // I think that maybe here I need to send the picture incoded by 64bit.
+    });
+
+    // If successful, navigate to the login page and "clean" the username error
+    setUsernameError('');
+    navigate('/');
+  } catch (error) {
+    // If an error occurs (e.g., username already taken), display the error message
+    setUsernameError(error.response.data.message);
+  }
+}
+
+
+
+  // Origin ***************8
+  // When click 'signUp' after make sure that all the fields have valid input, move to login page.
+  // const handleSignUpClick = (e) => {
+  //   e.preventDefault(); // Prevent default form submission
+
+  //   // Check if all fields are valid
+  //   if (usernameError || displayNameError || passwordError || confirmPasswordError) {
+  //     // If any error exists, display error messages
+  //     return;
+  //   }
+  //   // Here I need to call the signUp validation function of the server that will check if the username already exists in the DB, and if so, it will prompt a message to the user "This username is already taken. Please select different user name". When the username is valid, I need to store the user's data in the DB and then to return HERE, and navigate to the relevant page (in this case it is the LOGIN page).
+
+  //   // Navigate to the login page
+  //   navigate('/');
+  // }
   // Function to validate the userName
   const handleUsernameChange = (e) => {
     const inputValue = e.target.value;

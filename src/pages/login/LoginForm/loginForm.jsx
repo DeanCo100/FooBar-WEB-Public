@@ -18,26 +18,30 @@ const LoginForm = ({ onLogin }) => {
 
     try {
       // Send a request to the server to authenticate the user
-      const response = await axios.post('/api/login', {
+      const response = await axios.post('http://localhost:8080/api/login', {
         username: usernameValue,
         password: passwordValue
       });
 
-      // If authentication is successful: 
-      // Create a JWT token for the user
-      const tokenResponse = await axios.post('/api/tokens', {
-        userId: response.data._id // Assuming the user object returned from login endpoint contains an _id field
-      });
-      // Store the JWT token in localStorage
-      localStorage.setItem('token', tokenResponse.data.token);
+      // If authentication is successful:
+      // For now DISMISS the JWT issue. 
+      // // Create a JWT token for the user
+      // const tokenResponse = await axios.post('http://localhost:8080/api/tokens', {
+      //   userId: response.data._id // Assuming the user object returned from login endpoint contains an _id field
+      // });
+      // // Store the JWT token in localStorage
+      // localStorage.setItem('token', tokenResponse.data.token);
       setUsernameError('');
       // Redirect to the feed page
       navigate('/feed');
       // Im not sure if it is still necessary, but it was necessary in part 2.
       onLogin();
     } catch (error) {
-      // If an error occurs (e.g., incorrect username or password), display the error message
-      setUsernameError('Incorrect username or password');
+        // If an error occurs (e.g., incorrect username or password), display the error message
+      if (error.response.status === 401) {
+        setUsernameError('Incorrect username or password');
+      }
+
     }
   };
 

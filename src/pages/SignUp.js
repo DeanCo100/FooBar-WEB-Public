@@ -41,7 +41,7 @@ const handleSignUpClick = async (e) => {
 
   try {
     // Send a request to the server to create a new user
-    await axios.post('/api/users', {
+    await axios.post('http://localhost:8080/api/users', {
       username,
       displayName,
       password,
@@ -53,7 +53,9 @@ const handleSignUpClick = async (e) => {
     navigate('/');
   } catch (error) {
     // If an error occurs (e.g., username already taken), display the error message
-    setUsernameError(error.response.data.message);
+    if(error.response.status === 401) {
+      setUsernameError('Username already taken. Please select a different username');
+    }
   }
 }
 

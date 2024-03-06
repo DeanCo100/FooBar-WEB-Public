@@ -6,7 +6,8 @@ import MidSection from '../MiddleSection/MidSection';
 import '../styles/DarkMode.css';
 
 // The feed component
-function Feed() {
+function Feed({ profile }) {
+  console.log(profile);
   const [darkMode, setDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
@@ -15,10 +16,10 @@ function Feed() {
 
   return (
     <div className={`Feed ${darkMode ? 'dark-mode' : ''}`}>
-      <HeaderMenu darkMode={darkMode}/>
-      <LeftMenu darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      <RightMenu darkMode={darkMode} />
-      <MidSection darkMode={darkMode} />
+      <HeaderMenu darkMode={darkMode} profile={profile} />
+      <LeftMenu darkMode={darkMode} toggleDarkMode={toggleDarkMode} profile={profile} />
+      <RightMenu darkMode={darkMode} profile={profile} />
+      <MidSection darkMode={darkMode} profile={profile} />
     </div>
   );
 }

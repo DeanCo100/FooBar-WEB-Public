@@ -4,7 +4,7 @@ import './loginForm.css';
 import axios from 'axios'; // Import axios for making HTTP requests
 
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = ({ onLogin, profile  }) => {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const [usernameError, setUsernameError] = useState(null);
@@ -25,19 +25,36 @@ const LoginForm = ({ onLogin }) => {
 
     try {
       // Send a request to the server to authenticate the user
-      const response = await axios.post('http://localhost:8080/api/login', {
+      const response = await axios.post('http://localhost:8080/api/tokens', {
         username: usernameValue,
         password: passwordValue
       });
 
       // Save the JWT token in localStorage
       localStorage.setItem('token', response.data.token);
+      const token = response.data.token;
+      // Check that the token indeed generated as well
+      console.log(token);
       setUsernameError('');
       
+      // Attach the token to the request headers for fetching user data
+      const userDataResponse = await axios.get(`http://localhost:8080/api/users/${usernameValue}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+      const userData = {
+        profilePic: userDataResponse.data.profilePic,
+        username: userDataResponse.data.username,
+        displayName: userDataResponse.data.displayName,
+      };
+
+      onLogin(userData);
       // Redirect to the feed page
       navigate('/feed');
       // Im not sure if it is still necessary, but it was necessary in part 2.
-      onLogin();
+      // onLogin();
     } catch (error) {
         // If an error occurs (e.g., incorrect username or password), display the error message
       if (error.response.status === 401) {

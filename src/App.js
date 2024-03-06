@@ -7,20 +7,32 @@ import SignUp from '../src/pages/SignUp';
 
 function App() {
   // State to track whether the use logged in from the login page
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleLogin = () => {
-    // Logic to handle successful login
-    setIsAuthenticated(true);
-  };
+    // State to hold user data
+    const [profile, setProfile] = useState({
+      profilePic: null,
+      username: '',
+      displayName: '',
+    });
+
+    // Function to update user data after login
+    const handleLogin = (userData) => {
+      setProfile(userData);
+    };
+
+  // const handleLogin = () => {
+  //   // Logic to handle successful login
+  //   setIsAuthenticated(true);
+  // };
 // The App that runs the program and the router to navigate between pages
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<LoginPage onLogin={handleLogin} />} />
-          {isAuthenticated ? (
-            <Route path="/feed" element={<Feed />} />
+          <Route path="/" element={<LoginPage onLogin={handleLogin}  profile={profile}/>} />
+          {profile.username ? (
+            <Route path="/feed" element={<Feed profile={profile} />} />
           ) : (
             // Redirect to login page if not authenticated
             <Route path="/feed" element={<Navigate to="/" />} />

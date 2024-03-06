@@ -17,11 +17,11 @@ import EditProfileIcon from '../icons/left-side-icons/edit-profile-icon.png';
 import DeleteProfileIcon from '../icons/left-side-icons/delete-profile-icon.png';
 import '../styles/DarkMode.css';
 
-function LeftMenu({ darkMode, toggleDarkMode }) {
+function LeftMenu({ darkMode, toggleDarkMode, profile }) {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
-  const [displayName, setDisplayName] = useState('');
-  const [profilePic, setProfilePic] = useState(null);
+  const [displayName, setDisplayName] = useState(profile.displayName || '');
+  const [profilePic, setProfilePic] = useState(profile.profilePic || null);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -71,7 +71,8 @@ function LeftMenu({ darkMode, toggleDarkMode }) {
   return (
     <div className='left-menu'>
       <nav className={`left-side-navbar ${darkMode ? 'dark-mode' : ''}`}>
-        <SideBarLink className='user-pic-side' icon={ProfileIcon} text="Tzion Mea" darkMode={darkMode} />
+        <SideBarLink className='user-pic-side' icon={profile.profilePic} text={profile.displayName} darkMode={darkMode} />
+        {/* <SideBarLink className='user-pic-side' icon={ProfileIcon} text="Tzion Mea" darkMode={darkMode} /> */}
         <SideBarLink icon={FriendsIcon} text="Friends" darkMode={darkMode}/>
         <SideBarLink icon={MemoriesIcon} text="Memories" darkMode={darkMode}/>
         <SideBarLink icon={SaveIcon} text="Saved" darkMode={darkMode}/>
@@ -110,11 +111,11 @@ function LeftMenu({ darkMode, toggleDarkMode }) {
             </Form.Group>
             <Form.Group controlId="profile-pic">
               <Form.Label>Profile Picture:</Form.Label>
-              {profilePic ? (
+              {/* {profilePic ? (
                 <img src={URL.createObjectURL(profilePic)} alt="Profile" style={{ width: '100px', height: '100px' }} />
               ) : (
                 <img src={ProfileIcon} alt="Default Profile" style={{ width: '100px', height: '100px' }} />
-              )}
+              )} */}
               <Form.Control type="file" onChange={handleProfilePicChange} />
             </Form.Group>
           </Form>

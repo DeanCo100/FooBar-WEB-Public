@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Modal, Button, Form } from 'react-bootstrap'; // Import Modal, Button, and Form from react-bootstrap
+import { Modal, Button, Form } from 'react-bootstrap';
 import '../styles/MenusStyles/LeftMenu.css';
 import GroupIcon from '../icons/left-side-icons/group.png';
 import SideBarLink from './MenuComponents/SideBarLink';
@@ -15,15 +15,16 @@ import LogOutIcon from '../icons/left-side-icons/logout.png';
 import DarkModeIcon from '../icons/left-side-icons/night-mode.png';
 import EditProfileIcon from '../icons/left-side-icons/edit-profile-icon.png';
 import DeleteProfileIcon from '../icons/left-side-icons/delete-profile-icon.png';
-import '../styles/DarkMode.css'; // Import the dark mode CSS file
+import '../styles/DarkMode.css';
 
 function LeftMenu({ darkMode, toggleDarkMode }) {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
   const [displayName, setDisplayName] = useState('');
   const [profilePic, setProfilePic] = useState(null);
   const navigate = useNavigate();
 
-  const handleLogout = () => {    
+  const handleLogout = () => {
     navigate('/');
   };
 
@@ -31,17 +32,27 @@ function LeftMenu({ darkMode, toggleDarkMode }) {
     setShowEditProfileModal(!showEditProfileModal);
   };
 
+  const toggleDeleteProfileModal = () => {
+    setShowDeleteProfileModal(!showDeleteProfileModal);
+  };
+
   const handleSaveChanges = () => {
-    // Validate input
     if (displayName.trim() === '' || !profilePic || displayName.length < 2) {
       alert('Please provide a valid display name and a profile picture.');
       return;
     }
-    // Save changes logic
-    // You can implement your logic here to save the changes
+    // **** SAVE LOGIC: ****
+    // Here I need to send to the server the modified user's data by 'PUT/PATCH' and it will store it in the DB.
+    // **** I also need to code the picture in 64bit somehow and pass it to the server encoded.
     toggleEditProfileModal(); // Close the modal
   };
-  
+
+  const handleDeleteProfile = () => {
+    // **** DELETE LOGIC: ****
+    // Here I need to send to the server via 'DELETE' action the username of the required user to be deleted. The server needs to find this username in the DB and delete it from there.
+    navigate('/'); 
+  };
+
   const handleDisplayNameChange = (e) => {
     setDisplayName(e.target.value);
   };
@@ -50,7 +61,7 @@ function LeftMenu({ darkMode, toggleDarkMode }) {
     const file = e.target.files[0];
     setProfilePic(file);
   };
-  
+
   const handleModalHide = () => {
     // Reset input values when modal is closed
     setDisplayName('');
@@ -80,7 +91,7 @@ function LeftMenu({ darkMode, toggleDarkMode }) {
             <img src={EditProfileIcon} alt='EditProfile' className='icon'></img> 
             Edit Profile
           </button>
-          <button className='edit-profile-btn'>
+          <button className='delete-profile-btn' onClick={toggleDeleteProfileModal}>
             <img src={DeleteProfileIcon} alt='DeleteProfile' className='icon'></img> 
             Delete Profile
           </button>
@@ -98,7 +109,12 @@ function LeftMenu({ darkMode, toggleDarkMode }) {
               <Form.Control type="text" value={displayName} onChange={handleDisplayNameChange} />
             </Form.Group>
             <Form.Group controlId="profile-pic">
-              <Form.Label>Profile Picture URL:</Form.Label>
+              <Form.Label>Profile Picture:</Form.Label>
+              {profilePic ? (
+                <img src={URL.createObjectURL(profilePic)} alt="Profile" style={{ width: '100px', height: '100px' }} />
+              ) : (
+                <img src={ProfileIcon} alt="Default Profile" style={{ width: '100px', height: '100px' }} />
+              )}
               <Form.Control type="file" onChange={handleProfilePicChange} />
             </Form.Group>
           </Form>
@@ -109,6 +125,23 @@ function LeftMenu({ darkMode, toggleDarkMode }) {
           </Button>
           <Button variant="primary" onClick={handleSaveChanges}>
             Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/* Delete Profile Modal */}
+      <Modal show={showDeleteProfileModal} onHide={toggleDeleteProfileModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Profile</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete your profile?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={toggleDeleteProfileModal}>
+            No
+          </Button>
+          <Button variant="warning" onClick={handleDeleteProfile}>
+            Yes
           </Button>
         </Modal.Footer>
       </Modal>

@@ -14,7 +14,7 @@ import FeelingActivityIcon from '../icons/mid-section/smiling.png';
 import MichaelPic from '../icons/spam/Michael.png';
 
 
-function MidSection({ darkMode }) {
+function MidSection({ darkMode, profile }) {
   const [posts, setPosts] = useState([]);
   const [showModal, setShowModal] = useState(false); // State for controlling modal visibility
   const [message, setMessage] = useState(''); // State for storing message value

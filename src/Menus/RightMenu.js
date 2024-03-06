@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 
 // The rightMenu component that renders the Contact component
-function RightMenu({ darkMode }) {
+function RightMenu({ darkMode, profile }) {
 
   const [contactsList, setContactsList] = useState(contacts)
   

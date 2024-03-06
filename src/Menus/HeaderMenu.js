@@ -20,7 +20,7 @@ import AppsMenu from '../icons/header-icons/apps-grid-icon.png';
 
 
 
-function HeaderMenu({ darkMode }) {
+function HeaderMenu({ darkMode, profile }) {
   return (
   <div className={`top-menu ${darkMode ? 'dark-mode' : ''}`}>
     <div className='left-sec'>

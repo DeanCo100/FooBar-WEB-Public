@@ -15,6 +15,13 @@ const LoginForm = ({ onLogin }) => {
     e.preventDefault();
     const usernameValue = usernameRef.current.value;
     const passwordValue = passwordRef.current.value;
+    // The if and the else is for hardcoded enter to modify the feed's UI, NEED TO BE DELETED AT THE END.
+    if (usernameValue == 'TzionMea' && passwordValue == 'Mea100100') {
+      setUsernameError('');
+      navigate('/feed');
+      onLogin();
+    }
+    else {
 
     try {
       // Send a request to the server to authenticate the user
@@ -32,6 +39,7 @@ const LoginForm = ({ onLogin }) => {
       // // Store the JWT token in localStorage
       // localStorage.setItem('token', tokenResponse.data.token);
       setUsernameError('');
+      
       // Redirect to the feed page
       navigate('/feed');
       // Im not sure if it is still necessary, but it was necessary in part 2.
@@ -43,6 +51,8 @@ const LoginForm = ({ onLogin }) => {
       }
 
     }
+  }
+
   };
 
   // Function to navigate to the signup page

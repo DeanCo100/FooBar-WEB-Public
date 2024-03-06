@@ -30,14 +30,8 @@ const LoginForm = ({ onLogin }) => {
         password: passwordValue
       });
 
-      // If authentication is successful:
-      // For now DISMISS the JWT issue. 
-      // // Create a JWT token for the user
-      // const tokenResponse = await axios.post('http://localhost:8080/api/tokens', {
-      //   userId: response.data._id // Assuming the user object returned from login endpoint contains an _id field
-      // });
-      // // Store the JWT token in localStorage
-      // localStorage.setItem('token', tokenResponse.data.token);
+      // Save the JWT token in localStorage
+      localStorage.setItem('token', response.data.token);
       setUsernameError('');
       
       // Redirect to the feed page
@@ -59,29 +53,6 @@ const LoginForm = ({ onLogin }) => {
   const handleCreateAccount = () => {
     navigate('/signup');
   }
-
-  // ORIGIN ****************
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const usernameValue = usernameRef.current.value;
-  //   const passwordValue = passwordRef.current.value;
-
-
-  //   // No more Hardcoded, we have DB
-  //   // // Hardcoded username and password for demonstration purposes
-  //   // const hardcodedUsername = 'TzionMea';
-  //   // const hardcodedPassword = 'Mea100100';
-
-  //   if (usernameValue === hardcodedUsername && passwordValue === hardcodedPassword) {
-  //     // Redirect to Feed page upon successful login
-  //     navigate('/feed');
-  //     onLogin(); // Notify parent component
-  //   } else {
-  //     setUsernameError('Incorrect username or password');
-  //   }
-  // };
-
-
 // The login FORM
   return (
     <div className="loginForm">

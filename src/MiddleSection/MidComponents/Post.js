@@ -9,8 +9,10 @@ import ShareIcon from '../../icons/comment-icons/share.png';
 import EditIcon from '../../icons/post-icons/pen.png';
 import DeleteIcon from '../../icons/post-icons/trash.png';
 import MichaelPic from '../../icons/spam/Michael.png';
-import '../../styles/MidSection/Post.css'; 
+import '../../styles/MidSection/Post.css';
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
+import axios from 'axios'; // Import axios
+
 
 function Post({ id, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode }) {
   const [editingPostText, setEditingPostText] = useState(postText);
@@ -24,6 +26,39 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   const [liked, setLiked] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentText, setEditedCommentText] = useState('');
+  const [showNoFriendModal, setShowNoFriendModal] = useState(false); // State variable for showing the *No* friend modal
+  const [showFriendModal, setShowFriendModal] = useState(false); // State variable for showing the *friend* modal
+
+  const user = { username, userPic }; // User object to pass to the UserModal
+
+  const handleUserClick = () => {
+    // Here I need to make a check whether the users are friends or now and by that open the relevant modal (friend or no friend)
+    // For now it shows only the NO FRIEND modal
+    setShowNoFriendModal(true);
+  };
+
+  const handleCloseUserModal = () => {
+    // Here I need to make a check whether the users are friends or now and by that close the relevant modal (friend or no friend)
+    // For now it closes only the NO FRIEND modal
+    setShowNoFriendModal(false);
+  };
+    // Handles the operation of sending a friend request to a user
+    const HandleFriendRequest = () => {
+      // Here I need to contact the server with a 'Post' request to add this user to my friend.
+      //  **** FOR EXAMPLE: ****
+      axios.post('http://localhost:8080/api/users/:id/posts/:pid', {
+        username: user.username, // Send the username to the server
+      })
+        .then(response => {
+          // Handle the response from the server
+          console.log(response.data);
+          // You can update the UI accordingly based on the response
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    };
+  
 
   useEffect(() => {
     // Update the originalPostText state when the postText prop changes
@@ -51,10 +86,10 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
       }
       setEditModalOpen(true);
     }
-        // Reset editingPostText to originalPostText
-        setEditingPostText(originalPostText);
+    // Reset editingPostText to originalPostText
+    setEditingPostText(originalPostText);
   };
-  
+
   // Function that handles the edit post
   const handleSaveEdit = () => {
     const shouldRemoveImage = editingPostImage === null;
@@ -83,23 +118,23 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
     };
     setComments([...comments, newComment]);
   };
-// Handle the deletion of comments from the posts.
+  // Handle the deletion of comments from the posts.
   const handleDeleteComment = (commentId) => {
     const updatedComments = comments.filter(comment => comment.id !== commentId);
     setComments(updatedComments);
   };
-// Handle the edit of comments from posts.
+  // Handle the edit of comments from posts.
   const handleEditComment = (commentId) => {
     setEditingCommentId(commentId);
     const comment = comments.find(comment => comment.id === commentId);
     setEditedCommentText(comment.text);
   };
-// Handle the cancellation of edit comments.
+  // Handle the cancellation of edit comments.
   const handleCancelEditComment = () => {
     setEditingCommentId(null);
     setEditedCommentText('');
   };
-// Handles the save of the edited comments.
+  // Handles the save of the edited comments.
   const handleSaveEditedComment = () => {
     const index = comments.findIndex(comment => comment.id === editingCommentId);
     const updatedComments = [...comments];
@@ -108,7 +143,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
     setEditingCommentId(null);
     setEditedCommentText('');
   };
-// Handles the click on the like button
+  // Handles the click on the like button
   const handleLike = () => {
     setLiked(!liked);
   };
@@ -118,7 +153,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
     // The posts button and content sections
     <div className={`post ${darkMode ? 'dark-mode' : ''}`}>
       <div className="post-header">
-        <div className="user-info">
+        <div className="user-info" onClick={handleUserClick}> {/* Make user info clickable */}
           <img src={userPic} alt="Profile Pic" className="profile-pic" />
           <div className="username">{username}</div>
           <div className="post-time">{postTime}</div>
@@ -141,7 +176,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
       {/* In the post footer the comments are */}
       <div className="post-footer">
         <button className="like-btn" onClick={handleLike}>
-        <img src={liked ? LikedIcon : LikeIcon} alt="Like" className="icon" />
+          <img src={liked ? LikedIcon : LikeIcon} alt="Like" className="icon" />
           {liked ? 'Liked' : 'Like'}
         </button>
         <button className="comment-btn" onClick={() => setCommentSectionOpen(!commentSectionOpen)}>
@@ -150,23 +185,37 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
         </button>
         {/* The dropdown to the share button */}
         <Dropdown>
-        <Dropdown.Toggle variant="transparent" id="dropdown-basic" className='share-btn'>
-          <img src={ShareIcon} alt="Share" className="icon" />
-          Share
-        </Dropdown.Toggle>
+          <Dropdown.Toggle variant="transparent" id="dropdown-basic" className='share-btn'>
+            <img src={ShareIcon} alt="Share" className="icon" />
+            Share
+          </Dropdown.Toggle>
 
-        <Dropdown.Menu style={{ backgroundColor: darkMode ? '#65676B' : '' }}>
-          <Dropdown.Item>Share now (Only me)</Dropdown.Item>
-          <Dropdown.Item>Share to Feed</Dropdown.Item>
-          <Dropdown.Item>Send in Messenger</Dropdown.Item>
-          <Dropdown.Item>Send in WhatsApp</Dropdown.Item>
-          <Dropdown.Item>Share to a page</Dropdown.Item>
-          <Dropdown.Item>Send Share to a group</Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item>Share on a friend's profile</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+          <Dropdown.Menu style={{ backgroundColor: darkMode ? '#65676B' : '' }}>
+            <Dropdown.Item>Share now (Only me)</Dropdown.Item>
+            <Dropdown.Item>Share to Feed</Dropdown.Item>
+            <Dropdown.Item>Send in Messenger</Dropdown.Item>
+            <Dropdown.Item>Send in WhatsApp</Dropdown.Item>
+            <Dropdown.Item>Share to a page</Dropdown.Item>
+            <Dropdown.Item>Send Share to a group</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item>Share on a friend's profile</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
+      {/* The User Modal */}
+      <Modal show={showNoFriendModal} onHide={handleCloseUserModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>User Profile</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={user.userPic} alt="Profile Pic" className="profile-pic" />
+          <p>Username: {user.username}</p>
+          <Button variant="primary" onClick={HandleFriendRequest}>Add Friend</Button>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseUserModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
       {/* The edit modal to edit the post */}
       <Modal show={editModalOpen} onHide={handleEditCloseModal}>
         <Modal.Header closeButton>
@@ -239,10 +288,4 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   );
 }
 
-
-
 export default Post;
-
-
-
-

@@ -1,4 +1,4 @@
-# Welcome to FooBar Social Network (Web version)
+# Welcome to FooBar Social Network (Web version).
 
 ## About the project:
 

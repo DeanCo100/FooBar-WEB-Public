@@ -22,6 +22,11 @@ const LoginForm = ({ onLogin }) => {
         username: usernameValue,
         password: passwordValue
       });
+      const jsonToken = response.data;
+      console.log(jsonToken.token);
+
+      
+      
 
       // If authentication is successful:
       // For now DISMISS the JWT issue. 

@@ -47,8 +47,8 @@ function MidSection({ darkMode, profile }) {
     // Create a new post object
     const newPost = {
       id: Date.now(), // Generate a unique ID for the post
-      username: 'Tzion Mea', // Update with the current user's username
-      userPic: MichaelPic, // Update with the current user's profile picture URL
+      username: profile.displayName, // Update with the current user's username
+      userPic: profile.profilePic, // Update with the current user's profile picture URL
       postText: message,
       postImage: selectedFile ? URL.createObjectURL(selectedFile) : null, // Convert selected file to a URL if available
       postTime: formattedDate // Get the current date and time

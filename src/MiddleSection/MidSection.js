@@ -99,7 +99,7 @@ const handleEditPost = (postId, newText, newImage) => {
         {/* Button to open the modal */}
         <div className={`whats-on-mind-div ${darkMode ? 'dark-mode' : ''}`}>
           {/* Input for user to add a post */}
-          <img className="profile-pic-img" src={MichaelPic} alt="Profile Pic" />
+          <img className="profile-pic-img" src={profile.profilePic} alt="Profile Pic" />
           <input type="button" className="enter-posts" value="Whats On Your Mind?" onClick={handleShowModal} />
           
           {/* Modal component */}

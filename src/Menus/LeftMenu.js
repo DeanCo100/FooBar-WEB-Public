@@ -16,6 +16,7 @@ import DarkModeIcon from '../icons/left-side-icons/night-mode.png';
 import EditProfileIcon from '../icons/left-side-icons/edit-profile-icon.png';
 import DeleteProfileIcon from '../icons/left-side-icons/delete-profile-icon.png';
 import '../styles/DarkMode.css';
+import axios from 'axios';
 
 function LeftMenu({ darkMode, toggleDarkMode, profile }) {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
@@ -23,6 +24,7 @@ function LeftMenu({ darkMode, toggleDarkMode, profile }) {
   const [displayName, setDisplayName] = useState(profile.displayName || '');
   const [profilePic, setProfilePic] = useState(profile.profilePic || null);
   const navigate = useNavigate();
+  const [usernameError, setUsernameError] = useState('');
 
   const handleLogout = () => {
     navigate('/');
@@ -47,10 +49,25 @@ function LeftMenu({ darkMode, toggleDarkMode, profile }) {
     toggleEditProfileModal(); // Close the modal
   };
 
-  const handleDeleteProfile = () => {
+  const handleDeleteProfile = async () => {
     // **** DELETE LOGIC: ****
-    // Here I need to send to the server via 'DELETE' action the username of the required user to be deleted. The server needs to find this username in the DB and delete it from there.
-    navigate('/'); 
+    // Here I need to send to the server via 'DELETE' action the username of the required user to be deleted.
+    // The server needs to find this username in the DB and delete it from there.
+    try {
+      const {username} = profile;
+      await axios.delete(`http://localhost:8080/api/users/${username}`);
+      console.log('User deleted');
+      setUsernameError('');
+      navigate('/');
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setUsernameError('Username not found.');
+      } else {
+        // Handle other errors
+        console.error(error);
+      }
+    }
+
   };
 
   const handleDisplayNameChange = (e) => {

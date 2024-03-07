@@ -23,6 +23,8 @@ function LeftMenu({ darkMode, toggleDarkMode, profile }) {
   const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
   const [displayName, setDisplayName] = useState(profile.displayName || '');
   const [profilePic, setProfilePic] = useState(profile.profilePic || null);
+  const [profilePresentedPic, setProfilePresentedPic] = useState(profile.profilePic); // Clone of the profile pic
+
   const navigate = useNavigate();
   const [usernameError, setUsernameError] = useState('');
 
@@ -44,6 +46,14 @@ function LeftMenu({ darkMode, toggleDarkMode, profile }) {
       return;
     }
     // **** SAVE LOGIC: ****
+      // The encoding of the pic to 64base:**************************8
+      // let updatedImageUrl;
+      // updatedImageUrl = await new Promise((resolve, reject) => {
+      //   const reader = new FileReader();
+      //   reader.onloadend = () => resolve(reader.result);
+      //   reader.onerror = error => reject(error);
+      //   reader.readAsDataURL(profilePic);
+      // });
     // Here I need to send to the server the modified user's data by 'PUT/PATCH' and it will store it in the DB.
     // **** I also need to code the picture in 64bit somehow and pass it to the server encoded.
     toggleEditProfileModal(); // Close the modal
@@ -54,6 +64,7 @@ function LeftMenu({ darkMode, toggleDarkMode, profile }) {
     // Here I need to send to the server via 'DELETE' action the username of the required user to be deleted.
     // The server needs to find this username in the DB and delete it from there.
     try {
+
       const {username} = profile;
       await axios.delete(`http://localhost:8080/api/users/${username}`);
       console.log('User deleted');
@@ -72,17 +83,21 @@ function LeftMenu({ darkMode, toggleDarkMode, profile }) {
 
   const handleDisplayNameChange = (e) => {
     setDisplayName(e.target.value);
+    profile.displayName = displayName;
   };
 
   const handleProfilePicChange = (e) => {
-    const file = e.target.files[0];
-    setProfilePic(file);
+    const selectedFile = e.target.files[0];
+    setProfilePresentedPic(URL.createObjectURL(selectedFile));
+    setProfilePic(selectedFile);
   };
 
   const handleModalHide = () => {
     // Reset input values when modal is closed
-    setDisplayName('');
-    setProfilePic(null);
+    // setDisplayName(dis);
+    // I dont think I need to set the profilePic to null after close
+    // setProfilePic(null);
+    // setProfilePresentedPic(null);
   };
 
   return (
@@ -128,6 +143,9 @@ function LeftMenu({ darkMode, toggleDarkMode, profile }) {
             </Form.Group>
             <Form.Group controlId="profile-pic">
               <Form.Label>Profile Picture:</Form.Label>
+              {profilePresentedPic && (
+                  <img src={profilePresentedPic} alt="Profile" style={{ width: '100px', height: '100px' }} />
+                )}
               {/* {profilePic ? (
                 <img src={URL.createObjectURL(profilePic)} alt="Profile" style={{ width: '100px', height: '100px' }} />
               ) : (

@@ -148,7 +148,7 @@ const handleEditPost = (postId, newText, newImage) => {
           {/* Your existing content here */}
           <br></br>
            {posts.map(post => (
-            <Post key={post.id} darkMode={darkMode} {...post} onDelete={handleDeletePost} onEdit={handleEditPost}/>
+            <Post key={post.id} darkMode={darkMode} {...post} onDelete={handleDeletePost} onEdit={handleEditPost} profile={profile}/>
           ))}
         </div>
       </div>

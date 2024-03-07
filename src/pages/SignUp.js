@@ -8,6 +8,7 @@ import './SignUp.css';
 
 function SignUp() {
   const [profilePic, setProfilePic] = useState(null);
+  const [presentedPic, setPresentedPic] = useState(null);
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +22,10 @@ function SignUp() {
 
   const handleProfilePicChange = (e) => {
     const selectedFile = e.target.files[0];
-    setProfilePic(URL.createObjectURL(selectedFile));
+    setPresentedPic(URL.createObjectURL(selectedFile));
+    // setProfilePic(URL.createObjectURL(selectedFile));
+    setProfilePic(selectedFile);
+    console.log(selectedFile);
   };
 
   // When click 'signIn' moves to the login page
@@ -40,12 +44,22 @@ const handleSignUpClick = async (e) => {
   }
 
   try {
+    // ADDED NOW *************
+   // Declare updatedImageUrl variable
+    let updatedImageUrl;
+    // ADDED NOW *************
+    updatedImageUrl = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(profilePic);
+    });
     // Send a request to the server to create a new user
     await axios.post('http://localhost:8080/api/users', {
       username,
       displayName,
       password,
-      profilePic // I think that maybe here I need to send the picture incoded by 64bit.
+      profilePic: updatedImageUrl // Use updatedImageUrl here
     });
 
     // If successful, navigate to the login page and "clean" the username error
@@ -58,24 +72,6 @@ const handleSignUpClick = async (e) => {
     }
   }
 }
-
-
-
-  // Origin ***************8
-  // When click 'signUp' after make sure that all the fields have valid input, move to login page.
-  // const handleSignUpClick = (e) => {
-  //   e.preventDefault(); // Prevent default form submission
-
-  //   // Check if all fields are valid
-  //   if (usernameError || displayNameError || passwordError || confirmPasswordError) {
-  //     // If any error exists, display error messages
-  //     return;
-  //   }
-  //   // Here I need to call the signUp validation function of the server that will check if the username already exists in the DB, and if so, it will prompt a message to the user "This username is already taken. Please select different user name". When the username is valid, I need to store the user's data in the DB and then to return HERE, and navigate to the relevant page (in this case it is the LOGIN page).
-
-  //   // Navigate to the login page
-  //   navigate('/');
-  // }
   // Function to validate the userName
   const handleUsernameChange = (e) => {
     const inputValue = e.target.value;
@@ -179,7 +175,7 @@ const handleSignUpClick = async (e) => {
           </div>
           <div className='form-group'>
             <input required type='file' className='img-input' onChange={handleProfilePicChange} />
-            {profilePic && <img src={profilePic} alt="Profile Pic" className="profile-pic-preview" style={{ width: '100px', height: '100px' }} />}
+            {profilePic && <img src={presentedPic} alt="Profile Pic" className="profile-pic-preview" style={{ width: '100px', height: '100px' }} />}
           </div>
           <button type="submit" className='submit-btn-form'>Sign Up</button>
           <p>Already have an account? <button className='signin-btn' onClick={handleSignInClick}>Sign In</button></p>

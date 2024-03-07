@@ -30,10 +30,13 @@
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .username {
   font-weight: bold;
+  cursor: pointer;
+
 }
 
 .post-time {

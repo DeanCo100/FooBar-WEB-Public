@@ -32,7 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginPage onLogin={handleLogin}  profile={profile}/>} />
           {profile.username ? (
-            <Route path="/feed" element={<Feed profile={profile} />} />
+            <Route path="/feed" element={<Feed profile={profile} setProfile = {setProfile} />} />
           ) : (
             // Redirect to login page if not authenticated
             <Route path="/feed" element={<Navigate to="/" />} />

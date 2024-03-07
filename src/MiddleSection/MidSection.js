@@ -47,8 +47,8 @@ function MidSection({ darkMode, profile }) {
     // Create a new post object
     const newPost = {
       id: Date.now(), // Generate a unique ID for the post
-      username: 'Tzion Mea', // Update with the current user's username
-      userPic: MichaelPic, // Update with the current user's profile picture URL
+      username: profile.displayName, // Update with the current user's username
+      userPic: profile.profilePic, // Update with the current user's profile picture URL
       postText: message,
       postImage: selectedFile ? URL.createObjectURL(selectedFile) : null, // Convert selected file to a URL if available
       postTime: formattedDate // Get the current date and time
@@ -99,7 +99,7 @@ const handleEditPost = (postId, newText, newImage) => {
         {/* Button to open the modal */}
         <div className={`whats-on-mind-div ${darkMode ? 'dark-mode' : ''}`}>
           {/* Input for user to add a post */}
-          <img className="profile-pic-img" src={MichaelPic} alt="Profile Pic" />
+          <img className="profile-pic-img" src={profile.profilePic} alt="Profile Pic" />
           <input type="button" className="enter-posts" value="Whats On Your Mind?" onClick={handleShowModal} />
           
           {/* Modal component */}
@@ -148,7 +148,7 @@ const handleEditPost = (postId, newText, newImage) => {
           {/* Your existing content here */}
           <br></br>
            {posts.map(post => (
-            <Post key={post.id} darkMode={darkMode} {...post} onDelete={handleDeletePost} onEdit={handleEditPost}/>
+            <Post key={post.id} darkMode={darkMode} {...post} onDelete={handleDeletePost} onEdit={handleEditPost} profile={profile}/>
           ))}
         </div>
       </div>

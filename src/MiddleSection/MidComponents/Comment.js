@@ -5,7 +5,7 @@ import '../../styles/MidSection/Comment.css';
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 
 
-function Comment({ onAddComment, onDeleteComment, onEditComment }) {
+function Comment({ onAddComment, onDeleteComment, onEditComment, profile }) {
   const [commentText, setCommentText] = useState('');
 
   // Handles the change of comment

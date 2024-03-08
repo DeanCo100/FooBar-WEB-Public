@@ -27,8 +27,11 @@ function MidSection({ darkMode, profile }) {
   useEffect(() => {
     // Fetch posts from the server when the component mounts
     const fetchPosts = async () => {
+      console.log(profile);
+      console.log(profile.username);
+
       try {
-        const response = await axios.get(`http://localhost:8080/api/users/${profile.userName}/posts`, {
+        const response = await axios.get(`http://localhost:8080/api/users/${profile.username}/posts`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -42,7 +45,11 @@ function MidSection({ darkMode, profile }) {
     };
 
     fetchPosts(); // Call the fetchPosts function
-  }, [profile.userName, token]);
+  }, [profile.username, token]);
+  // Accessing the id field of each Post object ****PRINT TO CHECK ID IS ACCESSIBLE**
+posts.forEach(post => {
+  console.log(post.id); // Accessing the id field of each Post object
+});
 
 
 
@@ -85,8 +92,9 @@ function MidSection({ darkMode, profile }) {
   const formattedDate = currentDate.toISOString().slice(0, 16); // Get the date up to minutes
     // Create a new post object
     const newPost = {
-      id: Date.now(), // Generate a unique ID for the post- MAYBE NEED TO BE MODIFIED TO USERNAME WHICH WILL BE THE ID OF THE POST
-      posterUserName: profile.userName,
+            // The id needs to be modified to some ID that then we can use the default ID that the mogo gives
+      // id: Date.now(), // Generate a unique ID for the post- MAYBE NEED TO BE MODIFIED TO USERNAME WHICH WILL BE THE ID OF THE POST
+      posterUsername: profile.username,
       username: profile.displayName, // Update with the current user's username
       userPic: profile.profilePic, // Update with the current user's profile picture URL
       postText: message,
@@ -156,11 +164,11 @@ function MidSection({ darkMode, profile }) {
       });
       // Updating the posts UI
       setPosts(posts.filter(post => post.id !== postId));
-
+// **********************************************
       } catch (error) {
         // Handle error if needed
         console.error(error);
-        alert('Failed to update post. Please try again.');
+        alert('Failed to delete post. Please try again.');
       }
     setPosts(posts.filter(post => post.id !== postId));
     // We need to find in the DB that the 'posterUserName' matches the current connected username that is trying to delete the post, and if so, to send the request to the server.
@@ -173,24 +181,27 @@ const handleEditPost = async (postId, newText, newImage) => {
     const postToEdit = posts.find(post => post.id === postId);
 
     // Check if the connected user is the post's poster
-    if (postToEdit.posterUserName !== profile.userName) {
+    if (postToEdit.posterUsername !== profile.username) {
       // If not, prompt an alert
       alert("No, No, No.. It's not your post!");
       return;
     }
-    // Encoding the newImage to base64 before sending it to the server.
     let updatedImageUrl;
-    //    if(newImage != null && newImage !== postToEdit.postImage)
-    if(newImage != null) {
+   // Check if newImage is a data URL
+   if (typeof newImage === 'string') {
+    // Convert data URL to Blob
+    const response = await fetch(newImage);
+    const blob = await response.blob();
+    // Encode Blob to data URL
     updatedImageUrl = await new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-      reader.readAsDataURL(newImage);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(blob);
     });
-    // The else is in case the pic didnt change, so it is already in base64
-    } else {
-      updatedImageUrl = postToEdit.postImage;
+  } else {
+    // If newImage is already a Blob object, use it directly
+    updatedImageUrl = newImage;
   }
 
     // Prepare the updated post object

@@ -13,11 +13,9 @@ import '../../styles/MidSection/Post.css';
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 import axios from 'axios'; // Import axios
 
-
-function Post({ id, posterUserName, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode, profile }) {
+function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode, profile }) {
   const [editingPostText, setEditingPostText] = useState(postText);
   const [originalPostText, setOriginalPostText] = useState(postText); // Store the original post text
-  const [editingPostImage, setEditingPostImage] = useState(postImage);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [removeImage, setRemoveImage] = useState(false);
   const [comments, setComments] = useState([]);
@@ -29,14 +27,16 @@ function Post({ id, posterUserName, username, userPic, postText, postImage, post
   const [showNoFriendModal, setShowNoFriendModal] = useState(false); // State variable for showing the *No* friend modal
   const [showFriendModal, setShowFriendModal] = useState(false); // State variable for showing the *friend* modal
   const [friendRequestSent, setFriendRequestSent] = useState(false);
+  const [editingPostImage, setEditingPostImage] = useState(null); // Define editingPostImage state variable
 
-
-  const user = { username, userPic }; // User object to pass to the UserModal
+  useEffect(() => {
+    console.log(_id);
+    // Update the originalPostText state when the postText prop changes
+    setOriginalPostText(postText);
+  }, [postText]);
 
   const handleUserClick = () => {
-    // Here I need to make a check whether the users are friends or now and by that open the relevant modal (friend or no friend)
-    // For now it shows only the NO FRIEND modal
-    setShowNoFriendModal(true);
+    // Handle user click
   };
 
   const handleCloseUserModal = () => {
@@ -44,41 +44,49 @@ function Post({ id, posterUserName, username, userPic, postText, postImage, post
     // For now it closes only the NO FRIEND modal
     setShowNoFriendModal(false);
   };
-    // Handles the operation of sending a friend request to a user
-    const handleFriendRequest = () => {
-      // Here I need to contact the server with a 'Post' request to add this user to my friend.
-      //  **** FOR EXAMPLE: ****
-      // axios.post('http://localhost:8080/api/users/:id/posts/:pid', {
-      //   username: user.username, // Send the username to the server
-      // })
-      //   .then(response => {
-      //     // Handle the response from the server
-      //     console.log(response.data);
-          // You can update the UI accordingly based on the response
-          setFriendRequestSent(!friendRequestSent);
-
-        // })
-        // .catch(error => {
-        //   console.error('Error:', error);
-        // });
-    };
   
-
-  useEffect(() => {
-    // Update the originalPostText state when the postText prop changes
-    setOriginalPostText(postText);
-  }, [postText]);
-
+  // Handles the operation of sending a friend request to a user
+  const handleFriendRequest = () => {
+    // Here I need to contact the server with a 'Post' request to add this user to my friend.
+    //  **** FOR EXAMPLE: ****
+    // axios.post('http://localhost:8080/api/users/:id/posts/:pid', {
+    //   username: user.username, // Send the username to the server
+    // })
+    //   .then(response => {
+    //     // Handle the response from the server
+    //     console.log(response.data);
+    //     // You can update the UI accordingly based on the response
+    //     setFriendRequestSent(!friendRequestSent);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error:', error);
+    //   });
+  };
 
   const addComment = (comment) => {
     setComments([...comments, comment]);
   };
 
   const handleDelete = () => {
-    onDelete(id);
+    console.log('In DELETE POST')
+    console.log(_id);
+    onDelete(_id);
   };
 
   const handleEdit = () => {
+    const usernameValue = profile.username;
+    console.log('In EDIT POST')
+    console.log(_id);
+
+// Here we need to check as well that the user is the poster
+
+    // Check if the connected user is the post's poster
+    if (posterUsername !== usernameValue) {
+      // If not, prompt an alert
+      alert("No, No, No.. It's not your post!");
+      return;
+    }
+
     // Check if editingPostImage is already set before opening the modal
     if (editingPostImage) {
       setEditModalOpen(true);
@@ -97,9 +105,10 @@ function Post({ id, posterUserName, username, userPic, postText, postImage, post
   // Function that handles the edit post
   const handleSaveEdit = () => {
     const shouldRemoveImage = editingPostImage === null;
-    onEdit(id, editingPostText, shouldRemoveImage ? '' : editingPostImage);
+    onEdit(_id, editingPostText, shouldRemoveImage ? '' : editingPostImage);
     setEditModalOpen(false);
   };
+
   // Closes the edit Modal
   const handleEditCloseModal = () => {
     setEditModalOpen(false);
@@ -122,22 +131,26 @@ function Post({ id, posterUserName, username, userPic, postText, postImage, post
     };
     setComments([...comments, newComment]);
   };
+  
   // Handle the deletion of comments from the posts.
   const handleDeleteComment = (commentId) => {
     const updatedComments = comments.filter(comment => comment.id !== commentId);
     setComments(updatedComments);
   };
+
   // Handle the edit of comments from posts.
   const handleEditComment = (commentId) => {
     setEditingCommentId(commentId);
     const comment = comments.find(comment => comment.id === commentId);
     setEditedCommentText(comment.text);
   };
+
   // Handle the cancellation of edit comments.
   const handleCancelEditComment = () => {
     setEditingCommentId(null);
     setEditedCommentText('');
   };
+
   // Handles the save of the edited comments.
   const handleSaveEditedComment = () => {
     const index = comments.findIndex(comment => comment.id === editingCommentId);
@@ -147,11 +160,11 @@ function Post({ id, posterUserName, username, userPic, postText, postImage, post
     setEditingCommentId(null);
     setEditedCommentText('');
   };
+
   // Handles the click on the like button
   const handleLike = () => {
     setLiked(!liked);
   };
-
 
   return (
     // The posts button and content sections
@@ -174,8 +187,9 @@ function Post({ id, posterUserName, username, userPic, postText, postImage, post
         </div>
       </div>
       <div className="post-content">
+        {/* Post content */}
         <p className="post-text">{postText}</p>
-        {editingPostImage && <img src={editingPostImage} alt="Post" className="post-image" />}
+        {postImage && <img src={postImage} alt="Post" className="post-image" />}
       </div>
       {/* In the post footer the comments are */}
       <div className="post-footer">
@@ -212,8 +226,8 @@ function Post({ id, posterUserName, username, userPic, postText, postImage, post
           <Modal.Title>User Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <img src={user.userPic} alt="Profile Pic" className="profile-pic" />
-          <p>Username: {user.username}</p>
+          <img src={userPic} alt="Profile Pic" className="profile-pic" />
+          <p>Username: {username}</p>
           <Button variant="primary" onClick={handleFriendRequest}>
             {friendRequestSent ? 'Request Sent' : 'Add Friend'}
           </Button>

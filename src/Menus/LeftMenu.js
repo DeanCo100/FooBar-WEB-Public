@@ -18,12 +18,16 @@ import DeleteProfileIcon from '../icons/left-side-icons/delete-profile-icon.png'
 import '../styles/DarkMode.css';
 import axios from 'axios';
 
-function LeftMenu({ darkMode, toggleDarkMode, profile }) {
+function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile }) {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
-  const [displayName, setDisplayName] = useState(profile.displayName || '');
-  const [profilePic, setProfilePic] = useState(profile.profilePic || null);
-  const [profilePresentedPic, setProfilePresentedPic] = useState(profile.profilePic); // Clone of the profile pic
+  const [displayName, setDisplayName] = useState('');
+  // const [profilePic, setProfilePic] = useState(profile.profilePic || null);
+  const [profilePic, setProfilePic] = useState(null);
+
+  const [profilePresentedPic, setProfilePresentedPic] = useState(null); // Clone of the profile pic
+  const [originalDisplayName, setOriginalDisplayName] = useState('');
+  const [originalProfilePic, setOriginalProfilePic] = useState(null);
 
   const navigate = useNavigate();
   const [usernameError, setUsernameError] = useState('');
@@ -32,30 +36,54 @@ function LeftMenu({ darkMode, toggleDarkMode, profile }) {
     navigate('/');
   };
 
-  const toggleEditProfileModal = () => {
-    setShowEditProfileModal(!showEditProfileModal);
-  };
-
   const toggleDeleteProfileModal = () => {
     setShowDeleteProfileModal(!showDeleteProfileModal);
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     if (displayName.trim() === '' || !profilePic || displayName.length < 2) {
       alert('Please provide a valid display name and a profile picture.');
       return;
     }
+    // So here I need to extract the modified data and do that:
+    // 1. Pass the picture (encoded) and the display name to the server, BUT, maybe for efficiency, I would like to check if the some of them indeed have been changed.
+    // 2. I Need to modify the 'profile' by the 'setProfile' based on the new displayName and profilePic.
     // **** SAVE LOGIC: ****
-      // The encoding of the pic to 64base:**************************8
-      // let updatedImageUrl;
-      // updatedImageUrl = await new Promise((resolve, reject) => {
-      //   const reader = new FileReader();
-      //   reader.onloadend = () => resolve(reader.result);
-      //   reader.onerror = error => reject(error);
-      //   reader.readAsDataURL(profilePic);
+      // The encoding of the pic to 64base:**************************
+      let updatedImageUrl;
+      if(profilePic != null) {
+      updatedImageUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        // reader.readAsDataURL(profilePic);
+        reader.readAsDataURL(profilePic);
+
+      });
+    } else {
+        updatedImageUrl = profile.profilePic;
+
+    }
+      // setOriginalDisplayName(displayName)
+      const usernameValue = profile.username;
+      // Send the request to the server to modify this user's data with the id = username
+      // I used PATCH, if needed, modify to PUT
+      // await axios.patch(`http://localhost:8080/api/users/:${usernameValue}`, {
+      //   displayName,
+      //   profilePic: updatedImageUrl // Use updatedImageUrl here
       // });
-    // Here I need to send to the server the modified user's data by 'PUT/PATCH' and it will store it in the DB.
-    // **** I also need to code the picture in 64bit somehow and pass it to the server encoded.
+
+
+
+      // Now after I sent to the server the modified data, I can modify it as well via the 'setProfile'
+      const updatedUserData = {
+        // If the encoded pic isnt good here, maybe we need to use the reg one.
+        profilePic: updatedImageUrl,
+        username: usernameValue,
+        displayName: displayName,
+        };
+
+    setProfile(updatedUserData);
     toggleEditProfileModal(); // Close the modal
   };
 
@@ -83,7 +111,7 @@ function LeftMenu({ darkMode, toggleDarkMode, profile }) {
 
   const handleDisplayNameChange = (e) => {
     setDisplayName(e.target.value);
-    profile.displayName = displayName;
+    // profile.displayName = displayName;
   };
 
   const handleProfilePicChange = (e) => {
@@ -91,15 +119,15 @@ function LeftMenu({ darkMode, toggleDarkMode, profile }) {
     setProfilePresentedPic(URL.createObjectURL(selectedFile));
     setProfilePic(selectedFile);
   };
-
-  const handleModalHide = () => {
-    // Reset input values when modal is closed
-    // setDisplayName(dis);
-    // I dont think I need to set the profilePic to null after close
-    // setProfilePic(null);
-    // setProfilePresentedPic(null);
+  const toggleEditProfileModal = () => {
+    setShowEditProfileModal(!showEditProfileModal);
   };
-
+  
+  const handleModalHide = () => {
+    // Reset input values to their original state when the modal is closed
+    setDisplayName(originalDisplayName);
+    setProfilePresentedPic(originalProfilePic);
+  };
   return (
     <div className='left-menu'>
       <nav className={`left-side-navbar ${darkMode ? 'dark-mode' : ''}`}>
@@ -138,19 +166,15 @@ function LeftMenu({ darkMode, toggleDarkMode, profile }) {
         <Modal.Body>
           <Form>
             <Form.Group controlId="display-name">
-              <Form.Label>Display Name:</Form.Label>
+              <Form.Label>New Display Name:</Form.Label>
               <Form.Control type="text" value={displayName} onChange={handleDisplayNameChange} />
             </Form.Group>
             <Form.Group controlId="profile-pic">
-              <Form.Label>Profile Picture:</Form.Label>
+              <Form.Label>Choose New Profile Picture:</Form.Label>
               {profilePresentedPic && (
                   <img src={profilePresentedPic} alt="Profile" style={{ width: '100px', height: '100px' }} />
                 )}
-              {/* {profilePic ? (
-                <img src={URL.createObjectURL(profilePic)} alt="Profile" style={{ width: '100px', height: '100px' }} />
-              ) : (
-                <img src={ProfileIcon} alt="Default Profile" style={{ width: '100px', height: '100px' }} />
-              )} */}
+
               <Form.Control type="file" onChange={handleProfilePicChange} />
             </Form.Group>
           </Form>

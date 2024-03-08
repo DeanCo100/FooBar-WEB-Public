@@ -25,7 +25,7 @@ function SignUp() {
     setPresentedPic(URL.createObjectURL(selectedFile));
     // setProfilePic(URL.createObjectURL(selectedFile));
     setProfilePic(selectedFile);
-    console.log(selectedFile);
+    // console.log(selectedFile);
   };
 
   // When click 'signIn' moves to the login page

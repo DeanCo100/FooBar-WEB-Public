@@ -28,6 +28,8 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
   const [editedCommentText, setEditedCommentText] = useState('');
   const [showNoFriendModal, setShowNoFriendModal] = useState(false); // State variable for showing the *No* friend modal
   const [showFriendModal, setShowFriendModal] = useState(false); // State variable for showing the *friend* modal
+  const [friendRequestSent, setFriendRequestSent] = useState(false);
+
 
   const user = { username, userPic }; // User object to pass to the UserModal
 
@@ -43,20 +45,22 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
     setShowNoFriendModal(false);
   };
     // Handles the operation of sending a friend request to a user
-    const HandleFriendRequest = () => {
+    const handleFriendRequest = () => {
       // Here I need to contact the server with a 'Post' request to add this user to my friend.
       //  **** FOR EXAMPLE: ****
-      axios.post('http://localhost:8080/api/users/:id/posts/:pid', {
-        username: user.username, // Send the username to the server
-      })
-        .then(response => {
-          // Handle the response from the server
-          console.log(response.data);
+      // axios.post('http://localhost:8080/api/users/:id/posts/:pid', {
+      //   username: user.username, // Send the username to the server
+      // })
+      //   .then(response => {
+      //     // Handle the response from the server
+      //     console.log(response.data);
           // You can update the UI accordingly based on the response
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+          setFriendRequestSent(!friendRequestSent);
+
+        // })
+        // .catch(error => {
+        //   console.error('Error:', error);
+        // });
     };
   
 
@@ -210,7 +214,9 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
         <Modal.Body>
           <img src={user.userPic} alt="Profile Pic" className="profile-pic" />
           <p>Username: {user.username}</p>
-          <Button variant="primary" onClick={HandleFriendRequest}>Add Friend</Button>
+          <Button variant="primary" onClick={handleFriendRequest}>
+            {friendRequestSent ? 'Request Sent' : 'Add Friend'}
+          </Button>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseUserModal}>Close</Button>

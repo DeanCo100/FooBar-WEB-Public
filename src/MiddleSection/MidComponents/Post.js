@@ -14,7 +14,7 @@ import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 import axios from 'axios'; // Import axios
 
 
-function Post({ id, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode, profile }) {
+function Post({ id, posterUserName, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode, profile }) {
   const [editingPostText, setEditingPostText] = useState(postText);
   const [originalPostText, setOriginalPostText] = useState(postText); // Store the original post text
   const [editingPostImage, setEditingPostImage] = useState(postImage);

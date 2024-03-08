@@ -44,47 +44,53 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile }) {
     if (displayName.trim() === '' || !profilePic || displayName.length < 2) {
       alert('Please provide a valid display name and a profile picture.');
       return;
-    }
+    } 
     // So here I need to extract the modified data and do that:
     // 1. Pass the picture (encoded) and the display name to the server, BUT, maybe for efficiency, I would like to check if the some of them indeed have been changed.
     // 2. I Need to modify the 'profile' by the 'setProfile' based on the new displayName and profilePic.
     // **** SAVE LOGIC: ****
       // The encoding of the pic to 64base:**************************
-      let updatedImageUrl;
-      if(profilePic != null) {
+    let updatedImageUrl;
+    if(profilePic != null) {
       updatedImageUrl = await new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-        // reader.readAsDataURL(profilePic);
+        reader.onerror = error => reject(error);          // reader.readAsDataURL(profilePic);
         reader.readAsDataURL(profilePic);
-
-      });
+    });
     } else {
         updatedImageUrl = profile.profilePic;
-
     }
+    try {
       // setOriginalDisplayName(displayName)
       const usernameValue = profile.username;
-      // Send the request to the server to modify this user's data with the id = username
-      // I used PATCH, if needed, modify to PUT
-      // await axios.patch(`http://localhost:8080/api/users/:${usernameValue}`, {
-      //   displayName,
-      //   profilePic: updatedImageUrl // Use updatedImageUrl here
-      // });
-
-
-
-      // Now after I sent to the server the modified data, I can modify it as well via the 'setProfile'
+      const token = localStorage.getItem('token');
+      await axios.patch(`http://localhost:8080/api/users/${usernameValue}`, {
+        displayName,
+        profilePic: updatedImageUrl // Use updatedImageUrl here
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      });
       const updatedUserData = {
         // If the encoded pic isnt good here, maybe we need to use the reg one.
         profilePic: updatedImageUrl,
         username: usernameValue,
         displayName: displayName,
         };
-
-    setProfile(updatedUserData);
-    toggleEditProfileModal(); // Close the modal
+      setProfile(updatedUserData);
+      toggleEditProfileModal(); // Close the modal
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setUsernameError('Username not found.');
+      } else {
+        // Handle other errors
+        console.error(error);
+      }
+    }    
   };
 
   const handleDeleteProfile = async () => {
@@ -92,9 +98,13 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile }) {
     // Here I need to send to the server via 'DELETE' action the username of the required user to be deleted.
     // The server needs to find this username in the DB and delete it from there.
     try {
-
       const {username} = profile;
-      await axios.delete(`http://localhost:8080/api/users/${username}`);
+      const token = localStorage.getItem('token');
+      await axios.delete(`http://localhost:8080/api/users/${username}`, {
+        headers: {
+          Authorization: `Bearer ${token}` 
+        }
+      });
       console.log('User deleted');
       setUsernameError('');
       navigate('/');

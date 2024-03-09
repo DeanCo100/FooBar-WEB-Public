@@ -95,21 +95,28 @@ const declineFriendRequest = async (friendId) => {
         },
       }
     );
-
-// Function to handle deleting a friend
-const deleteFriend = async (profileUsername, friendId) => {
-  try {
-    await axios.delete(`http://localhost:8080/api/users/${profileUsername}/friends/${friendId}`);
-    // After successful deletion, update the friends list by refetching it
-    fetchFriends(); // Assuming fetchFriends is a function that fetches the updated friends list
-  } catch (error) {
-    console.error('Error deleting friend:', error);
-  }
-};
     // Update friend requests in the client
     setFriendRequests(friendRequests.filter(request => request.userId !== friendId));
   } catch (error) {
     console.error('Error declining friend request:', error);
+  }
+};
+
+// Function to handle deleting a friend
+const deleteFriend = async (profileUsername, friendId) => {
+  try {
+    await axios.delete(
+      `http://localhost:8080/api/users/${profileUsername}/friends/${friendId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // After successful deletion, update the friends list by refetching it
+    fetchFriends(); // Assuming fetchFriends is a function that fetches the updated friends list
+  } catch (error) {
+    console.error('Error deleting friend:', error);
   }
 };
   return (

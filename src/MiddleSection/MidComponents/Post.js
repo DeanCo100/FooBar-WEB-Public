@@ -13,7 +13,7 @@ import '../../styles/MidSection/Post.css';
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 import axios from 'axios'; // Import axios
 
-function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode, profile, posts, setFriendFilteredPosts, setIsFriendFilteredPosts, setShowNoFriendModal  }) {
+function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode, profile, posts, setFriendFilteredPosts, setIsFriendFilteredPosts  }) {
   const [editingPostText, setEditingPostText] = useState(postText);
   const [originalPostText, setOriginalPostText] = useState(postText); // Store the original post text
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -25,7 +25,7 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentText, setEditedCommentText] = useState('');
   const [showNoFriendModal, setShowNoFriendModal] = useState(false); // State variable for showing the *No* friend modal
-  const [showFriendModal, setShowFriendModal] = useState(false); // State variable for showing the *friend* modal
+  // const [showFriendModal, setShowFriendModal] = useState(false); // State variable for showing the *friend* modal
   const [friendRequestSent, setFriendRequestSent] = useState(false);
   const [editingPostImage, setEditingPostImage] = useState(null); // Define editingPostImage state variable
   const token = localStorage.getItem('token');
@@ -42,7 +42,7 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
     // Otherwise, display the user modal
     try {
       // Example request to check if users are friends
-      const response = await axios.get(`http://localhost:8080/api/users/${posterUsername}/friends`, {
+      const response = await axios.get(`http://localhost:8080/api/users/${posterUsername}/posts`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -61,7 +61,24 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
       alert('Failed to check friendship. Please try again.');
     }
   };
-  
+
+  // Closes the No friend modal
+const handleCloseUserModal = () => {
+  setShowNoFriendModal(false);
+};
+
+// Handles the friend request
+const handleFriendRequest = async () => {
+  try {
+    const response = await axios.post(`http://localhost:8080/api/users/${posterUsername}/friends`, {
+      userId: profile.userId,
+      friendId: posterUsername
+    });
+    setFriendRequestSent(true);
+  } catch (error) {
+    console.error(error);
+  }
+};
   const addComment = (comment) => {
     setComments([...comments, comment]);
   };
@@ -287,6 +304,22 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
           <Comment onAddComment={handleAddComment} profile={profile} />
         </div>
       )}
+      {/* The User Modal */}
+      <Modal show={showNoFriendModal} onHide={handleCloseUserModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>User Profile</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={userPic} alt="Profile Pic" className="profile-pic" />
+          <p>Username: {username}</p>
+          <Button variant="primary" onClick={handleFriendRequest}>
+            {friendRequestSent ? 'Request Sent' : 'Add Friend'}
+          </Button>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseUserModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

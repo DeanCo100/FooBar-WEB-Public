@@ -36,14 +36,20 @@ function MidSection({ darkMode, profile }) {
       console.log(profile.username);
 
       try {
-        const response = await axios.get(`http://localhost:8080/api/users/${profile.username}/posts`, {
+        const response = await axios.get(`http://localhost:8080/api/posts`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
+        console.log('lololo', response.data);
         // Update the posts state with the fetched posts
         setPosts(response.data);
+        setFriendFilteredPosts(response.data);
+        console.log(posts);
+        console.log(friendFilteredPosts);
       } catch (error) {
+        setFriendFilteredPosts([]);
+        setPosts([]);
         console.error(error);
         alert('Failed to fetch posts. Please try again.');
       }
@@ -51,32 +57,32 @@ function MidSection({ darkMode, profile }) {
 
     fetchPosts(); // Call the fetchPosts function
   }, [profile.username, token]);
-  // Accessing the id field of each Post object ****PRINT TO CHECK ID IS ACCESSIBLE**
-posts.forEach(post => {
-  console.log(post._id); // Accessing the id field of each Post object
-});
 
 // Function to return to the 'origin' feed.
 const handleBackToFeed = () => {
   setFriendFilteredPosts([]);
   setIsFriendFilteredPosts(false);
 };
-// Closes the No friend modal
-const handleCloseUserModal = () => {
-  setShowNoFriendModal(false);
-};
+// // Closes the No friend modal
+// const handleCloseUserModal = () => {
+//   setShowNoFriendModal(false);
+// };
+
+
+
+
 // Handles the friend request
-const handleFriendRequest = async () => {
-  try {
-    const response = await axios.post(`http://localhost:8080/api/users/${posterUsername}/friends`, {
-      userId: profile.userId,
-      friendId: posterUsername
-    });
-    setFriendRequestSent(true);
-  } catch (error) {
-    console.error(error);
-  }
-};
+// const handleFriendRequest = async () => {
+//   try {
+//     const response = await axios.post(`http://localhost:8080/api/users/${posterUsername}/friends`, {
+//       userId: profile.userId,
+//       friendId: posterUsername
+//     });
+//     setFriendRequestSent(true);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 
 // ******** OLD IMPLEMENTATION of displaying posts
@@ -116,8 +122,6 @@ const handleFriendRequest = async () => {
   const formattedDate = currentDate.toISOString().slice(0, 16); // Get the date up to minutes
     // Create a new post object
     const newPost = {
-            // The id needs to be modified to some ID that then we can use the default ID that the mogo gives
-      // id: Date.now(), // Generate a unique ID for the post- MAYBE NEED TO BE MODIFIED TO USERNAME WHICH WILL BE THE ID OF THE POST
       posterUsername: profile.username,
       username: profile.displayName, // Update with the current user's username
       userPic: profile.profilePic, // Update with the current user's profile picture URL
@@ -125,45 +129,29 @@ const handleFriendRequest = async () => {
       postImage: selectedFile ? updatedImageUrl : null, // Convert the file to base64.
       postTime: formattedDate // Get the current date and time
     };
-    // console.log(newPost);
-    // console.log(newPost.postImage);
-
     const usernameValue = profile.username;
 
-
-
-    // **** Here we need to add a request to the server:
     try {
+      // Send a POST request to create a new post
       const response = await axios.post(`http://localhost:8080/api/users/${usernameValue}/posts`, newPost, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      console.log('This is the response:');
-      console.log(response);
-      console.log(response.data);
+      // Update the posts state with the new post
       setPosts([response.data, ...posts]);
+      console.log(posts);
 
-      // Handle response if needed
+      // Close the modal after posting
+      handleCloseModal();
     } catch (error) {
-      // Handle error if needed
-      if (error.response.status === 404) {
-        alert('ERROR ERROR!!')
+      // Check if error.response exists before accessing its properties
+      if (error.response && error.response.status === 404) {
+        alert('ERROR ERROR!!');
+      } else {
+        alert('You are unauthorized to post. Please try again.');
       }
-      alert('You are unauthorized to post. Please try again.')
     }
-
-
-
-    // Now here, after I posted the post to the server, the DB of posts has been changed, so I need to 'rerender' the posts list, but now from the server.
-    // So I need to send a request to the server to get the updated posts list and then to present it.
-    // For EXAMPLE:
-    // const data = await response.json();
-    // setPosts(data);
-    
-    
-    // Add the new post to the posts array
-    // setPosts([newPost, ...posts]);
     
     // Reset the selectedFile state
     setSelectedFile(null);
@@ -202,15 +190,13 @@ const handleFriendRequest = async () => {
         }
       });
       // Updating the posts UI
-      setPosts(posts.filter(post => post.id !== postId));
+      setPosts(posts.filter(post => post._id !== postId));
 // **********************************************
       } catch (error) {
         // Handle error if needed
         console.error(error);
         alert('Failed to delete post. Please try again.');
       }
-    // setPosts(posts.filter(post => post.id !== postId));
-    // We need to find in the DB that the 'posterUserName' matches the current connected username that is trying to delete the post, and if so, to send the request to the server.
   };
 // Handler for editing a post
 const handleEditPost = async (postId, newText, newImage) => {
@@ -222,17 +208,6 @@ const handleEditPost = async (postId, newText, newImage) => {
   const usernameValue = profile.username;
   console.log(usernameValue);
 
-
-  // // Here we need to check as well that the user is the poster
-  //   // Retrieve the post by postId
-  //   const postToEdit = posts.find(post => post.id === postId);
-
-  //   // Check if the connected user is the post's poster
-  //   if (postToEdit.posterUsername !== usernameValue) {
-  //     // If not, prompt an alert
-  //     alert("No, No, No.. It's not your post!");
-  //     return;
-  //   }
     let updatedImageUrl;
    // Check if newImage is a data URL
    if (typeof newImage === 'string') {
@@ -257,8 +232,6 @@ const handleEditPost = async (postId, newText, newImage) => {
       postImage: newImage === '' ? null : updatedImageUrl
     };
 
-
-
     try {
     // Send a PUT or PATCH request to update the post on the server
     const response = await axios.patch(`http://localhost:8080/api/users/${profile.username}/posts/${postId}`, updatedPost, {
@@ -272,14 +245,9 @@ const handleEditPost = async (postId, newText, newImage) => {
 
     // Update the local state with the updated post
     const updatedPosts = posts.map(post =>
-      post.id === postId ? { ...post, ...updatedPost } : post
+      post._id === postId ? { ...post, ...updatedPost } : post
     );
     setPosts(updatedPosts);
-
-    // MAYBE THIS OLD SKOOL WAY WILL WORK IF THE ABOVE DOESNT
-  //   const updatedPosts = posts.map(post =>
-  //   post.id === postId ? { ...post, postText: newText, postImage: newImage === '' ? null : newImage } : post
-  // );
   // setPosts(updatedPosts);
     } catch (error) {
       // Handle error if needed
@@ -287,8 +255,6 @@ const handleEditPost = async (postId, newText, newImage) => {
       alert('Failed to update post. Please try again.');
     }
 };
-
-
   return (
     <div className={`mid-section ${darkMode ? 'dark-mode' : ''}`}>
       <div className="stories-section">
@@ -368,28 +334,25 @@ const handleEditPost = async (postId, newText, newImage) => {
             <Post key={post._id} darkMode={darkMode} {...post} onDelete={handleDeletePost} onEdit={handleEditPost} profile={profile} posts={posts} // Pass the posts state
             setFriendFilteredPosts={setFriendFilteredPosts} 
             setIsFriendFilteredPosts={setIsFriendFilteredPosts} 
-            setShowNoFriendModal={setShowNoFriendModal}
+            // setShowNoFriendModal={setShowNoFriendModal}
             />
           ))}
+{/* {(posts && (isFriendFilteredPosts ? friendFilteredPosts : posts) || []).map(post => (
+  <Post
+    key={post._id}
+    darkMode={darkMode}
+    {...post}
+    onDelete={handleDeletePost}
+    onEdit={handleEditPost}
+    profile={profile}
+    posts={posts}
+    setFriendFilteredPosts={setFriendFilteredPosts}
+    setIsFriendFilteredPosts={setIsFriendFilteredPosts}
+  />
+))} */}
 
         </div>
       </div>
-      {/* The User Modal */}
-      <Modal show={showNoFriendModal} onHide={handleCloseUserModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>User Profile</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <img src={userPic} alt="Profile Pic" className="profile-pic" />
-          <p>Username: {username}</p>
-          <Button variant="primary" onClick={handleFriendRequest}>
-            {friendRequestSent ? 'Request Sent' : 'Add Friend'}
-          </Button>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseUserModal}>Close</Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 }

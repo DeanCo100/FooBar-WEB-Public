@@ -70,10 +70,18 @@ const handleCloseUserModal = () => {
 // Handles the friend request
 const handleFriendRequest = async () => {
   try {
-    const response = await axios.post(`http://localhost:8080/api/users/${posterUsername}/friends`, {
-      userId: profile.userId,
-      friendId: posterUsername
-    });
+    const response = await axios.post(
+      `http://localhost:8080/api/users/${posterUsername}/friends`,
+      {
+        username: profile.username,
+        friendUsername: posterUsername
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
     setFriendRequestSent(true);
   } catch (error) {
     console.error(error);

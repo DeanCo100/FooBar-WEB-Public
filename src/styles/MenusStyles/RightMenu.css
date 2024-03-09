@@ -108,6 +108,10 @@
 /* .sug-pages {
   justify-content: left;
 } */
+.friend-requests {
+  height: 200px;
+  background-color: aqua;
+}
 
 @media (max-width: 1270px) {
   /* Hide notifications and messages numbers */

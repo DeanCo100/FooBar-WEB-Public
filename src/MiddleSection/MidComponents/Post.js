@@ -36,31 +36,31 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
   }, [postText]);
 
 // This function triggered when the 'user-info' is clicked
-  const handleUserClick = async () => {
-    // Here you can send a request to check if the users are friends
-    // If they are friends, update the posts to display only friend's posts
-    // Otherwise, display the user modal
-    try {
-      // Example request to check if users are friends
-      const response = await axios.get(`http://localhost:8080/api/users/${posterUsername}/posts`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      // Based on the server's answer if friends or not
-      if (response.data.areFriends) {
-        // Update posts to display only friend's posts
-        setFriendFilteredPosts(response.data.friendPosts);
-        setIsFriendFilteredPosts(true);
-      } else {
-        // Display user modal
-        setShowNoFriendModal(true);
+const handleUserClick = async () => {
+  try {
+    const response = await axios.get(`http://localhost:8080/api/users/${posterUsername}/posts`, {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-    } catch (error) {
-      console.error(error);
-      alert('Failed to check friendship. Please try again.');
+    });
+
+    // Assuming the response data contains information about friendship status
+    const areFriends = response.data.areFriends;
+
+    if (areFriends) {
+      alert(response.data.message);
+      setFriendFilteredPosts(response.data.friendPosts);
+      setIsFriendFilteredPosts(true);
+    } else {
+      alert(response.data.message);
+      setShowNoFriendModal(true);
     }
-  };
+  } catch (error) {
+    console.error(error.response);
+    alert('Failed to check friendship. Please try again.');
+  }
+};
+
 
   // Closes the No friend modal
 const handleCloseUserModal = () => {

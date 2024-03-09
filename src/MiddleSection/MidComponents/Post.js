@@ -13,7 +13,7 @@ import '../../styles/MidSection/Post.css';
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 import axios from 'axios'; // Import axios
 
-function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode, profile }) {
+function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode, profile, posts, setFriendFilteredPosts, setIsFriendFilteredPosts, setShowNoFriendModal  }) {
   const [editingPostText, setEditingPostText] = useState(postText);
   const [originalPostText, setOriginalPostText] = useState(postText); // Store the original post text
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -28,41 +28,40 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
   const [showFriendModal, setShowFriendModal] = useState(false); // State variable for showing the *friend* modal
   const [friendRequestSent, setFriendRequestSent] = useState(false);
   const [editingPostImage, setEditingPostImage] = useState(null); // Define editingPostImage state variable
-
+  const token = localStorage.getItem('token');
   useEffect(() => {
     console.log(_id);
     // Update the originalPostText state when the postText prop changes
     setOriginalPostText(postText);
   }, [postText]);
 
-  const handleUserClick = () => {
-    // Handle user click
-  };
-
-  const handleCloseUserModal = () => {
-    // Here I need to make a check whether the users are friends or now and by that close the relevant modal (friend or no friend)
-    // For now it closes only the NO FRIEND modal
-    setShowNoFriendModal(false);
+// This function triggered when the 'user-info' is clicked
+  const handleUserClick = async () => {
+    // Here you can send a request to check if the users are friends
+    // If they are friends, update the posts to display only friend's posts
+    // Otherwise, display the user modal
+    try {
+      // Example request to check if users are friends
+      const response = await axios.get(`http://localhost:8080/api/users/${posterUsername}/friends`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      // Based on the server's answer if friends or not
+      if (response.data.areFriends) {
+        // Update posts to display only friend's posts
+        setFriendFilteredPosts(response.data.friendPosts);
+        setIsFriendFilteredPosts(true);
+      } else {
+        // Display user modal
+        setShowNoFriendModal(true);
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Failed to check friendship. Please try again.');
+    }
   };
   
-  // Handles the operation of sending a friend request to a user
-  const handleFriendRequest = () => {
-    // Here I need to contact the server with a 'Post' request to add this user to my friend.
-    //  **** FOR EXAMPLE: ****
-    // axios.post('http://localhost:8080/api/users/:id/posts/:pid', {
-    //   username: user.username, // Send the username to the server
-    // })
-    //   .then(response => {
-    //     // Handle the response from the server
-    //     console.log(response.data);
-    //     // You can update the UI accordingly based on the response
-    //     setFriendRequestSent(!friendRequestSent);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error:', error);
-    //   });
-  };
-
   const addComment = (comment) => {
     setComments([...comments, comment]);
   };
@@ -220,22 +219,6 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
           </Dropdown.Menu>
         </Dropdown>
       </div>
-      {/* The User Modal */}
-      <Modal show={showNoFriendModal} onHide={handleCloseUserModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>User Profile</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <img src={userPic} alt="Profile Pic" className="profile-pic" />
-          <p>Username: {username}</p>
-          <Button variant="primary" onClick={handleFriendRequest}>
-            {friendRequestSent ? 'Request Sent' : 'Add Friend'}
-          </Button>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseUserModal}>Close</Button>
-        </Modal.Footer>
-      </Modal>
       {/* The edit modal to edit the post */}
       <Modal show={editModalOpen} onHide={handleEditCloseModal}>
         <Modal.Header closeButton>

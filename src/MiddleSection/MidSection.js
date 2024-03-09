@@ -166,16 +166,9 @@ const handleBackToFeed = () => {
   
   // Handler for deleting a post
   const handleDeletePost = async (postId) => {
-    console.log(postId)
-    console.log('in DELETE');
-    console.log(profile.userName);
-    console.log(profile.username);
     const usernameValue = profile.username;
-    console.log(usernameValue);
-
     // Retrieve the post by postId
     const postToDelete = posts.find(post => post._id === postId);
-
     // Check if the connected user is the post's poster
     if (postToDelete.posterUsername !== usernameValue) {
       // If not, prompt an alert
@@ -191,6 +184,7 @@ const handleBackToFeed = () => {
       });
       // Updating the posts UI
       setPosts(posts.filter(post => post._id !== postId));
+      alert('Post has been deleted successfully');
 // **********************************************
       } catch (error) {
         // Handle error if needed
@@ -200,17 +194,19 @@ const handleBackToFeed = () => {
   };
 // Handler for editing a post
 const handleEditPost = async (postId, newText, newImage) => {
-  console.log(postId);
-  // Find the post by ID and update its text and image
-  console.log('in EDIT');
-  console.log(profile.userName);
-  console.log(profile.username);
   const usernameValue = profile.username;
-  console.log(usernameValue);
-
-    let updatedImageUrl;
-   // Check if newImage is a data URL
-   if (typeof newImage === 'string') {
+  // Here we need to check as well that the user is the poster
+  // Retrieve the post by postId
+  const postToEdit = posts.find(post => post._id === postId);
+  // Check if the connected user is the post's poster
+  if (postToEdit.posterUsername !== usernameValue) {
+       // If not, prompt an alert
+       alert("No, No, No.. It's not your post!");
+       return;
+  }
+  let updatedImageUrl;
+  // Check if newImage is a data URL
+  if (typeof newImage === 'string') {
     // Convert data URL to Blob
     const response = await fetch(newImage);
     const blob = await response.blob();
@@ -225,35 +221,34 @@ const handleEditPost = async (postId, newText, newImage) => {
     // If newImage is already a Blob object, use it directly
     updatedImageUrl = newImage;
   }
+  // Prepare the updated post object
+  const updatedPost = {
+    postText: newText,
+    postImage: newImage === '' ? null : updatedImageUrl
+  };
+  try {
+  // Send a PUT or PATCH request to update the post on the server
+  const response = await axios.patch(`http://localhost:8080/api/users/${profile.username}/posts/${postId}`, updatedPost, {
+    headers: {
+      Authorization: `Bearer ${token}`
 
-    // Prepare the updated post object
-    const updatedPost = {
-      postText: newText,
-      postImage: newImage === '' ? null : updatedImageUrl
-    };
-
-    try {
-    // Send a PUT or PATCH request to update the post on the server
-    const response = await axios.patch(`http://localhost:8080/api/users/${profile.username}/posts/${postId}`, updatedPost, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    // Handle response if needed
-    // console.log(response.data); // Assuming the server sends back the updated post data
-
-    // Update the local state with the updated post
-    const updatedPosts = posts.map(post =>
-      post._id === postId ? { ...post, ...updatedPost } : post
-    );
-    setPosts(updatedPosts);
-  // setPosts(updatedPosts);
-    } catch (error) {
-      // Handle error if needed
-      console.error(error);
-      alert('Failed to update post. Please try again.');
     }
+  });
+  // Update the local state with the updated post
+  const updatedPosts = posts.map(post =>
+    post._id === postId ? { ...post, ...updatedPost } : post
+  );
+  setPosts(updatedPosts);
+  // MAYBE THIS OLD SKOOL WAY WILL WORK IF THE ABOVE DOESNT
+//   const updatedPosts = posts.map(post =>
+//   post.id === postId ? { ...post, postText: newText, postImage: newImage === '' ? null : newImage } : post
+// );
+// setPosts(updatedPosts);
+  } catch (error) {
+    // Handle error if needed
+    console.error(error);
+    alert('Failed to update post. Please try again.');
+  }
 };
   return (
     <div className={`mid-section ${darkMode ? 'dark-mode' : ''}`}>

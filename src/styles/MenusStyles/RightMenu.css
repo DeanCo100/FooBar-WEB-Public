@@ -108,10 +108,72 @@
 /* .sug-pages {
   justify-content: left;
 } */
-.friend-requests {
-  height: 200px;
-  background-color: aqua;
+.friend-request-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 2px solid #ccc;
 }
+
+.profile-pic {
+  width: 50px; /* Adjust the width as needed */
+  height: 50px; /* Adjust the height as needed */
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.display-name {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.friend-request-item button {
+  border-radius: 6px;
+  transition: 0.12s;
+}
+
+.friend-request-item button:hover {
+  background-color: rgb(204, 204, 204);
+  opacity: 0.4;
+}
+
+.friend-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Align items to the start and end */
+  padding: 10px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 16px;
+}
+
+.friend-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-bottom: 6px;
+}
+
+.display-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.friend-card .delete-button {
+  background-color: #ffe0e6; /* Light pink background color */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Increase padding for a larger button */
+  border-radius: 10px; /* Make the button slightly rounder */
+  font-size: 14px; /* Adjust font size */
+  cursor: pointer; /* Show pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.friend-card .delete-button:hover {
+  background-color: #ffc0cb; /* Darker pink color on hover */
+}
+
 
 @media (max-width: 1270px) {
   /* Hide notifications and messages numbers */

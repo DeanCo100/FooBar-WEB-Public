@@ -48,11 +48,11 @@ const handleUserClick = async () => {
     const areFriends = response.data.areFriends;
 
     if (areFriends) {
-      alert(response.data.message);
+      // alert(response.data.message);
       setFriendFilteredPosts(response.data.friendPosts);
       setIsFriendFilteredPosts(true);
     } else {
-      alert(response.data.message);
+      // alert(response.data.message);
       setShowNoFriendModal(true);
     }
   } catch (error) {

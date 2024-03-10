@@ -13,7 +13,7 @@ import '../../styles/MidSection/Post.css';
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 import axios from 'axios'; // Import axios
 
-function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode, profile, posts, setFriendFilteredPosts, setIsFriendFilteredPosts  }) {
+function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode, profile, posts, setFriendFilteredPosts, setIsFriendFilteredPosts, setFriendToShow, setDisplayNameFriend }) {
   const [editingPostText, setEditingPostText] = useState(postText);
   const [originalPostText, setOriginalPostText] = useState(postText); // Store the original post text
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -51,6 +51,8 @@ const handleUserClick = async () => {
       // alert(response.data.message);
       setFriendFilteredPosts(response.data.friendPosts);
       setIsFriendFilteredPosts(true);
+      setFriendToShow(posterUsername);
+      setDisplayNameFriend(username);
     } else {
       // alert(response.data.message);
       setShowNoFriendModal(true);

@@ -21,10 +21,13 @@ function MidSection({ darkMode, profile, setPosts, posts }) {
   const [isFriendFilteredPosts, setIsFriendFilteredPosts] = useState(false);
   const [showNoFriendModal, setShowNoFriendModal] = useState(false);
   const [friendRequestSent, setFriendRequestSent] = useState(false); // Add state for friend request sent
-
   const [showModal, setShowModal] = useState(false); // State for controlling modal visibility
   const [message, setMessage] = useState(''); // State for storing message value
   const [selectedFile, setSelectedFile] = useState(null);
+  const [showFriendsModal, setShowFriendsModal] = useState(false);
+  const [friendList, setFriendList] = useState([]);
+  const [friendToShow, setFriendToShow] = useState('');
+  const [displayNameFriend, setDisplayNameFriend] = useState('');
   // Retrieve the JWT token from localStorage
   const token = localStorage.getItem('token');
   const usernameValue = profile.userName
@@ -57,37 +60,30 @@ function MidSection({ darkMode, profile, setPosts, posts }) {
     }
   };
 
+// Function to display the friend's friends
+  const handleShowFriends = async () => {
+    console.log('Friend to show: ', friendToShow);
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`http://localhost:8080/api/users/${friendToShow}/friends`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setFriendList(response.data); // Assuming the response.data is an array of friends
+      setShowFriendsModal(true);
+    } catch (error) {
+      console.error('Failed to fetch friends:', error);
+      // Handle error, show alert, etc.
+    }
+  };
+
 // Function to return to the 'origin' feed.
 const handleBackToFeed = () => {
   setFriendFilteredPosts([]);
   setIsFriendFilteredPosts(false);
 };
-// // Closes the No friend modal
-// const handleCloseUserModal = () => {
-//   setShowNoFriendModal(false);
-// };
-
-
-
-
-// Handles the friend request
-// const handleFriendRequest = async () => {
-//   try {
-//     const response = await axios.post(`http://localhost:8080/api/users/${posterUsername}/friends`, {
-//       userId: profile.userId,
-//       friendId: posterUsername
-//     });
-//     setFriendRequestSent(true);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-
-// ******** OLD IMPLEMENTATION of displaying posts
-//   useEffect(() => {
-//     setPosts(postData); // Initialize posts state with data from JSON file
-// }, []);
 
   // Handler for opening the modal
   const handleShowModal = () => {
@@ -320,34 +316,45 @@ const handleEditPost = async (postId, newText, newImage) => {
 
           {/* Render 'Back To Feed' button only if isFriendFilteredPosts is true */}
           {isFriendFilteredPosts && (
+        <>
         <Button variant="outline-primary" className='back-to-feed-btn' onClick={handleBackToFeed}>Back To Feed</Button>
+        {/* Render 'Show Friends' button */}
+        <Button variant="outline-primary" className='show-friends-btn' onClick={handleShowFriends}>Show Friends</Button>
+        </>
             )}
         {/* Additional content */}
         <div className="actual-posts">
-          {/* Your existing content here */}
           <br></br>
           {/* Render friendFilteredPosts if isFriendFilteredPosts is true, else render posts */}
           {/* {posts.map(post => ( */}
           {(isFriendFilteredPosts ? friendFilteredPosts : posts).map(post => (
             <Post key={post._id} darkMode={darkMode} {...post} onDelete={handleDeletePost} onEdit={handleEditPost} profile={profile} posts={posts} // Pass the posts state
             setFriendFilteredPosts={setFriendFilteredPosts} 
-            setIsFriendFilteredPosts={setIsFriendFilteredPosts} 
+            setIsFriendFilteredPosts={setIsFriendFilteredPosts}
+            setFriendToShow={setFriendToShow} 
+            setDisplayNameFriend={setDisplayNameFriend}
             // setShowNoFriendModal={setShowNoFriendModal}
             />
           ))}
-{/* {(posts && (isFriendFilteredPosts ? friendFilteredPosts : posts) || []).map(post => (
-  <Post
-    key={post._id}
-    darkMode={darkMode}
-    {...post}
-    onDelete={handleDeletePost}
-    onEdit={handleEditPost}
-    profile={profile}
-    posts={posts}
-    setFriendFilteredPosts={setFriendFilteredPosts}
-    setIsFriendFilteredPosts={setIsFriendFilteredPosts}
-  />
-))} */}
+          {/* A Modal to display the friend's friends */}
+         <Modal show={showFriendsModal} onHide={() => setShowFriendsModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>{displayNameFriend}'s Friends List</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <ul>
+              {friendList.map(friend => (
+                <li key={friend._id}>
+                  <img className='friend-list-pic' src={friend.profilePic} alt="Profile Pic"/>
+                  <span className='friend-list-name'>{friend.displayName}</span>
+                </li>
+              ))}
+            </ul>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowFriendsModal(false)}>Close</Button>
+          </Modal.Footer>
+      </Modal>
 
         </div>
       </div>

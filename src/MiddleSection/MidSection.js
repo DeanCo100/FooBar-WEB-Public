@@ -30,33 +30,32 @@ function MidSection({ darkMode, profile }) {
   const usernameValue = profile.userName
 
   useEffect(() => {
-    // Fetch posts from the server when the component mounts
-    const fetchPosts = async () => {
-      console.log(profile);
-      console.log(profile.username);
-
-      try {
-        const response = await axios.get(`http://localhost:8080/api/posts`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        console.log('lololo', response.data);
-        // Update the posts state with the fetched posts
-        setPosts(response.data);
-        setFriendFilteredPosts(response.data);
-        console.log(posts);
-        console.log(friendFilteredPosts);
-      } catch (error) {
-        setFriendFilteredPosts([]);
-        setPosts([]);
-        console.error(error);
-        alert('Failed to fetch posts. Please try again.');
-      }
-    };
-
     fetchPosts(); // Call the fetchPosts function
   }, [profile.username, token]);
+
+  const fetchPosts = async () => {
+    console.log(profile);
+    console.log(profile.username);
+
+    try {
+      const response = await axios.get(`http://localhost:8080/api/posts`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('lololo', response.data);
+      // Update the posts state with the fetched posts
+      setPosts(response.data);
+      setFriendFilteredPosts(response.data);
+      console.log(posts);
+      console.log(friendFilteredPosts);
+    } catch (error) {
+      setFriendFilteredPosts([]);
+      setPosts([]);
+      console.error(error);
+      alert('Failed to fetch posts. Please try again.');
+    }
+  };
 
 // Function to return to the 'origin' feed.
 const handleBackToFeed = () => {

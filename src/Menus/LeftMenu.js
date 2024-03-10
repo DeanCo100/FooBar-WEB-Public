@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Modal, Button, Form } from 'react-bootstrap';
 import '../styles/MenusStyles/LeftMenu.css';
@@ -18,7 +18,7 @@ import DeleteProfileIcon from '../icons/left-side-icons/delete-profile-icon.png'
 import '../styles/DarkMode.css';
 import axios from 'axios';
 
-function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile }) {
+function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile}) {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
   const [displayName, setDisplayName] = useState('');
@@ -28,6 +28,7 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile }) {
   const [profilePresentedPic, setProfilePresentedPic] = useState(null); // Clone of the profile pic
   const [originalDisplayName, setOriginalDisplayName] = useState('');
   const [originalProfilePic, setOriginalProfilePic] = useState(null);
+  const [posts, setPosts] = useState([]);
 
   const navigate = useNavigate();
   const [usernameError, setUsernameError] = useState('');
@@ -40,6 +41,34 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile }) {
     setShowDeleteProfileModal(!showDeleteProfileModal);
   };
 
+  useEffect(() => {
+    fetchPosts();
+  }, [profile.username]);
+
+// Function to fetch the posts. Neccessary to rerender them after the user changes his profile.
+  const fetchPosts = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.get(`http://localhost:8080/api/posts`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('IN LEFT MENU FETCH');
+      console.log(response.data);
+      setPosts(response.data);
+      // setFriendFilteredPosts(response.data);
+    } catch (error) {
+      // setFriendFilteredPosts([]);
+      setPosts([]);
+      console.error(error);
+      alert('Failed to fetch posts. Please try again.');
+    }
+  };
+
+
+
+  // Function that handle the changes that the user made in his profile.
   const handleSaveChanges = async () => {
     if (displayName.trim() === '' || !profilePic || displayName.length < 2) {
       alert('Please provide a valid display name and a profile picture.');
@@ -82,6 +111,8 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile }) {
         displayName: displayName,
         };
       setProfile(updatedUserData);
+      // Fetch posts again and update the state
+      await fetchPosts();
       toggleEditProfileModal(); // Close the modal
     } catch (error) {
       if (error.response && error.response.status === 404) {

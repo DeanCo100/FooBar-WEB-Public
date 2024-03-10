@@ -48,11 +48,11 @@ const handleUserClick = async () => {
     const areFriends = response.data.areFriends;
 
     if (areFriends) {
-      alert(response.data.message);
+      // alert(response.data.message);
       setFriendFilteredPosts(response.data.friendPosts);
       setIsFriendFilteredPosts(true);
     } else {
-      alert(response.data.message);
+      // alert(response.data.message);
       setShowNoFriendModal(true);
     }
   } catch (error) {
@@ -70,10 +70,18 @@ const handleCloseUserModal = () => {
 // Handles the friend request
 const handleFriendRequest = async () => {
   try {
-    const response = await axios.post(`http://localhost:8080/api/users/${posterUsername}/friends`, {
-      userId: profile.userId,
-      friendId: posterUsername
-    });
+    const response = await axios.post(
+      `http://localhost:8080/api/users/${posterUsername}/friends`,
+      {
+        username: profile.username,
+        friendUsername: posterUsername
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
     setFriendRequestSent(true);
   } catch (error) {
     console.error(error);

@@ -150,7 +150,7 @@ const handleBackToFeed = () => {
     } catch (error) {
       // Check if error.response exists before accessing its properties
       if (error.response && error.response.status === 404) {
-        alert('ERROR ERROR!!');
+        alert('Post must include a text!!');
       } else {
         alert('You are unauthorized to post. Please try again.');
       }

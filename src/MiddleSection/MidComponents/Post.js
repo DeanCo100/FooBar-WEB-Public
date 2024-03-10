@@ -85,6 +85,11 @@ const handleFriendRequest = async () => {
     setFriendRequestSent(true);
   } catch (error) {
     console.error(error);
+    if (error.response) {
+      alert(error.response.data.message);
+    } else {
+      alert("Failed to send friend request. Please try again.");
+    }
   }
 };
   const addComment = (comment) => {

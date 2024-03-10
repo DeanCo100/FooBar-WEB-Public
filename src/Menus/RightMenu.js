@@ -149,8 +149,8 @@ const deleteFriend = async (profileUsername, friendId) => {
                   </div>
                   {/* Add buttons to accept or decline the friend request */}
                   <div className="right-section">
-                    <button onClick={() => acceptFriendRequest(request.userId)}>Accept</button>
-                    <button onClick={() => declineFriendRequest(request.userId)}>Decline</button>
+                    <button className='btn btn-outline-info' onClick={() => acceptFriendRequest(request.userId)}>Accept</button>
+                    <button className='btn btn-outline-info' onClick={() => declineFriendRequest(request.userId)}>Decline</button>
                   </div>
                 </div>
               ))}

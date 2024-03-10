@@ -15,8 +15,8 @@ import MichaelPic from '../icons/spam/Michael.png';
 import axios from 'axios';
 
 
-function MidSection({ darkMode, profile }) {
-  const [posts, setPosts] = useState([]);
+function MidSection({ darkMode, profile, setPosts, posts }) {
+  // const [posts, setPosts] = useState([]);
   const [friendFilteredPosts, setFriendFilteredPosts] = useState([]);
   const [isFriendFilteredPosts, setIsFriendFilteredPosts] = useState(false);
   const [showNoFriendModal, setShowNoFriendModal] = useState(false);
@@ -141,6 +141,10 @@ const handleBackToFeed = () => {
       setPosts([response.data, ...posts]);
       console.log(posts);
 
+
+
+
+      
       // Close the modal after posting
       handleCloseModal();
     } catch (error) {

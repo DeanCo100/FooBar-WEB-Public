@@ -82,9 +82,9 @@
   transition: 0.2s;
 
 }
-.friend-card:hover {
-  background-color: rgb(221, 221, 21);
-}
+/* .friend-card:hover {
+  opacity: 0.16;
+} */
 .contacts-title-row button:hover {
   background-color: rgb(204, 204, 204);
 
@@ -145,6 +145,7 @@
   padding: 10px;
   border-bottom: 2px solid #ccc;
   padding-bottom: 16px;
+  cursor: grab;
 }
 
 .friend-pic {
@@ -157,21 +158,24 @@
 
 .display-name {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .friend-card .delete-button {
-  background-color: #ffe0e6; /* Light pink background color */
-  border: none; /* Remove border */
-  padding: 10px 20px; /* Increase padding for a larger button */
+  /* background-color: #ffe0e6; Light pink background color */
+  /* border: none; Remove border */
+  right: 4px;
+  padding: 6px 6px; /* Increase padding for a larger button */
   border-radius: 10px; /* Make the button slightly rounder */
   font-size: 14px; /* Adjust font size */
   cursor: pointer; /* Show pointer cursor on hover */
   transition: background-color 0.3s; /* Smooth transition for background color */
+  font-weight: bold;
+
 }
 
 .friend-card .delete-button:hover {
-  background-color: #ffc0cb; /* Darker pink color on hover */
+  opacity: 0.4;
 }
 
 

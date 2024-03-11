@@ -246,7 +246,7 @@ const handleEditPost = async (postId, newText, newImage) => {
         <div className={`whats-on-mind-div ${darkMode ? 'dark-mode' : ''}`}>
           {/* Input for user to add a post */}
           <img className="profile-pic-img" src={profile.profilePic} alt="Profile Pic" />
-          <input type="button" className="enter-posts" value="Whats On Your Mind?" onClick={handleShowModal} />
+          <input type="button" className="enter-posts" value={`What's On Your Mind, ${profile.displayName}?`} onClick={handleShowModal} />
           {/* Modal component */}
           <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
@@ -256,7 +256,7 @@ const handleEditPost = async (postId, newText, newImage) => {
               <Form>
                 <Form.Group controlId="message-text">
                   <Form.Label>Message:</Form.Label>
-                  <Form.Control as="textarea" rows={3} placeholder="Whats on your mind Mate?" onChange={e => setMessage(e.target.value)} />
+                  <Form.Control as="textarea" rows={3} placeholder={`What's On Your Mind, ${profile.displayName}?`} onChange={e => setMessage(e.target.value)} />
                 </Form.Group>
                 <Form.Group controlId="image-file">
                   <Form.Label>Add Picture:</Form.Label>

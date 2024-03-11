@@ -9,7 +9,6 @@ import FriendsIcon from '../icons/left-side-icons/friends.png';
 import SaveIcon from '../icons/left-side-icons/save.png';
 import MemoriesIcon from '../icons/left-side-icons/memories.png';
 import VideoIcon from '../icons/header-icons/computer-monitor-video-play-icon.png';
-import ProfileIcon from '../icons/spam/Michael.png';
 import MarketPlaceIcom from '../icons/header-icons/shop-icon.png';
 import LogOutIcon from '../icons/left-side-icons/logout.png';
 import DarkModeIcon from '../icons/left-side-icons/night-mode.png';
@@ -58,16 +57,12 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile, setPosts, pos
       console.log(response.data);
       setPosts(response.data);
       console.log(posts);
-      // setFriendFilteredPosts(response.data);
     } catch (error) {
-      // setFriendFilteredPosts([]);
       setPosts([]);
       console.error(error);
       alert('Failed to fetch posts. Please try again.');
     }
   };
-
-
 
   // Function that handle the changes that the user made in his profile.
   const handleSaveChanges = async () => {
@@ -75,11 +70,7 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile, setPosts, pos
       alert('Please provide a valid display name (between 2 to 25 characters) and a profile picture.');
       return;
     } 
-    // So here I need to extract the modified data and do that:
-    // 1. Pass the picture (encoded) and the display name to the server, BUT, maybe for efficiency, I would like to check if the some of them indeed have been changed.
-    // 2. I Need to modify the 'profile' by the 'setProfile' based on the new displayName and profilePic.
-    // **** SAVE LOGIC: ****
-      // The encoding of the pic to 64base:**************************
+// Encoding the pic to base64
     let updatedImageUrl;
     if(profilePic != null) {
       updatedImageUrl = await new Promise((resolve, reject) => {
@@ -92,7 +83,6 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile, setPosts, pos
         updatedImageUrl = profile.profilePic;
     }
     try {
-      // setOriginalDisplayName(displayName)
       const usernameValue = profile.username;
       const token = localStorage.getItem('token');
       await axios.patch(`http://localhost:8080/api/users/${usernameValue}`, {
@@ -106,7 +96,7 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile, setPosts, pos
         }
       });
       const updatedUserData = {
-        // If the encoded pic isnt good here, maybe we need to use the reg one.
+        _id: profile._id,
         profilePic: updatedImageUrl,
         username: usernameValue,
         displayName: displayName,
@@ -126,9 +116,6 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile, setPosts, pos
   };
 
   const handleDeleteProfile = async () => {
-    // **** DELETE LOGIC: ****
-    // Here I need to send to the server via 'DELETE' action the username of the required user to be deleted.
-    // The server needs to find this username in the DB and delete it from there.
     try {
       const {username} = profile;
       const token = localStorage.getItem('token');
@@ -153,7 +140,6 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile, setPosts, pos
 
   const handleDisplayNameChange = (e) => {
     setDisplayName(e.target.value);
-    // profile.displayName = displayName;
   };
 
   const handleProfilePicChange = (e) => {
@@ -174,7 +160,6 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile, setPosts, pos
     <div className='left-menu'>
       <nav className={`left-side-navbar ${darkMode ? 'dark-mode' : ''}`}>
         <SideBarLink className='user-pic-side' icon={profile.profilePic} text={profile.displayName} darkMode={darkMode} />
-        {/* <SideBarLink className='user-pic-side' icon={ProfileIcon} text="Tzion Mea" darkMode={darkMode} /> */}
         <SideBarLink icon={FriendsIcon} text="Friends" darkMode={darkMode}/>
         <SideBarLink icon={MemoriesIcon} text="Memories" darkMode={darkMode}/>
         <SideBarLink icon={SaveIcon} text="Saved" darkMode={darkMode}/>

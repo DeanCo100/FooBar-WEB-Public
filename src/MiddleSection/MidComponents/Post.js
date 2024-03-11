@@ -8,7 +8,6 @@ import Comment from './Comment'; // Import the Comment component
 import ShareIcon from '../../icons/comment-icons/share.png';
 import EditIcon from '../../icons/post-icons/pen.png';
 import DeleteIcon from '../../icons/post-icons/trash.png';
-import MichaelPic from '../../icons/spam/Michael.png';
 import '../../styles/MidSection/Post.css';
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 import axios from 'axios'; // Import axios
@@ -25,8 +24,7 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
   const [numLikes, setNumLikes] = useState(likeCount);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentText, setEditedCommentText] = useState('');
-  const [showNoFriendModal, setShowNoFriendModal] = useState(false); // State variable for showing the *No* friend modal
-  // const [showFriendModal, setShowFriendModal] = useState(false); // State variable for showing the *friend* modal
+  const [showNoFriendModal, setShowNoFriendModal] = useState(false); // State 
   const [friendRequestSent, setFriendRequestSent] = useState(false);
   const [editingPostImage, setEditingPostImage] = useState(null); // Define editingPostImage state variable
   const token = localStorage.getItem('token');
@@ -36,15 +34,8 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
     setOriginalPostText(postText);
   }, [postText]);
   useEffect(() => {
-
-    // setLikeShow(liked);
-    console.log('USE EFFECT');
-    console.log(likeShow);
-    // console.log(liked);
     // Update the originalPostText state when the postText prop changes
   },[]);
-console.log('After USE EFFECT');
-console.log(likeShow);
 
 // This function triggered when the 'user-info' is clicked
 const handleUserClick = async () => {
@@ -65,7 +56,6 @@ const handleUserClick = async () => {
       setFriendToShow(posterUsername);
       setDisplayNameFriend(username);
     } else {
-      // alert(response.data.message);
       setShowNoFriendModal(true);
     }
   } catch (error) {
@@ -73,7 +63,6 @@ const handleUserClick = async () => {
     alert('Failed to check friendship. Please try again.');
   }
 };
-
 
   // Closes the No friend modal
 const handleCloseUserModal = () => {
@@ -119,8 +108,6 @@ const handleFriendRequest = async () => {
     const usernameValue = profile.username;
     console.log('In EDIT POST')
     console.log(_id);
-
-// Here we need to check as well that the user is the poster
 
     // Check if the connected user is the post's poster
     if (posterUsername !== usernameValue) {
@@ -203,9 +190,6 @@ const handleFriendRequest = async () => {
     setEditedCommentText('');
   };
 
-  
-
-
 const handleLike = async () => {
   try {
     const postId = _id;
@@ -231,89 +215,6 @@ const handleLike = async () => {
     alert('Failed to update like status. Please try again.');
   }
 };
-
-
-
-
-
-
-//   }
-
-
-// }
-
-  // const handleLike = async () => {
-  //   try {
-  //     const postId = _id;
-  
-  //     const response = await axios.patch(
-  //       `http://localhost:8080/api/users/${profile.username}/posts/${postId}/like`,
-  //       { isLiked: !likeShow }, // Send the opposite of current liked status
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`
-  //         }
-  //       }
-  //     );
-  
-  //     if (response.data.success) {
-  //       // Update the local state based on server response
-  //       setLikeShow(!likeShow);
-  //     } else {
-  //       console.error(response.data.message);
-  //       alert('Failed to update like status. Please try again.');
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert('Failed to update like status. Please try again.');
-  //   }
-  // };
-
-
-  // Handles the click on the like button
-  // const handleLike = async () => {
-  //   try {
-  //     const postId = _id;
-  //     // const isLiked = !liked; // Toggle the liked state
-  
-  //     // Send a PATCH request to the server to update the like status
-  //     const response = await axios.patch(
-  //       `http://localhost:8080/api/users/${profile.username}/posts/${postId}/like`,
-  //       { likeShow },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`
-  //         }
-  //       }
-  //     );
-  
-  //     // Update the local state and UI based on the response
-  //     if (response.data.success) {
-  //       // console.log('in Liked function before:');
-  //       // console.log('LIKED:', liked);
-  //       // // console.log('isLiked:', isLiked);
-  //       // console.log('likedz:',likeShow);
-  //       setLikeShow(!likeShow); // Update likeShow with the new value of isLiked
-  //       // liked = likeShow;
-
-  //       // Or liked = isLiked, setLikeShow
-  //       // liked = isLiked;
-  //         // setLikedz(liked);
-  //         // console.log('in Liked function after:');
-  //         // console.log(liked);
-  //         // // console.log(isLiked);
-  //         // console.log(likeShow);
-  //           } else {
-  //       // Handle error if needed
-  //       console.error(response.data.message);
-  //       alert('Failed to update like status. Please try again.');
-  //     }
-  //   } catch (error) {
-  //     // Handle error if needed
-  //     console.error(error);
-  //     alert('Failed to update like status. Please try again.');
-  //   }
-  // };
   
   return (
     // The posts button and content sections
@@ -357,7 +258,6 @@ const handleLike = async () => {
             <img src={ShareIcon} alt="Share" className="icon" />
             Share
           </Dropdown.Toggle>
-
           <Dropdown.Menu style={{ backgroundColor: darkMode ? '#65676B' : '' }}>
             <Dropdown.Item>Share now (Only me)</Dropdown.Item>
             <Dropdown.Item>Share to Feed</Dropdown.Item>

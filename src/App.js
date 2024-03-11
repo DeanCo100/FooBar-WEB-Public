@@ -6,9 +6,6 @@ import Feed from '../src/Feed/Feed';
 import SignUp from '../src/pages/SignUp';
 
 function App() {
-  // State to track whether the use logged in from the login page
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-
     // State to hold user data
     const [profile, setProfile] = useState({
       _id: '',
@@ -22,10 +19,6 @@ function App() {
       setProfile(userData);
     };
 
-  // const handleLogin = () => {
-  //   // Logic to handle successful login
-  //   setIsAuthenticated(true);
-  // };
 // The App that runs the program and the router to navigate between pages
   return (
     <Router>

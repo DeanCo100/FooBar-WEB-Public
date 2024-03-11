@@ -16,15 +16,12 @@ function RightMenu({ darkMode, profile }) {
   const [friendRequests, setFriendRequests] = useState([]);
   const [friendsList, setFriendsList] = useState([]); // Define friendsList state
   const token = localStorage.getItem('token');
-  // console.log('lololossssssssslo', profile.username);
-
 
   useEffect(() => {
     // Fetch friend requests when the component mounts
     fetchFriendRequests();
     fetchFriends();
   }, []);
-
   // Function to fetch friend requests received by the user
   const fetchFriendRequests = async () => {
     try {
@@ -37,13 +34,8 @@ function RightMenu({ darkMode, profile }) {
           }
         }
       );
-      console.log(response);
-      console.log(response.data);
       setFriendRequests(response.data);
-      console.log('IN THE FETCH IN THE RIGHT MENU');
-      console.log(friendRequests);
     } catch (error) {
-      console.log(profile.username)
       console.error('Error fetching friend requests:', error);
     }
   };
@@ -115,7 +107,7 @@ const deleteFriend = async (profileUsername, friendId) => {
       }
     );
     // After successful deletion, update the friends list by refetching it
-    fetchFriends(); // Assuming fetchFriends is a function that fetches the updated friends list
+    fetchFriends();
   } catch (error) {
     console.error('Error deleting friend:', error);
   }
@@ -147,7 +139,7 @@ const deleteFriend = async (profileUsername, friendId) => {
                     <img src={request.profilePic} alt="Profile Pic" className="profile-pic" />
                     <span className="display-name">{request.displayName}</span>
                   </div>
-                  {/* Add buttons to accept or decline the friend request */}
+                  {/* Buttons to accept or decline the friend request */}
                   <div className="right-section">
                     <button className='btn btn-outline-info' onClick={() => acceptFriendRequest(request.userId)}>Accept</button>
                     <button className='btn btn-outline-info' onClick={() => declineFriendRequest(request.userId)}>Decline</button>

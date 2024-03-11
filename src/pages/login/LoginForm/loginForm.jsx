@@ -45,6 +45,7 @@ const LoginForm = ({ onLogin, profile  }) => {
     });
 
       const userData = {
+        _id: userDataResponse.data._id,
         profilePic: userDataResponse.data.profilePic,
         username: userDataResponse.data.username,
         displayName: userDataResponse.data.displayName,

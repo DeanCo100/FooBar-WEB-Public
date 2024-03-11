@@ -11,6 +11,7 @@ function App() {
 
     // State to hold user data
     const [profile, setProfile] = useState({
+      _id: '',
       profilePic: null,
       username: '',
       displayName: '',

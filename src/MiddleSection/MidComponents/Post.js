@@ -13,7 +13,7 @@ import '../../styles/MidSection/Post.css';
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 import axios from 'axios'; // Import axios
 
-function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode, profile, posts, setFriendFilteredPosts, setIsFriendFilteredPosts, setFriendToShow, setDisplayNameFriend }) {
+function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, likes, likedByUser, likeCount, onDelete, onEdit, darkMode, profile, setFriendFilteredPosts, setIsFriendFilteredPosts, setFriendToShow, setDisplayNameFriend }) {
   const [editingPostText, setEditingPostText] = useState(postText);
   const [originalPostText, setOriginalPostText] = useState(postText); // Store the original post text
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -21,7 +21,8 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [commentSectionOpen, setCommentSectionOpen] = useState(false);
-  const [liked, setLiked] = useState(false);
+  const [likeShow, setLikeShow] = useState(likedByUser);
+  const [numLikes, setNumLikes] = useState(likeCount);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentText, setEditedCommentText] = useState('');
   const [showNoFriendModal, setShowNoFriendModal] = useState(false); // State variable for showing the *No* friend modal
@@ -34,6 +35,16 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
     // Update the originalPostText state when the postText prop changes
     setOriginalPostText(postText);
   }, [postText]);
+  useEffect(() => {
+
+    // setLikeShow(liked);
+    console.log('USE EFFECT');
+    console.log(likeShow);
+    // console.log(liked);
+    // Update the originalPostText state when the postText prop changes
+  },[]);
+console.log('After USE EFFECT');
+console.log(likeShow);
 
 // This function triggered when the 'user-info' is clicked
 const handleUserClick = async () => {
@@ -192,11 +203,118 @@ const handleFriendRequest = async () => {
     setEditedCommentText('');
   };
 
-  // Handles the click on the like button
-  const handleLike = () => {
-    setLiked(!liked);
-  };
+  
 
+
+const handleLike = async () => {
+  try {
+    const postId = _id;
+    const response = await axios.patch(
+      `http://localhost:8080/api/users/${profile.username}/posts/${postId}/like`,
+      { isLiked: !likeShow }, // Send the opposite of current liked status
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    if(response.data.success) {
+      setLikeShow(!likeShow);
+            
+      // Update numLikes based on the new like status
+      const updatedLikeCount = response.data.likeCount;
+      setNumLikes(updatedLikeCount);
+    }
+  } catch (error) {
+    console.error(error);
+    alert('Failed to update like status. Please try again.');
+  }
+};
+
+
+
+
+
+
+//   }
+
+
+// }
+
+  // const handleLike = async () => {
+  //   try {
+  //     const postId = _id;
+  
+  //     const response = await axios.patch(
+  //       `http://localhost:8080/api/users/${profile.username}/posts/${postId}/like`,
+  //       { isLiked: !likeShow }, // Send the opposite of current liked status
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`
+  //         }
+  //       }
+  //     );
+  
+  //     if (response.data.success) {
+  //       // Update the local state based on server response
+  //       setLikeShow(!likeShow);
+  //     } else {
+  //       console.error(response.data.message);
+  //       alert('Failed to update like status. Please try again.');
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert('Failed to update like status. Please try again.');
+  //   }
+  // };
+
+
+  // Handles the click on the like button
+  // const handleLike = async () => {
+  //   try {
+  //     const postId = _id;
+  //     // const isLiked = !liked; // Toggle the liked state
+  
+  //     // Send a PATCH request to the server to update the like status
+  //     const response = await axios.patch(
+  //       `http://localhost:8080/api/users/${profile.username}/posts/${postId}/like`,
+  //       { likeShow },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`
+  //         }
+  //       }
+  //     );
+  
+  //     // Update the local state and UI based on the response
+  //     if (response.data.success) {
+  //       // console.log('in Liked function before:');
+  //       // console.log('LIKED:', liked);
+  //       // // console.log('isLiked:', isLiked);
+  //       // console.log('likedz:',likeShow);
+  //       setLikeShow(!likeShow); // Update likeShow with the new value of isLiked
+  //       // liked = likeShow;
+
+  //       // Or liked = isLiked, setLikeShow
+  //       // liked = isLiked;
+  //         // setLikedz(liked);
+  //         // console.log('in Liked function after:');
+  //         // console.log(liked);
+  //         // // console.log(isLiked);
+  //         // console.log(likeShow);
+  //           } else {
+  //       // Handle error if needed
+  //       console.error(response.data.message);
+  //       alert('Failed to update like status. Please try again.');
+  //     }
+  //   } catch (error) {
+  //     // Handle error if needed
+  //     console.error(error);
+  //     alert('Failed to update like status. Please try again.');
+  //   }
+  // };
+  
   return (
     // The posts button and content sections
     <div className={`post ${darkMode ? 'dark-mode' : ''}`}>
@@ -225,8 +343,9 @@ const handleFriendRequest = async () => {
       {/* In the post footer the comments are */}
       <div className="post-footer">
         <button className="like-btn" onClick={handleLike}>
-          <img src={liked ? LikedIcon : LikeIcon} alt="Like" className="icon" />
-          {liked ? 'Liked' : 'Like'}
+          <img src={likeShow ? LikedIcon : LikeIcon} alt="Like" className="icon" />
+          {/* {likeShow ? 'Liked' : 'Like'} */}
+          {`${numLikes} likes`}
         </button>
         <button className="comment-btn" onClick={() => setCommentSectionOpen(!commentSectionOpen)}>
           <img src={CommentIcon} alt="Comment" className="icon" />

@@ -1,4 +1,5 @@
 import '../styles/MenusStyles/RightMenu.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import BIUlogo from '../icons/right-side-icons/Bar_Ilan_logo.png';
 import Contact from './MenuComponents/Contacts';
 import contacts from '../data/contacts.json';
@@ -148,8 +149,8 @@ const deleteFriend = async (profileUsername, friendId) => {
                   </div>
                   {/* Add buttons to accept or decline the friend request */}
                   <div className="right-section">
-                    <button onClick={() => acceptFriendRequest(request.userId)}>Accept</button>
-                    <button onClick={() => declineFriendRequest(request.userId)}>Decline</button>
+                    <button className='btn btn-outline-info' onClick={() => acceptFriendRequest(request.userId)}>Accept</button>
+                    <button className='btn btn-outline-info' onClick={() => declineFriendRequest(request.userId)}>Decline</button>
                   </div>
                 </div>
               ))}
@@ -177,7 +178,7 @@ const deleteFriend = async (profileUsername, friendId) => {
                   {/* Display display name */}
                   <span className="display-name">{friend.displayName}</span>
                   {/* Delete button */}
-                  <button className='delete-button' onClick={() => deleteFriend(profile.username, friend._id)}>Delete</button>
+                  <button variant="outline-primary" className='btn btn-outline-info delete-button' onClick={() => deleteFriend(profile.username, friend._id)}>Remove Friend</button>
                 </div>
               ))}
             </div>

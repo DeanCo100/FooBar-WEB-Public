@@ -79,6 +79,19 @@
 .action-button:hover{
   background-color: rgb(239, 237, 237);
 }
+
+.friend-list-pic {
+  margin-right: 6px;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+}
+
+.friend-list-name {
+  margin-top: 14px;
+  margin-left: 10px;
+}
+
 @media (max-width: 1270px) {
   /* Hide notifications and messages numbers */
   .mid-section {

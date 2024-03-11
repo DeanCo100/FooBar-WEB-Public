@@ -18,7 +18,7 @@ import DeleteProfileIcon from '../icons/left-side-icons/delete-profile-icon.png'
 import '../styles/DarkMode.css';
 import axios from 'axios';
 
-function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile}) {
+function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile, setPosts, posts}) {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
   const [displayName, setDisplayName] = useState('');
@@ -28,7 +28,7 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile}) {
   const [profilePresentedPic, setProfilePresentedPic] = useState(null); // Clone of the profile pic
   const [originalDisplayName, setOriginalDisplayName] = useState('');
   const [originalProfilePic, setOriginalProfilePic] = useState(null);
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
 
   const navigate = useNavigate();
   const [usernameError, setUsernameError] = useState('');
@@ -57,6 +57,7 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile}) {
       console.log('IN LEFT MENU FETCH');
       console.log(response.data);
       setPosts(response.data);
+      console.log(posts);
       // setFriendFilteredPosts(response.data);
     } catch (error) {
       // setFriendFilteredPosts([]);
@@ -70,8 +71,8 @@ function LeftMenu({ darkMode, toggleDarkMode, profile, setProfile}) {
 
   // Function that handle the changes that the user made in his profile.
   const handleSaveChanges = async () => {
-    if (displayName.trim() === '' || !profilePic || displayName.length < 2) {
-      alert('Please provide a valid display name and a profile picture.');
+    if (displayName.trim() === '' || !profilePic || displayName.length < 2 || displayName.length > 25) {
+      alert('Please provide a valid display name (between 2 to 25 characters) and a profile picture.');
       return;
     } 
     // So here I need to extract the modified data and do that:

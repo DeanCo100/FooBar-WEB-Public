@@ -36,29 +36,51 @@ function MidSection({ darkMode, profile, setPosts, posts }) {
     fetchPosts(); // Call the fetchPosts function
   }, [profile.username, token]);
 
-  const fetchPosts = async () => {
-    console.log(profile);
-    console.log(profile.username);
 
+  const fetchPosts = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/api/posts`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      console.log('lololo', response.data);
-      // Update the posts state with the fetched posts
+  
+      // const updatedPosts = response.data.map(post => ({
+      //   ...post,
+      //   liked: post.likes.includes(profile._id.toString())
+      // }));
+  
       setPosts(response.data);
       setFriendFilteredPosts(response.data);
-      console.log(posts);
-      console.log(friendFilteredPosts);
     } catch (error) {
       setFriendFilteredPosts([]);
       setPosts([]);
-      console.error(error);
-      alert('Failed to fetch posts. Please try again.');
     }
   };
+  // 
+
+  // **** ORIGIN FUNCTION WORKED FINE UNTIL LIKES ****
+  // const fetchPosts = async () => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:8080/api/posts`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     });
+
+  //     console.log('lololo', response.data);
+  //     // Update the posts state with the fetched posts
+  //     setPosts(response.data);
+  //     setFriendFilteredPosts(response.data);
+  //     console.log(posts);
+  //     console.log(friendFilteredPosts);
+  //   } catch (error) {
+  //     setFriendFilteredPosts([]);
+  //     setPosts([]);
+  //     console.error(error);
+  //     alert('Failed to fetch posts. Please try again.');
+  //   }
+  // };
 
 // Function to display the friend's friends
   const handleShowFriends = async () => {
@@ -333,6 +355,8 @@ const handleEditPost = async (postId, newText, newImage) => {
             setIsFriendFilteredPosts={setIsFriendFilteredPosts}
             setFriendToShow={setFriendToShow} 
             setDisplayNameFriend={setDisplayNameFriend}
+            likedByUser = {post.likes.includes(profile._id)}
+            likeCount={post.likeCount} // Pass the liked prop
             // setShowNoFriendModal={setShowNoFriendModal}
             />
           ))}

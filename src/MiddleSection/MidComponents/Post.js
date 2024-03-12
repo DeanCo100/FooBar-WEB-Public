@@ -135,7 +135,7 @@ const handleFriendRequest = async () => {
   const handleSaveEdit = () => {
     const shouldRemoveImage = editingPostImage === null;
     onEdit(_id, editingPostText, shouldRemoveImage ? '' : editingPostImage);
-    setEditModalOpen(false);
+    setEditModalOpen(true);
   };
 
   // Closes the edit Modal
@@ -291,7 +291,7 @@ const handleLike = async () => {
         <Modal.Footer>
           <Button variant="warning" onClick={handleRemoveImage}>Remove Pic</Button>
           <Button variant="secondary" onClick={handleEditCloseModal}>Close</Button>
-          <Button variant="primary" onClick={handleSaveEdit}>Save Text Changes</Button>
+          <Button variant="primary" onClick={handleSaveEdit}>Save Changes</Button>
         </Modal.Footer>
       </Modal>
       {/* The Comments section */}

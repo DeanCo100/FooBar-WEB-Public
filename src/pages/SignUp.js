@@ -23,9 +23,7 @@ function SignUp() {
   const handleProfilePicChange = (e) => {
     const selectedFile = e.target.files[0];
     setPresentedPic(URL.createObjectURL(selectedFile));
-    // setProfilePic(URL.createObjectURL(selectedFile));
     setProfilePic(selectedFile);
-    // console.log(selectedFile);
   };
 
   // When click 'signIn' moves to the login page
@@ -44,10 +42,8 @@ const handleSignUpClick = async (e) => {
   }
 
   try {
-    // ADDED NOW *************
    // Declare updatedImageUrl variable
     let updatedImageUrl;
-    // ADDED NOW *************
     updatedImageUrl = await new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result);
@@ -85,7 +81,6 @@ const handleSignUpClick = async (e) => {
     } else if (inputValue.length > 25) {
       setUsernameError('The username max length is 25 characters long.');
     }
-
     else {
       setUsernameError('');
     }
@@ -110,7 +105,6 @@ const handleSignUpClick = async (e) => {
     } else {
       setDisplayNameError('');
     }
-    
   };
   // Function to validate the password
   const handlePasswordChange = (e) => {
@@ -134,7 +128,6 @@ const handleSignUpClick = async (e) => {
       setPasswordError('');
     }
   };
-
   // Function to check that the passwords indeed the same
   const handleConfirmPasswordChange = (e) => {
     const inputValue = e.target.value;

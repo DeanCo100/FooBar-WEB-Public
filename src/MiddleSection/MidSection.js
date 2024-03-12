@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import Post from './MidComponents/Post'; // Import the Post component
-import postData from '../data/posts.json'; // Import the JSON data
 import Story from '../MiddleSection/MidComponents/Story'; // Import the Story component
 import storiesData from '../data/stories.json'; // Import the JSON data
 import '../styles/MidSection/MidSection.css';
 import '../styles/MidSection/Story.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import FaceIcon from '../icons/header-icons/male-icon.png';
 import LiveVideoIcon from '../icons/mid-section/video-camera.png';
 import PhotoVideoIcon from '../icons/mid-section/photo-gallery.png';
 import FeelingActivityIcon from '../icons/mid-section/smiling.png';
-import MichaelPic from '../icons/spam/Michael.png';
 import axios from 'axios';
 
 
@@ -19,8 +16,6 @@ function MidSection({ darkMode, profile, setPosts, posts }) {
   // const [posts, setPosts] = useState([]);
   const [friendFilteredPosts, setFriendFilteredPosts] = useState([]);
   const [isFriendFilteredPosts, setIsFriendFilteredPosts] = useState(false);
-  const [showNoFriendModal, setShowNoFriendModal] = useState(false);
-  const [friendRequestSent, setFriendRequestSent] = useState(false); // Add state for friend request sent
   const [showModal, setShowModal] = useState(false); // State for controlling modal visibility
   const [message, setMessage] = useState(''); // State for storing message value
   const [selectedFile, setSelectedFile] = useState(null);
@@ -44,12 +39,6 @@ function MidSection({ darkMode, profile, setPosts, posts }) {
           Authorization: `Bearer ${token}`
         }
       });
-  
-      // const updatedPosts = response.data.map(post => ({
-      //   ...post,
-      //   liked: post.likes.includes(profile._id.toString())
-      // }));
-  
       setPosts(response.data);
       setFriendFilteredPosts(response.data);
     } catch (error) {
@@ -57,31 +46,7 @@ function MidSection({ darkMode, profile, setPosts, posts }) {
       setPosts([]);
     }
   };
-  // 
-
-  // **** ORIGIN FUNCTION WORKED FINE UNTIL LIKES ****
-  // const fetchPosts = async () => {
-  //   try {
-  //     const response = await axios.get(`http://localhost:8080/api/posts`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       }
-  //     });
-
-  //     console.log('lololo', response.data);
-  //     // Update the posts state with the fetched posts
-  //     setPosts(response.data);
-  //     setFriendFilteredPosts(response.data);
-  //     console.log(posts);
-  //     console.log(friendFilteredPosts);
-  //   } catch (error) {
-  //     setFriendFilteredPosts([]);
-  //     setPosts([]);
-  //     console.error(error);
-  //     alert('Failed to fetch posts. Please try again.');
-  //   }
-  // };
-
+ 
 // Function to display the friend's friends
   const handleShowFriends = async () => {
     console.log('Friend to show: ', friendToShow);
@@ -159,10 +124,6 @@ const handleBackToFeed = () => {
       setPosts([response.data, ...posts]);
       console.log(posts);
 
-
-
-
-      
       // Close the modal after posting
       handleCloseModal();
     } catch (error) {
@@ -206,7 +167,6 @@ const handleBackToFeed = () => {
       // Updating the posts UI
       setPosts(posts.filter(post => post._id !== postId));
       alert('Post has been deleted successfully');
-// **********************************************
       } catch (error) {
         // Handle error if needed
         console.error(error);
@@ -260,11 +220,6 @@ const handleEditPost = async (postId, newText, newImage) => {
     post._id === postId ? { ...post, ...updatedPost } : post
   );
   setPosts(updatedPosts);
-  // MAYBE THIS OLD SKOOL WAY WILL WORK IF THE ABOVE DOESNT
-//   const updatedPosts = posts.map(post =>
-//   post.id === postId ? { ...post, postText: newText, postImage: newImage === '' ? null : newImage } : post
-// );
-// setPosts(updatedPosts);
   } catch (error) {
     // Handle error if needed
     console.error(error);
@@ -291,8 +246,7 @@ const handleEditPost = async (postId, newText, newImage) => {
         <div className={`whats-on-mind-div ${darkMode ? 'dark-mode' : ''}`}>
           {/* Input for user to add a post */}
           <img className="profile-pic-img" src={profile.profilePic} alt="Profile Pic" />
-          <input type="button" className="enter-posts" value="Whats On Your Mind?" onClick={handleShowModal} />
-          
+          <input type="button" className="enter-posts" value={`What's On Your Mind, ${profile.displayName}?`} onClick={handleShowModal} />
           {/* Modal component */}
           <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
@@ -302,7 +256,7 @@ const handleEditPost = async (postId, newText, newImage) => {
               <Form>
                 <Form.Group controlId="message-text">
                   <Form.Label>Message:</Form.Label>
-                  <Form.Control as="textarea" rows={3} placeholder="Whats on your mind Mate?" onChange={e => setMessage(e.target.value)} />
+                  <Form.Control as="textarea" rows={3} placeholder={`What's On Your Mind, ${profile.displayName}?`} onChange={e => setMessage(e.target.value)} />
                 </Form.Group>
                 <Form.Group controlId="image-file">
                   <Form.Label>Add Picture:</Form.Label>
@@ -335,7 +289,6 @@ const handleEditPost = async (postId, newText, newImage) => {
           </div>
         </div>
              )}
-
           {/* Render 'Back To Feed' button only if isFriendFilteredPosts is true */}
           {isFriendFilteredPosts && (
         <>
@@ -348,16 +301,14 @@ const handleEditPost = async (postId, newText, newImage) => {
         <div className="actual-posts">
           <br></br>
           {/* Render friendFilteredPosts if isFriendFilteredPosts is true, else render posts */}
-          {/* {posts.map(post => ( */}
           {(isFriendFilteredPosts ? friendFilteredPosts : posts).map(post => (
-            <Post key={post._id} darkMode={darkMode} {...post} onDelete={handleDeletePost} onEdit={handleEditPost} profile={profile} posts={posts} // Pass the posts state
+            <Post key={post._id} darkMode={darkMode} {...post} onDelete={handleDeletePost} onEdit={handleEditPost} profile={profile} posts={posts}
             setFriendFilteredPosts={setFriendFilteredPosts} 
             setIsFriendFilteredPosts={setIsFriendFilteredPosts}
             setFriendToShow={setFriendToShow} 
             setDisplayNameFriend={setDisplayNameFriend}
             likedByUser = {post.likes.includes(profile._id)}
-            likeCount={post.likeCount} // Pass the liked prop
-            // setShowNoFriendModal={setShowNoFriendModal}
+            likeCount={post.likeCount}
             />
           ))}
           {/* A Modal to display the friend's friends */}

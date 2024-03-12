@@ -5,26 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginPage = ({ onLogin, profile }) => {
   const navigate = useNavigate();
-
-  
-  // const handleLogin = (username, password) => {
-  //   onLogin(username, password); // Call the parent onLogin function
-  //   navigate('/feed'); // Redirect to the Feed page
-
-  // GPT'S MODIFICATION TO HandleLogin function:
-  // const handleLogin = (userData) => {
-  //   const decodedProfilePic = userData.profilePic ? atob(userData.profilePic) : null; // Decode base64 profile picture
-  //   const updatedUserData = {
-  //     ...userData,
-  //     profilePic: decodedProfilePic
-  //   };
-  //   console.log("In login jsx handle login:");
-  //   console.log(updatedUserData.profilePic);
-  //   onLogin(updatedUserData);
-  //   navigate('/feed'); // Redirect to the Feed page
-  // };
-  
-
   const handleLogin = (userData) => {
     onLogin(userData); // Pass the user data to the parent component
     navigate('/feed'); // Redirect to the Feed page

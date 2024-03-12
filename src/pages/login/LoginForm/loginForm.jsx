@@ -15,14 +15,6 @@ const LoginForm = ({ onLogin, profile  }) => {
     e.preventDefault();
     const usernameValue = usernameRef.current.value;
     const passwordValue = passwordRef.current.value;
-    // The if and the else is for hardcoded enter to modify the feed's UI, NEED TO BE DELETED AT THE END.
-    if (usernameValue == 'TzionMea' && passwordValue == 'Mea100100') {
-      setUsernameError('');
-      navigate('/feed');
-      onLogin();
-    }
-    else {
-
     try {
       // Send a request to the server to authenticate the user
       const response = await axios.post('http://localhost:8080/api/tokens', {
@@ -63,7 +55,6 @@ const LoginForm = ({ onLogin, profile  }) => {
       }
 
     }
-  }
 
   };
 

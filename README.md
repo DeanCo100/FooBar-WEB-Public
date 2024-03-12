@@ -1,49 +1,117 @@
-# Welcome to FooBar Social Network (Web version).
+# Welcome to FooBar (Server-Client Edition (This is the Web repo))
 
 ## About the project:
 
-#### NOTE: As allowed in the 'Forum' of this exercise, we used hardcoded details to 'login' to the program.
-The hardcoded details are:
-- Username: TzionMea
-- password: Mea100100
+#### Notes: 
+1. At the beginning, as the DB is local, there are no posts or users, so you need to create at least one to connect to FooBar.
+2. We provide you a config folder, in the env.local file we decided that the project will run on port 8080 and the connection to the MongoDB is done with this string 'CONNECTION_STRING = "mongodb://127.0.0.1:27017/FooBar"
+' so please keep the 8080 port free to use, and the mongo as well.
 
 ### Now, how it works?
+
 1. Clone the project from the github and unzip it.
-2. Navigate to the root folder of the project and run the command 'npm install' (this command will install all the necessary dependencies to the project based on the 'devDependencies' and the 'dependencies' sections in the package.json file).
-3. If from some reason, it failed to install the necessary dependencies, you can install them manually by this command (that will install all the 'dependencies'):
-npm install @testing-library/jest-dom@^5.17.0 @testing-library/user-event@^13.5.0 bootstrap@^5.3.2 react@^18.2.0 react-bootstrap@^2.10.0 react-dom@^18.2.0 react-router-dom@^6.22.0 react-scripts@5.0.1 web-vitals@^2.1.4
-And then this command (that will install all the 'devDependencies'):
-npm install @babel/preset-react@^7.23.3 @testing-library/dom@^9.3.4 @testing-library/react@^14.2.1 jest@^27.5.1 --save-dev
-4. To run the program, make sure that you are on the 'root' folder of the project and run the command 'npm start'
-5. To run the tests, run the command 'npm test' (if it doesnt runs the test click 'a' and this should run all the tests).
-6. To get to the 'Feed' page, you first need to login with the provided hardcoded details.
-7. You can sign up with any (VALID) details as you wish, for now, they arent save so you won't be able to login with them.
-8. Now, all you need to do is enjoy FooBar :).
-
-
+2. Navigate to the root folder of the project and run the command 'npm install' or 'npm i' (this command will install all the necessary dependencies to the project).
+3. To run the program, make sure that you are on the 'root' folder of the server-project and run the command 'npm start'
+4. To get to the 'Feed' page, you first need to register anc create an account, and then you'll move back to the signIn page and you can connect with your details.
+5. Now, all you need to do is enjoy FooBar :).
 
 ## About our work:
 
 
 #### Firstly:
-- We looked at the UI of the relevant Facebook pages that inspired us.
-- We drawed our version of the pages.
-- We started to create the react files (without components).
+- We check the task's requirements and though how to implement the relevant changes to the UI.
+- We conducted few changes in the existed UI.
 
 #### Secondly:
-- After we created the first sketch of the pages, we decided how to 'split' it to components.
-- We then splitted the files to components and rendered them in the 'parent' components.
-- We added styles to the pages.
-- We added functionality to the pages (add posts, edit, add comments, edit, buttons and etc).
+- After created the relevant new API's in the server (S.T: friends, delete user, edit user, etc), we did the relevant adjustments and created the relevant functions to support that.
+- We wrote a request to the server based on API's and fetched the data via axios.
 
 #### Thirdly:
-- We modified the styles to handle dynamically resize of the screen.
-- We wrote 6 tests to check Visual changes and functions as well.
-- We created the Router that Navigates between pages.
-
+- We modified the relevant CSS of the Client code to fit the new modifications.
+- We created the relevant new elements that should appear as described.
 #### Lastly:
-- We made last modifications in the styles.
+- We made last modifications in the code.
 - We conducted few 'User Reviews' to our program.
+- We took screenshots (that we present below) to show you How it is like to use our social network.
 - We ENJOYED to use our program as users.
 - And of course, we submitted the completed project.
+
+
+# UI Experience Demostration:
+1. Login page: (You need to click 'Create Account' button, to create an account)
+![alt text](<screenshotsUI/Screenshot 2024-03-11 152458.png>)
+2. Sign Up page: (You can see in the next pic what is a valid input to create an account)
+![alt text](<screenshotsUI/Screenshot 2024-03-11 152526.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 152608.png>)
+3. After you created an account and logged in, that's the Feed page you'll see:
+![alt text](<screenshotsUI/Screenshot 2024-03-11 152813.png>)
+4. On the left side, you have buttons for edit profile, delete your profile, log out and toggle between light to dark mode:
+![alt text](<screenshotsUI/Screenshot 2024-03-11 152827.png>)
+5. By click the 'Whats On Your Mind', You will be able to add a post.
+![alt text](<screenshotsUI/Screenshot 2024-03-11 160558.png>) 
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 160621.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153006.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153101.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153122.png>)
+6. By clicking on a user's profile pic or name in his post, you will be able to send him a friend request (if you aren't firends yet)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153135.png>)
+7. You can comment and like posts (note: the DB isn't supporting comments, so its only UI)
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153237.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153354.png>)
+8. You can not edit or delete posts that you didn't post.
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153418.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153435.png>)
+9. You can EDIT or DELTE your own posts.
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153456.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153521.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153623.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153638.png>)
+10. By clicking a profile pic or a name displayed on a post of a user that is your friend, you'll see only his posts, with an option to see his friends.
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153652.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153705.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153725.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 153750.png>)
+
+## MongoDB status after this experience:
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 154352.png>)
+
+![alt text](<screenshotsUI/Screenshot 2024-03-11 154407.png>)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

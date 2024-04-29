@@ -130,6 +130,8 @@ const handleBackToFeed = () => {
       // Check if error.response exists before accessing its properties
       if (error.response && error.response.status === 404) {
         alert('Post must include a text!!');
+      } else if (error.response && error.response.status === 400) {
+        alert('Your post includes a BLACKLISTED URL. Try again.');
       } else {
         alert('You are unauthorized to post. Please try again.');
       }
@@ -221,9 +223,13 @@ const handleEditPost = async (postId, newText, newImage) => {
   );
   setPosts(updatedPosts);
   } catch (error) {
+    if (error.response && error.response.status === 400) {
+    alert('Your post includes a BLACKLISTED URL. Try again.');
+    } else {
     // Handle error if needed
     console.error(error);
     alert('Failed to update post. Please try again.');
+    }
   }
 };
   return (

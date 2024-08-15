@@ -1,6 +1,7 @@
 # Welcome to FooBar (Server-Client Edition (This is the Web repo))
 
 ## About the project:
+This project is a social-network named FooBar, based on Facebook. This repository is the Web repository of the project.
 
 #### Notes: 
 1. At the beginning, as the DB is local, there are no posts or users, so you need to create at least one to connect to FooBar.
@@ -14,27 +15,6 @@
 3. To run the program, make sure that you are on the 'root' folder of the server-project and run the command 'npm start'
 4. To get to the 'Feed' page, you first need to register anc create an account, and then you'll move back to the signIn page and you can connect with your details.
 5. Now, all you need to do is enjoy FooBar :).
-
-## About our work:
-
-
-#### Firstly:
-- We check the task's requirements and though how to implement the relevant changes to the UI.
-- We conducted few changes in the existed UI.
-
-#### Secondly:
-- After created the relevant new API's in the server (S.T: friends, delete user, edit user, etc), we did the relevant adjustments and created the relevant functions to support that.
-- We wrote a request to the server based on API's and fetched the data via axios.
-
-#### Thirdly:
-- We modified the relevant CSS of the Client code to fit the new modifications.
-- We created the relevant new elements that should appear as described.
-#### Lastly:
-- We made last modifications in the code.
-- We conducted few 'User Reviews' to our program.
-- We took screenshots (that we present below) to show you How it is like to use our social network.
-- We ENJOYED to use our program as users.
-- And of course, we submitted the completed project.
 
 
 # UI Experience Demostration:

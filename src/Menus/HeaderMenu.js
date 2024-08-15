@@ -12,7 +12,6 @@ import MarketPlaceIcom from '../icons/header-icons/shop-icon.png';
 import GamingIcon from '../icons/header-icons/psp-portable-playstation-icon.png';
 import HomeIcon from '../icons/header-icons/home.png';
 // Imports for the right section
-import UserPicIcon from '../icons/spam/Michael.png';
 import NotificationsIcon from '../icons/header-icons/bell-icon.png';
 import MessengerIcon from '../icons/header-icons/messenger.png';
 import AppsMenu from '../icons/header-icons/apps-grid-icon.png';
@@ -20,7 +19,7 @@ import AppsMenu from '../icons/header-icons/apps-grid-icon.png';
 
 
 
-function HeaderMenu({ darkMode }) {
+function HeaderMenu({ darkMode, profile }) {
   return (
   <div className={`top-menu ${darkMode ? 'dark-mode' : ''}`}>
     <div className='left-sec'>
@@ -75,8 +74,7 @@ function HeaderMenu({ darkMode }) {
         <div class="notifications-num">2</div>
       </button>
       <span>
-        {/* This img needs to be switched with the user registeration img when we'll have a server*/}
-        <img src={UserPicIcon} className='usr-pic-header' alt='Icon'></img>
+        <img src={profile.profilePic} className='usr-pic-header' alt='Icon'></img>
         <div className="tool-tip">Profile</div>
       </span>
     </div>

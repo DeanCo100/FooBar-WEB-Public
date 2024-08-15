@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// The GPT said to import it. I dont know if it is allowed to use.
+import axios from 'axios'; // Import axios for making HTTP requests
+
 
 import './SignUp.css';
 
 function SignUp() {
   const [profilePic, setProfilePic] = useState(null);
+  const [presentedPic, setPresentedPic] = useState(null);
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [password, setPassword] = useState('');
@@ -18,25 +22,52 @@ function SignUp() {
 
   const handleProfilePicChange = (e) => {
     const selectedFile = e.target.files[0];
-    setProfilePic(URL.createObjectURL(selectedFile));
+    setPresentedPic(URL.createObjectURL(selectedFile));
+    setProfilePic(selectedFile);
   };
+
   // When click 'signIn' moves to the login page
   const handleSignInClick = () => {
     navigate('/');
   }
-  // When click 'signUp' after make sure that all the fields have valid input, move to login page.
-  const handleSignUpClick = (e) => {
-    e.preventDefault(); // Prevent default form submission
 
-    // Check if all fields are valid
-    if (usernameError || displayNameError || passwordError || confirmPasswordError) {
-      // If any error exists, display error messages
-      return;
-    }
+// Adjusted SignUpClick function to communicate with the server
+const handleSignUpClick = async (e) => {
+  e.preventDefault(); // Prevent default form submission
 
-    // Navigate to the login page
-    navigate('/');
+  // Check if all fields are valid
+  if (usernameError || displayNameError || passwordError || confirmPasswordError) {
+    // If any error exists, display error messages
+    return;
   }
+
+  try {
+   // Declare updatedImageUrl variable
+    let updatedImageUrl;
+    updatedImageUrl = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(profilePic);
+    });
+    // Send a request to the server to create a new user
+    await axios.post('http://localhost:8080/api/users', {
+      username,
+      displayName,
+      password,
+      profilePic: updatedImageUrl // Use updatedImageUrl here
+    });
+
+    // If successful, navigate to the login page and "clean" the username error
+    setUsernameError('');
+    navigate('/');
+  } catch (error) {
+    // If an error occurs (e.g., username already taken), display the error message
+    if(error.response.status === 401) {
+      setUsernameError('Username already taken. Please select a different username');
+    }
+  }
+}
   // Function to validate the userName
   const handleUsernameChange = (e) => {
     const inputValue = e.target.value;
@@ -50,7 +81,6 @@ function SignUp() {
     } else if (inputValue.length > 25) {
       setUsernameError('The username max length is 25 characters long.');
     }
-
     else {
       setUsernameError('');
     }
@@ -75,7 +105,6 @@ function SignUp() {
     } else {
       setDisplayNameError('');
     }
-    
   };
   // Function to validate the password
   const handlePasswordChange = (e) => {
@@ -99,7 +128,6 @@ function SignUp() {
       setPasswordError('');
     }
   };
-
   // Function to check that the passwords indeed the same
   const handleConfirmPasswordChange = (e) => {
     const inputValue = e.target.value;
@@ -140,7 +168,7 @@ function SignUp() {
           </div>
           <div className='form-group'>
             <input required type='file' className='img-input' onChange={handleProfilePicChange} />
-            {profilePic && <img src={profilePic} alt="Profile Pic" className="profile-pic-preview" style={{ width: '100px', height: '100px' }} />}
+            {profilePic && <img src={presentedPic} alt="Profile Pic" className="profile-pic-preview" style={{ width: '100px', height: '100px' }} />}
           </div>
           <button type="submit" className='submit-btn-form'>Sign Up</button>
           <p>Already have an account? <button className='signin-btn' onClick={handleSignInClick}>Sign In</button></p>

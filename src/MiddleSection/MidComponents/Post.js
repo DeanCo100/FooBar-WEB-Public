@@ -8,38 +8,114 @@ import Comment from './Comment'; // Import the Comment component
 import ShareIcon from '../../icons/comment-icons/share.png';
 import EditIcon from '../../icons/post-icons/pen.png';
 import DeleteIcon from '../../icons/post-icons/trash.png';
-import MichaelPic from '../../icons/spam/Michael.png';
-import '../../styles/MidSection/Post.css'; 
+import '../../styles/MidSection/Post.css';
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
+import axios from 'axios'; // Import axios
 
-function Post({ id, username, userPic, postText, postImage, postTime, onDelete, onEdit, darkMode }) {
+function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, likes, likedByUser, likeCount, onDelete, onEdit, darkMode, profile, setFriendFilteredPosts, setIsFriendFilteredPosts, setFriendToShow, setDisplayNameFriend }) {
   const [editingPostText, setEditingPostText] = useState(postText);
   const [originalPostText, setOriginalPostText] = useState(postText); // Store the original post text
-  const [editingPostImage, setEditingPostImage] = useState(postImage);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [removeImage, setRemoveImage] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [commentSectionOpen, setCommentSectionOpen] = useState(false);
-  const [liked, setLiked] = useState(false);
+  const [likeShow, setLikeShow] = useState(likedByUser);
+  const [numLikes, setNumLikes] = useState(likeCount);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentText, setEditedCommentText] = useState('');
-
+  const [showNoFriendModal, setShowNoFriendModal] = useState(false); // State 
+  const [friendRequestSent, setFriendRequestSent] = useState(false);
+  const [editingPostImage, setEditingPostImage] = useState(null); // Define editingPostImage state variable
+  const token = localStorage.getItem('token');
   useEffect(() => {
+    console.log(_id);
     // Update the originalPostText state when the postText prop changes
     setOriginalPostText(postText);
   }, [postText]);
+  useEffect(() => {
+    // Update the originalPostText state when the postText prop changes
+  },[]);
 
+// This function triggered when the 'user-info' is clicked
+const handleUserClick = async () => {
+  try {
+    const response = await axios.get(`http://localhost:8080/api/users/${posterUsername}/posts`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
 
+    // Assuming the response data contains information about friendship status
+    const areFriends = response.data.areFriends;
+
+    if (areFriends) {
+      // alert(response.data.message);
+      setFriendFilteredPosts(response.data.friendPosts);
+      setIsFriendFilteredPosts(true);
+      setFriendToShow(posterUsername);
+      setDisplayNameFriend(username);
+    } else {
+      setShowNoFriendModal(true);
+    }
+  } catch (error) {
+    console.error(error.response);
+    alert('Failed to check friendship. Please try again.');
+  }
+};
+
+  // Closes the No friend modal
+const handleCloseUserModal = () => {
+  setShowNoFriendModal(false);
+};
+
+// Handles the friend request
+const handleFriendRequest = async () => {
+  try {
+    const response = await axios.post(
+      `http://localhost:8080/api/users/${posterUsername}/friends`,
+      {
+        username: profile.username,
+        friendUsername: posterUsername
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    setFriendRequestSent(true);
+  } catch (error) {
+    console.error(error);
+    if (error.response) {
+      alert(error.response.data.message);
+    } else {
+      alert("Failed to send friend request. Please try again.");
+    }
+  }
+};
   const addComment = (comment) => {
     setComments([...comments, comment]);
   };
 
   const handleDelete = () => {
-    onDelete(id);
+    console.log('In DELETE POST')
+    console.log(_id);
+    onDelete(_id);
   };
 
   const handleEdit = () => {
+    const usernameValue = profile.username;
+    console.log('In EDIT POST')
+    console.log(_id);
+
+    // Check if the connected user is the post's poster
+    if (posterUsername !== usernameValue) {
+      // If not, prompt an alert
+      alert("No, No, No.. It's not your post!");
+      return;
+    }
+
     // Check if editingPostImage is already set before opening the modal
     if (editingPostImage) {
       setEditModalOpen(true);
@@ -51,16 +127,17 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
       }
       setEditModalOpen(true);
     }
-        // Reset editingPostText to originalPostText
-        setEditingPostText(originalPostText);
+    // Reset editingPostText to originalPostText
+    setEditingPostText(originalPostText);
   };
-  
+
   // Function that handles the edit post
   const handleSaveEdit = () => {
     const shouldRemoveImage = editingPostImage === null;
-    onEdit(id, editingPostText, shouldRemoveImage ? '' : editingPostImage);
-    setEditModalOpen(false);
+    onEdit(_id, editingPostText, shouldRemoveImage ? '' : editingPostImage);
+    setEditModalOpen(true);
   };
+
   // Closes the edit Modal
   const handleEditCloseModal = () => {
     setEditModalOpen(false);
@@ -78,28 +155,32 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
     const newComment = {
       id: Date.now(),
       text: commentText,
-      username: 'Tzion Mea',
-      userPic: MichaelPic,
+      username: profile.displayName,
+      userPic: profile.profilePic,
     };
     setComments([...comments, newComment]);
   };
-// Handle the deletion of comments from the posts.
+  
+  // Handle the deletion of comments from the posts.
   const handleDeleteComment = (commentId) => {
     const updatedComments = comments.filter(comment => comment.id !== commentId);
     setComments(updatedComments);
   };
-// Handle the edit of comments from posts.
+
+  // Handle the edit of comments from posts.
   const handleEditComment = (commentId) => {
     setEditingCommentId(commentId);
     const comment = comments.find(comment => comment.id === commentId);
     setEditedCommentText(comment.text);
   };
-// Handle the cancellation of edit comments.
+
+  // Handle the cancellation of edit comments.
   const handleCancelEditComment = () => {
     setEditingCommentId(null);
     setEditedCommentText('');
   };
-// Handles the save of the edited comments.
+
+  // Handles the save of the edited comments.
   const handleSaveEditedComment = () => {
     const index = comments.findIndex(comment => comment.id === editingCommentId);
     const updatedComments = [...comments];
@@ -108,17 +189,38 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
     setEditingCommentId(null);
     setEditedCommentText('');
   };
-// Handles the click on the like button
-  const handleLike = () => {
-    setLiked(!liked);
-  };
 
+const handleLike = async () => {
+  try {
+    const postId = _id;
+    const response = await axios.patch(
+      `http://localhost:8080/api/users/${profile.username}/posts/${postId}/like`,
+      { isLiked: !likeShow }, // Send the opposite of current liked status
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
 
+    if(response.data.success) {
+      setLikeShow(!likeShow);
+            
+      // Update numLikes based on the new like status
+      const updatedLikeCount = response.data.likeCount;
+      setNumLikes(updatedLikeCount);
+    }
+  } catch (error) {
+    console.error(error);
+    alert('Failed to update like status. Please try again.');
+  }
+};
+  
   return (
     // The posts button and content sections
     <div className={`post ${darkMode ? 'dark-mode' : ''}`}>
       <div className="post-header">
-        <div className="user-info">
+        <div className="user-info" onClick={handleUserClick}> {/* Make user info clickable */}
           <img src={userPic} alt="Profile Pic" className="profile-pic" />
           <div className="username">{username}</div>
           <div className="post-time">{postTime}</div>
@@ -135,14 +237,16 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
         </div>
       </div>
       <div className="post-content">
+        {/* Post content */}
         <p className="post-text">{postText}</p>
-        {editingPostImage && <img src={editingPostImage} alt="Post" className="post-image" />}
+        {postImage && <img src={postImage} alt="Post" className="post-image" />}
       </div>
       {/* In the post footer the comments are */}
       <div className="post-footer">
         <button className="like-btn" onClick={handleLike}>
-        <img src={liked ? LikedIcon : LikeIcon} alt="Like" className="icon" />
-          {liked ? 'Liked' : 'Like'}
+          <img src={likeShow ? LikedIcon : LikeIcon} alt="Like" className="icon" />
+          {/* {likeShow ? 'Liked' : 'Like'} */}
+          {`${numLikes} likes`}
         </button>
         <button className="comment-btn" onClick={() => setCommentSectionOpen(!commentSectionOpen)}>
           <img src={CommentIcon} alt="Comment" className="icon" />
@@ -150,22 +254,21 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
         </button>
         {/* The dropdown to the share button */}
         <Dropdown>
-        <Dropdown.Toggle variant="transparent" id="dropdown-basic" className='share-btn'>
-          <img src={ShareIcon} alt="Share" className="icon" />
-          Share
-        </Dropdown.Toggle>
-
-        <Dropdown.Menu style={{ backgroundColor: darkMode ? '#65676B' : '' }}>
-          <Dropdown.Item>Share now (Only me)</Dropdown.Item>
-          <Dropdown.Item>Share to Feed</Dropdown.Item>
-          <Dropdown.Item>Send in Messenger</Dropdown.Item>
-          <Dropdown.Item>Send in WhatsApp</Dropdown.Item>
-          <Dropdown.Item>Share to a page</Dropdown.Item>
-          <Dropdown.Item>Send Share to a group</Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item>Share on a friend's profile</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+          <Dropdown.Toggle variant="transparent" id="dropdown-basic" className='share-btn'>
+            <img src={ShareIcon} alt="Share" className="icon" />
+            Share
+          </Dropdown.Toggle>
+          <Dropdown.Menu style={{ backgroundColor: darkMode ? '#65676B' : '' }}>
+            <Dropdown.Item>Share now (Only me)</Dropdown.Item>
+            <Dropdown.Item>Share to Feed</Dropdown.Item>
+            <Dropdown.Item>Send in Messenger</Dropdown.Item>
+            <Dropdown.Item>Send in WhatsApp</Dropdown.Item>
+            <Dropdown.Item>Share to a page</Dropdown.Item>
+            <Dropdown.Item>Send Share to a group</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item>Share on a friend's profile</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
       {/* The edit modal to edit the post */}
       <Modal show={editModalOpen} onHide={handleEditCloseModal}>
@@ -188,7 +291,7 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
         <Modal.Footer>
           <Button variant="warning" onClick={handleRemoveImage}>Remove Pic</Button>
           <Button variant="secondary" onClick={handleEditCloseModal}>Close</Button>
-          <Button variant="primary" onClick={handleSaveEdit}>Save Text Changes</Button>
+          <Button variant="primary" onClick={handleSaveEdit}>Save Changes</Button>
         </Modal.Footer>
       </Modal>
       {/* The Comments section */}
@@ -232,17 +335,27 @@ function Post({ id, username, userPic, postText, postImage, postTime, onDelete, 
               </div>
             </div>
           ))}
-          <Comment onAddComment={handleAddComment} />
+          <Comment onAddComment={handleAddComment} profile={profile} />
         </div>
       )}
+      {/* The User Modal */}
+      <Modal show={showNoFriendModal} onHide={handleCloseUserModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>User Profile</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={userPic} alt="Profile Pic" className="profile-pic" />
+          <p>Username: {username}</p>
+          <Button variant="primary" onClick={handleFriendRequest}>
+            {friendRequestSent ? 'Request Sent' : 'Add Friend'}
+          </Button>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseUserModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
 
-
-
 export default Post;
-
-
-
-

@@ -1,29 +1,61 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './loginForm.css';
+import axios from 'axios'; // Import axios for making HTTP requests
 
-const LoginForm = ({ onLogin }) => {
-  const emailRef = useRef();
+
+const LoginForm = ({ onLogin, profile  }) => {
+  const usernameRef = useRef();
   const passwordRef = useRef();
   const [usernameError, setUsernameError] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const usernameValue = emailRef.current.value;
+    const usernameValue = usernameRef.current.value;
     const passwordValue = passwordRef.current.value;
+    try {
+      // Send a request to the server to authenticate the user
+      const response = await axios.post('http://localhost:8080/api/tokens', {
+        username: usernameValue,
+        password: passwordValue
+      });
 
-    // Hardcoded username and password for demonstration purposes
-    const hardcodedUsername = 'TzionMea';
-    const hardcodedPassword = 'Mea100100';
+      // Save the JWT token in localStorage
+      localStorage.setItem('token', response.data.token);
+      const token = response.data.token;
+      // Check that the token indeed generated as well
+      console.log(token);
+      setUsernameError('');
+      
+      // Attach the token to the request headers for fetching user data
+      const userDataResponse = await axios.get(`http://localhost:8080/api/users/${usernameValue}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
 
-    if (usernameValue === hardcodedUsername && passwordValue === hardcodedPassword) {
-      // Redirect to Feed page upon successful login
+      const userData = {
+        _id: userDataResponse.data._id,
+        profilePic: userDataResponse.data.profilePic,
+        username: userDataResponse.data.username,
+        displayName: userDataResponse.data.displayName,
+      };
+
+      onLogin(userData);
+      // Redirect to the feed page
       navigate('/feed');
-      onLogin(); // Notify parent component
-    } else {
-      setUsernameError('Incorrect username or password');
+      // Im not sure if it is still necessary, but it was necessary in part 2.
+      // onLogin();
+    } catch (error) {
+        // If an error occurs (e.g., incorrect username or password), display the error message
+      if (error.response.status === 401) {
+        setUsernameError('Incorrect username or password');
+      }
+
     }
+
   };
 
   // Function to navigate to the signup page
@@ -38,7 +70,7 @@ const LoginForm = ({ onLogin }) => {
           <h2>Login to FooBar</h2>
           <input
             placeholder="Username"
-            ref={emailRef}
+            ref={usernameRef}
           />
           {usernameError && <span>{usernameError}</span>}
           <input

@@ -31,6 +31,21 @@ function MidSection({ darkMode, profile, setPosts, posts }) {
     fetchPosts(); // Call the fetchPosts function
   }, [profile.username, token]);
 
+// **** OLD IMPLEMENTATION WITHOUT COMMENTS ****
+  // const fetchPosts = async () => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:8080/api/posts`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     });
+  //     setPosts(response.data);
+  //     setFriendFilteredPosts(response.data);
+  //   } catch (error) {
+  //     setFriendFilteredPosts([]);
+  //     setPosts([]);
+  //   }
+  // };
 
   const fetchPosts = async () => {
     try {
@@ -39,13 +54,22 @@ function MidSection({ darkMode, profile, setPosts, posts }) {
           Authorization: `Bearer ${token}`
         }
       });
-      setPosts(response.data);
-      setFriendFilteredPosts(response.data);
+  
+      const postsWithComments = response.data.map(post => {
+        return {
+          ...post,
+          comments: post.comments || [] // Ensure comments are initialized
+        };
+      });
+  
+      setPosts(postsWithComments);
+      setFriendFilteredPosts(postsWithComments);
     } catch (error) {
       setFriendFilteredPosts([]);
       setPosts([]);
     }
   };
+  
  
 // Function to display the friend's friends
   const handleShowFriends = async () => {
@@ -315,6 +339,7 @@ const handleEditPost = async (postId, newText, newImage) => {
             setDisplayNameFriend={setDisplayNameFriend}
             likedByUser = {post.likes.includes(profile._id)}
             likeCount={post.likeCount}
+            comments={post.comments}  // Pass comments to the Post component
             />
           ))}
           {/* A Modal to display the friend's friends */}

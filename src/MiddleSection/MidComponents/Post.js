@@ -12,12 +12,12 @@ import '../../styles/MidSection/Post.css';
 import '../../styles/DarkMode.css'; // Import the dark mode CSS file
 import axios from 'axios'; // Import axios
 
-function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, likes, likedByUser, likeCount, onDelete, onEdit, darkMode, profile, setFriendFilteredPosts, setIsFriendFilteredPosts, setFriendToShow, setDisplayNameFriend }) {
+function Post({ _id, posterUsername, username, userPic, postText, postImage, postTime, likes, likedByUser, likeCount, onDelete, onEdit, darkMode, profile, setFriendFilteredPosts, setIsFriendFilteredPosts, setFriendToShow, setDisplayNameFriend, comments: initialComments }) {
   const [editingPostText, setEditingPostText] = useState(postText);
   const [originalPostText, setOriginalPostText] = useState(postText); // Store the original post text
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [removeImage, setRemoveImage] = useState(false);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(initialComments || []);
   const [newComment, setNewComment] = useState('');
   const [commentSectionOpen, setCommentSectionOpen] = useState(false);
   const [likeShow, setLikeShow] = useState(likedByUser);
@@ -28,6 +28,12 @@ function Post({ _id, posterUsername, username, userPic, postText, postImage, pos
   const [friendRequestSent, setFriendRequestSent] = useState(false);
   const [editingPostImage, setEditingPostImage] = useState(null); // Define editingPostImage state variable
   const token = localStorage.getItem('token');
+
+    // Ensure that the comments are reset when the post changes (e.g., after a login)
+    useEffect(() => {
+      setComments(initialComments || []);
+    }, [initialComments]);
+
   useEffect(() => {
     console.log(_id);
     // Update the originalPostText state when the postText prop changes
@@ -94,9 +100,9 @@ const handleFriendRequest = async () => {
     }
   }
 };
-  const addComment = (comment) => {
-    setComments([...comments, comment]);
-  };
+  // const addComment = (comment) => {
+  //   setComments([...comments, comment]);
+  // };
 
   const handleDelete = () => {
     console.log('In DELETE POST')
@@ -150,15 +156,54 @@ const handleFriendRequest = async () => {
     handleSaveEdit();
   };
 
+
+  //  ****** OLD IMPLEMENTATION WITHOUT SERVER SUPPORT ******
   // Handle the adding of the comments to the posts.
-  const handleAddComment = (commentText) => {
-    const newComment = {
-      id: Date.now(),
-      text: commentText,
-      username: profile.displayName,
-      userPic: profile.profilePic,
-    };
-    setComments([...comments, newComment]);
+  // const handleAddComment = (commentText) => {
+  //   const newComment = {
+  //     id: Date.now(),
+  //     text: commentText,
+  //     username: profile.displayName,
+  //     userPic: profile.profilePic,
+  //   };
+  //   setComments([...comments, newComment]);
+  // };
+
+  //  **** new implementation trying to support server ****
+  // Handle the adding of comments to the posts.
+  const handleAddComment = async (commentText) => {
+    try {
+      const newCommentData = {
+        username: profile.username,  // Username from the profile object
+        displayName: profile.displayName,
+        profilePic: profile.profilePic,
+        commentText: commentText,
+        postId: _id  // Assuming _id is the post's ID available in the Post component
+      };
+
+      // Make a POST request to the server to add the comment
+      const response = await axios.post(`/api/posts/${_id}/comments`, newCommentData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      console.log('Comment added:', response.data.comment);  // Log the comment received from the server
+
+      console.log('Comment added:', response.data.comment);  // Log the comment received from the server
+
+      const newComment = response.data.comment;
+  
+      // Update the comments state using the same field names as the schema
+      setComments([...comments, newComment]);
+  
+      // // After successfully adding the comment, update the comments in the state
+      // setComments([...comments, response.data.comment]);
+
+    } catch (error) {
+      console.error('Failed to add comment:', error);
+      alert('Failed to add comment. Please try again.');
+    }
   };
   
   // Handle the deletion of comments from the posts.
@@ -298,10 +343,10 @@ const handleLike = async () => {
       {commentSectionOpen && (
         <div className="comments-section">
           {comments.map((comment) => (
-            <div key={comment.id} className="comment-item">
-              <img src={comment.userPic} alt="User Pic" className="comment-user-pic" />
+            <div key={comment._id} className="comment-item">
+              <img src={comment.profilePic} alt="User Pic" className="comment-user-pic" />
               <div>
-                <strong className='usrnm-comment'>{comment.username}:</strong>
+                <strong className='usrnm-comment'>{comment.displayName}:</strong>
                 {editingCommentId === comment.id ? (
                   <input
                     type="text"
@@ -309,7 +354,7 @@ const handleLike = async () => {
                     onChange={(e) => setEditedCommentText(e.target.value)}
                   />
                 ) : (
-                  <span>{comment.text}</span>
+                  <span>{comment.commentText}</span>
                 )}
               </div>
               <div className="comment-btns-wrapper">

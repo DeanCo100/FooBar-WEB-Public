@@ -11,6 +11,8 @@ function Feed({ profile, setProfile }) {
   const [darkMode, setDarkMode] = useState(false);
   // Posts moved to here to be able to send it 'down' to LeftMenu and MidSection
   const [posts, setPosts] = useState([]);
+  // Need to do this to rerender the comments when user changing his pic or name
+  const [comments, setComments] = useState([]); // Need to send this as parameters as well to 'Left Menu' and add it there as parameters as well and modify the comments based on the new changes.
 
 
   const toggleDarkMode = () => {

@@ -169,6 +169,73 @@ const handleFriendRequest = async () => {
   //   setComments([...comments, newComment]);
   // };
 
+
+// // Handle the deletion of comments from the posts.
+// const handleDeleteComment = async (commentId) => {
+//   console.log('Delete button clicked for comment:', commentId);
+//   // Find this comment and check that it belongs to the asking user
+//   const usernameValue = profile.username;
+//   const commentToDelete = comments.find(comment => comment._id === commentId);
+//   // Check if the connected user is the post's poster
+//   if (commentToDelete.username !== usernameValue) {
+//     // If not, prompt an alert
+//     alert("No, No, No.. It's not your post!");
+//     return;
+//   }
+//   try {
+//     // Send a DELETE request to the server to the delete the comment.
+//     const response = await axios.delete(`http://localhost:8080/api/posts/${_id}/comments/${commentId}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`
+//       }
+//     });
+//     // setting the comments to exclude the deleted comment.
+//     setComments(comments.filter(comment => comment._id !== commentId));
+//     console.log("In the handle delete comment function" + commentId);
+//     // setComments(updatedComments);
+//   }
+//   catch (error) {
+//     console.error('Failed to delete comment:', error);
+//     alert('Failed to delete comment. Please try again.');
+//   }
+// };
+
+const handleDeleteComment = async (commentId) => {
+  console.log('Delete button clicked for comment:', commentId);
+
+  // Find this comment and check that it belongs to the asking user
+  const usernameValue = profile.username;
+  const commentToDelete = comments.find(comment => comment._id === commentId);
+
+  if (commentToDelete.username !== usernameValue) {
+    alert("No, No, No.. It's not your post!");
+    return;
+  }
+
+  try {
+    // Send a DELETE request to the server to delete the comment.
+    const response = await axios.delete(`http://localhost:8080/api/posts/${_id}/comments/${commentId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (response.status === 200) { // Ensure the response is successful
+      // After successful deletion, update the comments state based on the server response
+      setComments(prevComments => prevComments.filter(comment => comment._id !== commentId));
+      console.log("Comment deleted successfully:", commentId);
+    } else {
+      alert('Failed to delete comment. Please try again.');
+    }
+  } catch (error) {
+    console.error('Failed to delete comment:', error);
+    alert('Failed to delete comment. Please try again.');
+  }
+};
+
+
+
+
   //  **** new implementation trying to support server ****
   // Handle the adding of comments to the posts.
   const handleAddComment = async (commentText) => {
@@ -190,7 +257,7 @@ const handleFriendRequest = async () => {
 
       console.log('Comment added:', response.data.comment);  // Log the comment received from the server
 
-      console.log('Comment added:', response.data.comment);  // Log the comment received from the server
+      // console.log('Comment added:', response.data.comment);  // Log the comment received from the server
 
       const newComment = response.data.comment;
   
@@ -206,16 +273,18 @@ const handleFriendRequest = async () => {
     }
   };
   
-  // Handle the deletion of comments from the posts.
-  const handleDeleteComment = (commentId) => {
-    const updatedComments = comments.filter(comment => comment.id !== commentId);
-    setComments(updatedComments);
-  };
+  // // Handle the deletion of comments from the posts.
+  // const handleDeleteComment = (commentId) => {
+  //   const updatedComments = comments.filter(comment => comment.id !== commentId);
+  //   console.log("In the handle delete comment function" + commentId);
+  //   setComments(updatedComments);
+  // };
 
   // Handle the edit of comments from posts.
   const handleEditComment = (commentId) => {
     setEditingCommentId(commentId);
-    const comment = comments.find(comment => comment.id === commentId);
+    console.log("In the handle edit comment function" + commentId);
+    const comment = comments.find(comment => comment._id === commentId);
     setEditedCommentText(comment.text);
   };
 
@@ -227,7 +296,7 @@ const handleFriendRequest = async () => {
 
   // Handles the save of the edited comments.
   const handleSaveEditedComment = () => {
-    const index = comments.findIndex(comment => comment.id === editingCommentId);
+    const index = comments.findIndex(comment => comment._id === editingCommentId);
     const updatedComments = [...comments];
     updatedComments[index] = { ...updatedComments[index], text: editedCommentText };
     setComments(updatedComments);
@@ -340,7 +409,7 @@ const handleLike = async () => {
         </Modal.Footer>
       </Modal>
       {/* The Comments section */}
-      {commentSectionOpen && (
+      {/* {commentSectionOpen && (
         <div className="comments-section">
           {comments.map((comment) => (
             <div key={comment._id} className="comment-item">
@@ -358,7 +427,7 @@ const handleLike = async () => {
                 )}
               </div>
               <div className="comment-btns-wrapper">
-                {editingCommentId === comment.id ? (
+                {editingCommentId === comment._id ? (
                   <>
                     <button className="save-edited-comment-btn" onClick={handleSaveEditedComment}>
                       Save
@@ -369,10 +438,10 @@ const handleLike = async () => {
                   </>
                 ) : (
                   <>
-                    <button className="edit-comment-btn" onClick={() => handleEditComment(comment.id)}>
+                    <button className="edit-comment-btn" onClick={() => handleEditComment(comment._id)}>
                       Edit
                     </button>
-                    <button className="delete-comment-btn" onClick={() => handleDeleteComment(comment.id)}>
+                    <button className="delete-comment-btn" onClick={() => handleDeleteComment(comment._id)}>
                       Delete
                     </button>
                   </>
@@ -382,7 +451,31 @@ const handleLike = async () => {
           ))}
           <Comment onAddComment={handleAddComment} profile={profile} />
         </div>
-      )}
+      )} */}
+
+      {/* The Comments section */}
+        {commentSectionOpen && (
+          <div className="comments-section">
+            {comments.map((comment) => (
+              <Comment
+                key={comment._id}
+                comment={comment} 
+                onDeleteComment={handleDeleteComment}
+                onEditComment={handleEditComment}
+                profile={profile}
+                darkMode={darkMode}
+                editingCommentId={editingCommentId}
+                editedCommentText={editedCommentText}
+                handleSaveEditedComment={handleSaveEditedComment}
+                handleCancelEditComment={handleCancelEditComment}
+                setEditedCommentText={setEditedCommentText}
+                setEditingCommentId={setEditingCommentId}
+              />
+            ))}
+            <Comment onAddComment={handleAddComment} profile={profile} />
+          </div>
+        )}
+
       {/* The User Modal */}
       <Modal show={showNoFriendModal} onHide={handleCloseUserModal}>
         <Modal.Header closeButton>
